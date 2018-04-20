@@ -17,8 +17,8 @@ var selectedStorage=[];
 var selectedOS=[];
 //to keep track of selected item from cameraArray and store it in selectedCamera
 var selectedCamera=[];
-
-$scope.readJson=JsonService.read();
+$scope.jsonRecord = []
+$scope.readJson = JsonService.read();
 $scope.readJson.then(function(response){
 $scope.jsonRecord = response.data;
 //console.log($scope.jsonRecord);
@@ -27,69 +27,61 @@ $scope.jsonRecord = response.data;
          $state.go('login');
 };
 
-$scope.toggle=function(selectOption, selectedItem) {
-  switch(selectOption)
-  {
-    case 'manufacturer':
-
-   var manufactureindex=selectedManufactur.indexOf(selectedItem);
-        if (manufactureindex > -1) {
-    selectedManufactur.splice(manufactureindex, 1);
-        }
-        else {
+$scope.toggleFunction = function(option, selectedItem) {
+    switch (option) {
+      case 'manufacturer':
+        var indexOfManufacturer = selectedManufactur.indexOf(selectedItem);
+        if (indexOfManufacturer > -1) {
+          selectedManufactur.splice(indexOfManufacturer, 1);
+        } else {
           selectedManufactur.push(selectedItem);
         }
         break;
-    case 'storage':
-        var storageindex=selectedStorage.indexOf(selectedItem);
-            if (storageindex > -1) {
-              selectedStorage.splice(storageindex, 1);
-            }
-            else {
-              selectedStorage.push(selectedItem);
-            }
-            break;
-   case 'OS':
-            var osindex=selectedOS.indexOf(selectedItem);
-                if (osindex > -1) {
-                  selectedOS.splice(osindex, 1);
-                }
-                else {
-                  selectedOS.push(selectedItem);
-                }
-
-                break;
-  case 'camera':
-                var cameraindex=selectedCamera.indexOf(selectedItem);
-                    if (cameraindex > -1) {
-                      selectedCamera.splice(cameraindex, 1);
-                    }
-                    else {
-                      selectedCamera.push(selectedItem);
-                    }
-                    break;
-}
-};
-var manufactureArray=selectedManufactur;
-var storageArray=selectedStorage;
-var osArray=selectedOS;
-var cameraArray=selectedCamera;
+      case 'storage':
+        var indexOfStorage = selectedStorage.indexOf(selectedItem);
+        if (indexOfStorage > -1) {
+          selectedStorage.splice(indexOfStorage, 1);
+        } else {
+          selectedStorage.push(selectedItem);
+        }
+        break;
+      case 'os':
+        var indexOfOs = selectedOS.indexOf(selectedItem);
+        if (indexOfOs > -1) {
+          selectedOS.splice(indexOfOs, 1);
+        } else {
+          selectedOS.push(selectedItem);
+        }
+        break;
+      case 'camera':
+        var indexOfCamera = selectedCamera.indexOf(selectedItem);
+        if (indexOfCamera > -1) {
+          selectedCamera.splice(indexOfCamera, 1);
+        } else {
+          selectedCamera.push(selectedItem);
+        }
+        break;
+    }
+  };
+  $scope.arrayManufacturer = selectedManufactur;
+  $scope.arrayStorage = selectedStorage;
+  $scope.osarray = selectedOS;
+  $scope.cameraarray = selectedCamera;
 });
 
-app.filter('customFilter',function()
-{
-  return function(items,manufactureArray,storageArray,osArray,cameraArray){
+app.filter('customFilter',function(){
+  return function(items,arrayManufacturer,arrayStorage,osarray,cameraarray){
     var filtered=[];
     var temarray=[];
-
-  if(manufactureArray.length>0 ||storageArray.length>0 || osArray.length>0 ||cameraArray.length>0)
+if(items != undefined ){
+  if(arrayManufacturer.length>0 ||arrayStorage.length>0 || osarray.length>0 ||cameraarray.length>0)
    {
      for(var j=0;j<items.length;j++)
      {
        var item=items[j];
-       for(var i=0;i<manufacturearray.length;i++)
+       for(var i=0;i<arrayManufacturer.length;i++)
        {
-         var selectedItem=manufacturearray[i];
+         var selectedItem=arrayManufacturer[i];
          if(item.specs.manufacturer==selectedItem||item.specs.storage==selectedItem||
            item.specs.os==selectedItem|| item.specs.camera)
            {
@@ -105,14 +97,14 @@ app.filter('customFilter',function()
       {
        temarray=items;
       }
-      if(storagearray.length>0)
+      if(arrayStorage.length>0)
       {
         for(var j=0;j<temarray.length;j++)
         {
           var item=temarray[j];
-          for(var i=0;i<storagearray.length;i++)
+          for(var i=0;i<arrayStorage.length;i++)
           {
-            var selectedItem=storagearray[i];
+            var selectedItem=arrayStorage[i];
             if(item.specs.manufacturer==selectedItem||item.specs.storage==selectedItem||
               item.specs.os==selectedItem|| item.specs.camera)
               {
@@ -165,6 +157,7 @@ app.filter('customFilter',function()
             else {
     temarray=items;
     }
+  }
   console.log(temarray);
 return temarray;
 };
