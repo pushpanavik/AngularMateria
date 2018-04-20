@@ -21,40 +21,11 @@ var selectedCamera=[];
 $scope.readJson=JsonService.read();
 $scope.readJson.then(function(response){
 $scope.jsonRecord = response.data;
-
-// angular.forEach($scope.jsonRecord,function(value,key)
-// {
-//   $scope.manufactureArray.push(value.specs.manufacturer);
-//   $scope.removeDuplicateManufacturer=$scope.manufactureArray.filter(function(elem,index,data){
-//             return index==data.indexOf(elem);
-//  })
-// });
-//   angular.forEach($scope.jsonRecord,function(value,key)
-//   {
-//     $scope.storageArray.push(value.specs.storage);
-//     $scope.removeDuplicateStorage=$scope.storageArray.filter(function(elem,index,data){
-//       return index==data.indexOf(elem);
-//     })
-// });
-// angular.forEach($scope.jsonRecord,function(value,key)
-// {
-//   $scope.osArray.push(value.specs.os);
-//   $scope.removeDuplicateOS=$scope.osArray.filter(function(elem,index,data){
-//     return index==data.indexOf(elem);
-//   })
-// });
-// angular.forEach($scope.jsonRecord,function(value,key)
-// {
-//   $scope.cameraArray.push(value.specs.camera);
-//   $scope.removeDuplicateCamera=$scope.cameraArray.filter(function(elem,index,data){
-//     return index==data.indexOf(elem);
-//   })
-// });
-// })
+//console.log($scope.jsonRecord);
+})
        $scope.sendLogin = function() {
          $state.go('login');
 };
-})
 
 $scope.toggle=function(selectOption, selectedItem) {
   switch(selectOption)
@@ -105,43 +76,13 @@ var osArray=selectedOS;
 var cameraArray=selectedCamera;
 });
 
-// app.filter('unique',function()
-// {
-//   return function(collection,key)
-//   {
-//     var filteredArray = [];
-//     for(var i=0;i<collection.length;i++)
-//     {
-//       var item=collection[i];
-//       if(i==0)
-//       {
-//         filteredArray.push[item];
-//       }
-//       else{
-//         for(var j=0;j<filteredArray.length;j++)
-//         {
-//           var filteritem=filteredArray[j];
-//           if(filteredArray[key]==collection[key])
-//           {
-//             var flag=true;
-//           }else {
-//             flag=false;
-//             filteredArray.push[item];
-//           }
-//         }
-//       }
-//     }
-// return filteredArray;
-//   }
-// });
 app.filter('customFilter',function()
 {
   return function(items,manufactureArray,storageArray,osArray,cameraArray){
     var filtered=[];
     var temarray=[];
- if(items!=undefined)
- {
-  if(manufacturearray.length>0 ||storagearray.length>0 || osarray.length>0 ||cameraarray.length>0)
+
+  if(manufactureArray.length>0 ||storageArray.length>0 || osArray.length>0 ||cameraArray.length>0)
    {
      for(var j=0;j<items.length;j++)
      {
@@ -224,7 +165,7 @@ app.filter('customFilter',function()
             else {
     temarray=items;
     }
-  }
+  console.log(temarray);
 return temarray;
 };
 });
