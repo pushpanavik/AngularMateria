@@ -1,0 +1,67 @@
+<!-- creating a sidebar with multiple checkbox using section -->
+<section layout="row">
+  <md-sidenav style="margin-top:4.0em;width:200px;position: fixed;z-index: 1;"
+  class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4">
+    <md-content flex layout-padding>
+      <div layout="row" layout-wrap>
+        <div>
+          <fieldset class="standard">
+            <!-- This will create a list of multiple checkbox with multiple values with title  Manufacturer -->
+            <legend>Manufacturer </legend>
+              <div ng-repeat="x in jsonRecord |unique:'specs.manufacturer'|orderBy:'specs.manufacturer'">
+                <md-checkbox ng-click="toggle('manufacturer',x.specs.manufacturer)"> {{x.specs.manufacturer}}
+                </md-checkbox>
+            </div>
+
+          </fieldset>
+        </div>
+      </div>
+
+      <div layout="row" layout-wrap>
+        <div>
+          <fieldset class="standard">
+            <!-- This will create a list of multiple checkbox with multiple values with title  Storage -->
+            <legend>Storage </legend>
+            <div ng-repeat="item in removeDuplicateStorage">
+              <md-checkbox ng-click="toggle('storage', x)">
+                {{item }}
+              </md-checkbox>
+            </div>
+          </fieldset>
+        </div>
+
+      </div>
+      <div layout="row" layout-wrap>
+        <div>
+          <fieldset class="standard">
+            <!-- This will create a list of multiple checkbox with multiple values with title  OS -->
+            <legend>OS </legend>
+            <div ng-repeat="item in removeDuplicateOS">
+              <md-checkbox ng-click="toggle('os', x)">
+                {{ item }}
+              </md-checkbox>
+            </div>
+
+          </fieldset>
+        </div>
+
+      </div>
+      <div layout="row" layout-wrap>
+        <div>
+          <fieldset class="standard">
+            <!-- This will create a list of multiple checkbox with multiple values with title  Camera -->
+            <legend>Camera </legend>
+            <div ng-repeat="item in removeDuplicateCamera">
+              <md-checkbox  ng-click="toggle('camera', x)">
+                {{ item }}
+              </md-checkbox>
+          </fieldset>
+        </div>
+      </div>
+
+  </div>
+
+    </md-content>
+  </md-sidenav>
+
+</section>

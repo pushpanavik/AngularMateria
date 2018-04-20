@@ -1,0 +1,39 @@
+<div layout="width" layout-align="center">
+  <div flex-xs flex-gt-xs="30" layout="column" layout-align="center ">
+    <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Login Page</span>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Email</label>
+            <input name="email" ng-model="useremail" ng-required="true" minlength="10" maxlength="30" ng-pattern="/^.+@.+\..+$/" />
+
+            <div class="hint" ng-show="showHints">How can we reach you?</div>
+
+            <div ng-messages="userForm.email.$error" ng-hide="showHints">
+              <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                Your email must be between 10 and 100 characters long and look like an e-mail address.
+              </div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Password </label>
+            <input type="password" name="password" ng-model="password" required minlength="6" maxlength="10" />
+            <div class="hint" ng-show="showHints">******</div>
+            <div ng-messages="userForm.password.$error" ng-hide="showHints">
+              <div ng-message-exp="['required','minlength','maxlength','pattern']">
+                Your password must be between 8 and 10 charcters long.
+              </div>
+            </div>
+            <div layout-align="center center">
+              <md-button ng-click="login()" class="md-raised">Login</md-button>
+
+              <!-- <h1> {{success}} </h1> -->
+            </div>
+          </md-input-container>
+        </md-card-title-text>
+      </md-card-title>
+
+  </div>
+
+</div>

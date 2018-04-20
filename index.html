@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <!-- defining bower stylesheet -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+
+</head>
+<!-- defining angularApp -->
+
+<body ng-app="angularApp">
+</body>
+
+<!-- using bower_components -->
+<script src="bower_components/angular/angular.min.js">
+</script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="bower_components/angular-aria/angular-aria.min.js"></script>
+<script src="bower_components/angular-messages/angular-messages.min.js"></script>
+
+
+<script src="bower_components/angular-filters/dist/angular-filters.min.js" ></script>
+<!-- using bower for routing -->
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="app.js" charset="utf-8"></script>
+
+<!-- controllers  -->
+<script src="controller/LoginController.js"> </script>
+<script src="controller/homeController.js" ></script>
+<script src="controller/DashboardController.js"></script>
+<script src="controller/DialogController.js"> </script>
+
+<!-- service to read Json file -->
+<script src="service/ReadCardDetails.js"></script>
+<!-- directives for sidebar and navbar -->
+<script src="directives/navbar.js"></script>
+<script src="directives/sidebar.js"></script>
+
+
+<div ui-view>
+</div>
+
+</html>
