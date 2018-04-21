@@ -9,7 +9,7 @@
             <!-- This will create a list of multiple checkbox with multiple values with title  Manufacturer -->
             <legend>Manufacturer </legend>
               <div ng-repeat="x in jsonRecord |unique1:'manufacturer' ">
-                <md-checkbox ng-click="toggle('manufacturer',x)"> {{x.specs.manufacturer}}
+                <md-checkbox ng-click="toggleFunction('manufacturer',x.specs.manufacturer)"> {{x.specs.manufacturer}}
                 </md-checkbox>
             </div>
           </fieldset>
@@ -22,7 +22,7 @@
             <!-- This will create a list of multiple checkbox with multiple values with title  Storage -->
             <legend>Storage </legend>
             <div ng-repeat="x in jsonRecord |unique1:'storage'">
-              <md-checkbox ng-click="toggle('storage', x)">
+              <md-checkbox ng-click="toggleFunction('storage', x.specs.storage)">
                 {{x.specs.storage}}
               </md-checkbox>
             </div>
@@ -36,7 +36,7 @@
             <!-- This will create a list of multiple checkbox with multiple values with title  OS -->
             <legend>OS</legend>
             <div ng-repeat="x in jsonRecord |unique1:'os'">
-              <md-checkbox ng-click="toggle('os', x)">
+              <md-checkbox ng-click="toggleFunction('os', x.specs.os )">
                 {{ x.specs.os }}
               </md-checkbox>
             </div>
@@ -51,7 +51,7 @@
             <!-- This will create a list of multiple checkbox with multiple values with title  Camera -->
             <legend>Camera </legend>
             <div ng-repeat="x in jsonRecord |unique1:'camera'">
-              <md-checkbox  ng-click="toggle('camera', x)">
+              <md-checkbox  ng-click="toggleFunction('camera', x.specs.camera)">
                 {{ x.specs.camera }}
               </md-checkbox>
           </fieldset>
