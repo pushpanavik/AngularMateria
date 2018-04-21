@@ -26,7 +26,7 @@ app.controller('homeCtrl', function($scope, $mdSidenav, $state, $rootScope, $htt
   $scope.sendLogin = function() {
     $state.go('login');
   };
-// using switch to look for multiple features of a particular mobile 
+// using switch to look for multiple features of a particular mobile
   $scope.toggleFunction = function(option, selectedItem) {
     switch (option) {
       case 'manufacturer':
