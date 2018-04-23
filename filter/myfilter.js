@@ -26,7 +26,7 @@ app.filter('unique1',function()
           }
         }
           if(!flag){
-            // if flag is false push the item in the filterArray 
+            // if flag is false push the item in the filterArray
             filteredArray.push(item);
           }
         }

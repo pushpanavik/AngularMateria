@@ -1,4 +1,4 @@
-function DialogController($scope, $mdDialog) {
-  
+function DialogController($scope, $mdDialog,jsonRecord) {
+  $scope.jsonRecord=jsonRecord;
 
     };
