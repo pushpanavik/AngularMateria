@@ -1,5 +1,5 @@
 app.controller('DashboardCtrl',function($scope,$mdDialog){
-  $scope.showAdvanced = function(ev,jsonRecord) {
+  $scope.showAdvanced = function(ev,item) {
       $mdDialog.show({
 
         controller: DialogController,
@@ -8,10 +8,12 @@ app.controller('DashboardCtrl',function($scope,$mdDialog){
         targetEvent: ev,
         clickOutsideToClose:true,
         locals:{
-      jsonRecord : jsonRecord
-      },
+            mydata : item
+      }
+})
+  };
+function DialogController($scope,mydata){
+  $scope.mydata=mydata;
+}
 
-      })
-      };
- }
-)
+});

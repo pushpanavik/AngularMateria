@@ -1,13 +1,13 @@
 <md-dialog aria-label="MobileApp">
   <md-toolbar>
         <div class="md-toolbar-tools">
-          <h2>{{jsonRecord.name}}</h2>
+          <h2>{{mydata.name}}</h2>
           </div>
         </md-toolbar>
     <md-dialog-content>
-      <div class="md-dialog-content">
-      <img style= "margin:auto; max-width:75%; max-height:75%;"align-self:"center" ng-src={{jsonRecord.image.large}} alt="nothing">
-    <p> {{jsonRecord.description}} </p>
+    <div class="md-dialog-content">
+    <img style= "margin:auto; max-width:50%; max-height:150%;"align-self:"center" ng-src={{mydata.image.large}} alt="nothing">
+    <p> {{mydata.description}} </p>
     </div>
     </md-dialog-content>
 </md-dialog>
