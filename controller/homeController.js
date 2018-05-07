@@ -1,11 +1,15 @@
 app.controller('homeCtrl', function($scope, $mdSidenav, $state, $rootScope, $http, JsonService, $filter) {
   $scope.toggleLeft = buildToggler('left');
-  $scope.toggleRight = buildToggler('right');
+  // $scope.toggleRight = buildToggler('right');
 
   function buildToggler(componentId) {
     return function() {
       $mdSidenav(componentId).toggle();
     };
+  }
+
+  $scope.Logout = function() {
+    $state.go('Login');
   }
 
   // to keep track of selected item from manufactureArray and store it in selectedManufactur
@@ -22,9 +26,7 @@ app.controller('homeCtrl', function($scope, $mdSidenav, $state, $rootScope, $htt
     $scope.jsonRecord = response.data;
     //console.log($scope.jsonRecord);
   })
-  $scope.sendLogin = function() {
-    $state.go('login');
-  };
+
 // using switch to look for multiple features of a particular mobile
   $scope.toggleFunction = function(option, selectedItem) {
     switch (option) {

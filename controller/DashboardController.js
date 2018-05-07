@@ -15,5 +15,13 @@ app.controller('DashboardCtrl',function($scope,$mdDialog){
 function DialogController($scope,mydata){
   $scope.mydata=mydata;
 }
-
+// $scope.addToCart=function(x){
+//   if(x!=undefined)
+//   {
+//       var Array=[];
+//       Array.push(x);
+//   }
+//
+//
+// }
 });
