@@ -1,0 +1,39 @@
+
+  #registration{
+    background-color: inherit;
+    width:200px;
+    height: 50px;
+    border: 25% solid white;
+    padding: 25px;
+    margin: 8px;
+  }
+  label,input{
+    font-family: "comic sans",sans-serif;
+
+    margin : 0 0 15px;
+    border: 0;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  input,textarea {width:150px;}
+
+  .login{
+  width:100%;
+  border-radius: 10px;
+  font-family:raleway;
+  border: 2px solid #ccc;
+  padding: 10px 40px 10px;
+  word-wrap: break-word;
+  }
+  .fonts{
+    font-size: 12;
+    font: Arial;
+  }
+  #button{
+    background-color: orange;
+    color:white;
+  }
+  .parent {
+  overflow: hidden;
+}

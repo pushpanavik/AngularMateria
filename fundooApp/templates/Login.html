@@ -1,0 +1,24 @@
+<md-card layout-align="center center">
+  <form name="myform"  style="border:2px solid black;" class ="fonts" class="parent" >
+    <h1 id="button"><center><b>Login Form</b></center></h1><br><br>
+    <md-input-container id="login" class="md-block" >
+      <label>Email</label>
+      <input type="text" name="email" ng-model="useremail" ng-pattern="/^.+@.+\..+$/" required/>
+      <div ng-messages="myform.email.$error">
+        <div ng-message="[pattern]">You must enter valid email address.for eg abc@gmail.com</div>
+      </div>
+    </md-input-container>
+
+    <md-input-container id="login" class="md-block" >
+      <label>Password </label>
+      <input type="password" name="password" ng-model="password" minlength="6" maxlength="10" required/>
+      <div ng-messages="myform.password.$error">
+        <div ng-message="['minlength']">cannot be left blank </div>
+      </div>
+        <div layout-align="center center">
+          <md-button ng-click="login()" class="md-raised" id="button" style="margin:auto;display:block">Login</md-button>
+          <p class="message"> Forgot Password? <a href="#!/forgotPassword"> Signin </a></p>
+        </div>
+      </md-input-container>
+      </form>
+      </md-card>

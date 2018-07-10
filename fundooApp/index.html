@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>FundooApp</title>
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<!-- defining angularApp -->
+
+<body ng-app="fundooApp">
+</body>
+
+<!-- using bower_components -->
+<script src="bower_components/angular/angular.min.js">
+</script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="bower_components/angular-aria/angular-aria.min.js"></script>
+<script src="bower_components/angular-messages/angular-messages.min.js"></script>
+
+<script src="bower_components/angular-filters/dist/angular-filters.min.js" ></script>
+<!-- using bower for routing -->
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="app.js" charset="utf-8"></script>
+
+<!-- controllers  -->
+
+
+<script src="controller/registerController.js"></script>
+<script src="controller/LoginController.js"></script>
+<script src="controller/forgotController.js"></script>
+
+<!-- service to read Json file -->
+<!-- <script src="service/ReadCardDetails.js"></script> -->
+
+<!-- directives for sidebar and navbar -->
+<!-- <script src="directives/navbar.js"></script>
+<script src="directives/sidebar.js"></script> -->
+
+<!-- creating filter to  remove the duplicates -->
+<!-- <script src="filter/myfilter.js" charset="utf-8"></script> -->
+
+
+<div ui-view>
+</div>
+
+</html>
