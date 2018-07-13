@@ -1,12 +1,3 @@
-
-  #registration{
-    background-color: inherit;
-    width:200px;
-    height: 50px;
-    border: 25% solid white;
-    padding: 25px;
-    margin: 8px;
-  }
   label,input{
     font-family: "comic sans",sans-serif;
 
@@ -27,13 +18,22 @@
   word-wrap: break-word;
   }
   .fonts{
-    font-size: 12;
+    font-size: 18;
     font: Arial;
   }
   #button{
     background-color: orange;
     color:white;
+    display: block;
   }
   .parent {
   overflow: hidden;
+}
+#card{
+  width:400px;
+  margin: 0px 0px 0px 450px;
+
+}
+#forgot{
+        margin: 98px 525px 0px 342px;
 }

@@ -1,22 +1,21 @@
-<md-card layout-align="center center">
-  <form name="myform"  style="border:2px solid black;" class ="fonts" class="parent" >
-    <h1 id="button"><center><b>Login Form</b></center></h1><br><br>
-    <md-input-container id="login" class="md-block" >
+<md-card layout-align="center center" id="forgot">
+    <h1 id="button"><b>Login Form</b></h1>
+  <form name="myform" class ="fonts" class="parent" layout="column" >
+
+    <md-input-container id="login" style="margin-top:30px;" >
       <label>Email</label>
-      <input type="text" name="email" ng-model="useremail" ng-pattern="/^.+@.+\..+$/" required/>
-      <div ng-messages="myform.email.$error">
-        <div ng-message="[pattern]">You must enter valid email address.for eg abc@gmail.com</div>
-      </div>
+      <input type="text" name="emailId" ng-model="emailId" ng-pattern="/^.+@.+\..+$/" required/>
+      <span class="errors" ng-show="(myform.$submitted || myform.emailId.$touched) && myform.emailId.$error.required && !focused">
+      You must enter valid email address.for eg abc@gmail.com</span>
     </md-input-container>
 
-    <md-input-container id="login" class="md-block" >
+    <md-input-container id="login" style="margin-top:30px;">
       <label>Password </label>
-      <input type="password" name="password" ng-model="password" minlength="6" maxlength="10" required/>
-      <div ng-messages="myform.password.$error">
-        <div ng-message="['minlength']">cannot be left blank </div>
-      </div>
+      <input type="password" name="password" ng-model="password" minlength="6" md-maxlength="10" required/>
+      <span class="errors" ng-show="(myform.$submitted || myform.password.$touched) && myform.password.$error.required && !focused">
+      please fill password</span>
         <div layout-align="center center">
-          <md-button ng-click="login()" class="md-raised" id="button" style="margin:auto;display:block">Login</md-button>
+          <md-button ng-click="loginModel()" class="md-raised" id="button" style="margin:auto;display:block">Login</md-button>
           <p class="message"> Forgot Password? <a href="#!/forgotPassword"> Signin </a></p>
         </div>
       </md-input-container>
