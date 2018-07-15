@@ -1,48 +1,47 @@
-<md-toolbar  class="md-toolbar-tools" style="background-color:#fb0;" >
+<md-toolbar  class="md-toolbar-tools" style="background-color:#fb0;"  id="md-icon" id="search" style="position:fixed;">
 
-  <md-button class="md-icon-button">
-   <md-icon> <i class="material-icons">menu</i></md-icon>
+  <md-button class="md-icon-button"  ng-click="toggleLeft()" >
+   <md-icon> <i class="material-icons" style="color: black;">menu</i></md-icon>
    <md-tooltip>main menu</md-tooltip>
    </md-button>
 
-<div>
-  <input placeholder="Search" style="width: 609px;">
-  <md-icon><i class="material-icons">search</i></md-icon>
+<div style="color: black;"><b>Google</b> keep</div>
+<md-list-item>
+  <div style="background-color:white;height: 52px;width: 700px;">
+  <img src="images/baseline-search-24px.svg" style="margin-top: 10px;">
+  <span flex="5"></span>
+  <input placeholder="Search"/>
+    <img src="images/baseline-clear-24px.svg" style="margin-top: 10px; height: 16px;
+    overflow: visible;
+    width: 16px;">
 </div>
+</md-list-item>
    <md-button class="md-icon-button">
-   <md-icon><i class="material-icons"> refresh</i></md-icon>
+   <md-icon ><i class="material-icons" style="color: black;"> refresh</i></md-icon>
    <md-tooltip>refresh</md-tooltip>
  </md-button>
 
    <md-button class="md-icon-button">
-   <md-icon> <i class="material-icons">view_stream</i></md-icon>
+   <md-icon> <i class="material-icons" style="color: black;">view_stream</i></md-icon>
    <md-tooltip>list-view</md-tooltip>
    </md-button>
 
    <md-button class="md-icon-button">
-     <md-icon><i class="material-icons">apps </i> </md-icon>
+     <md-icon><i class="material-icons" style="color: black; ">apps </i> </md-icon>
      <md-tooltip>app</md-tooltip>
    </md-button>
 
    <md-button class="md-icon-button">
-     <md-icon> <i class="material-icons">notifications</i></md-icon>
+     <md-icon> <i class="material-icons" style="color: black;">notifications</i></md-icon>
      <md-tooltip>Notification</md-tooltip>
    </md-button>
 
-
-
-
-
-
-
 <md-button class="md-icon-button">
-  <md-icon> <i class="material-icons">account_circle</i></md-icon>
+  <md-icon> <i class="material-icons" style="color: black;">account_circle</i></md-icon>
   <md-tooltip>Google Account</md-tooltip>
 </md-button>
-
-
-
   <span flex> </span>
+
 </md-toolbar>
 <md-content class="md-padding">
-</md-content>
+   </md-content>

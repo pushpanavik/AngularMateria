@@ -1,47 +1,50 @@
-    <md-card layout-align="center center" id="card">
-      <h1 id="button"><b>Registration Form</b></h1>
-      <form name="myform"  class ="fonts" class="parent" layout="column" >
-        <md-input-container style="margin-top:30px;">
-          <label>FirstName</label>
-          <input type="text" name="firstname" ng-model="fname" minlength="6" md-maxlength="8" required />
-          <span class="errors" ng-show="(myform.$submitted || myform.firstname.$touched) && myform.firstname.$error.required && !focused">Please fill firstname</span>
+<md-card layout-align="center center" id="card">
 
-        </md-input-container>
+  <h1 id="button"><b>Registration Form</b></h1>
+  <form name="myform"  class ="fonts" class="parent" layout="column" >
+    <md-input-container style="margin-top:30px;">
+      <label>FirstName</label>
+      <input type="text" name="firstname" ng-model="fname" minlength="1" maxlength="8"  ng-pattern= "/^[a-zA-Z\-]+$/" required />
+      <span class="errors" ng-show="(myform.$submitted || myform.firstname.$touched) && myform.firstname.$error.required && !focused">Please fill valid firstname</span>
+    </md-input-container>
 
-        <md-input-container  style="margin-top:10px;">
-          <label>LastName</label>
-          <input type="text" name="lastname" ng-model="lname" minlength="6" md-maxlength="8" required/>
-          <span class="errors" ng-show="(myform.$submitted || myform.lastname.$touched) && myform.lastname.$error.required && !focused">Please fill lastname</span>
-        </md-input-container>
+    <md-input-container  style="margin-top:10px;">
+      <label>LastName</label>
+      <input type="text" name="lastname" ng-model="lname"  ng-pattern= "/^[a-zA-Z\-]+$/" required/>
+       <!-- <div ng-messages="myform.lastname.$error" >
+         <div ng-message-exp = ['required','pattern']>Invalid lastname</div>
+       </div> -->
+      <span class="errors" ng-show="(myform.$submitted || myform.lastname.$touched) && myform.lastname.$error.required && !focused">Please fill valid lastname</span>
+    </md-input-container>
 
-        <md-input-container  style="margin-top:10px;">
-          <label>Email</label>
-          <input type="text" name="emailId" ng-model="emailId" ng-pattern="/^.+@.+\..+$/" required/>
-        <span class="errors" ng-show="(myform.$submitted || myform.emailId.$touched) && myform.emailId.$error.required && !focused">Please fill emailId</span>
-        </md-input-container>
+    <md-input-container  style="margin-top:10px;">
+      <label>Email</label>
+      <input type="text" name="emailId" ng-model="emailId" ng-pattern="/^.+@.+\..+$/" required/>
+    <span class="errors" ng-show="(myform.$submitted || myform.emailId.$touched) && myform.emailId.$error.required && !focused">Please fill emailId</span>
+    </md-input-container>
 
-        <md-input-container  style="margin-top:10px;">
-          <label>Password </label>
-          <input type="password" name="password" ng-model="password" minlength="6" md-maxlength="10" required/>
-        <span class="errors" ng-show="(myform.$submitted || myform.password.$touched) && myform.password.$error.required && !focused">Please fill password</span>
-        </md-input-container>
+    <md-input-container  style="margin-top:10px;">
+      <label>Password </label>
+      <input type="password" name="password" ng-model="password" minlength="6" maxlength="8" ng-pattern="/^[a-zA-Z0-9]+$/"required/>
+    <span class="errors" ng-show="(myform.$submitted || myform.password.$touched) && myform.password.$error.required && !focused">Please fill password</span>
+    </md-input-container>
 
-        <md-input-container  style="margin-top:10px;" >
-          <label>Address </label>
-          <input type="text" name="address" ng-model="address" minlength="10" md-maxlength="40" required/>
-          <span class="errors" ng-show="(myform.$submitted || myform.address.$touched) && myform.address.$error.required && !focused">Please fill address</span>
-        </md-input-container>
+    <md-input-container  style="margin-top:10px;" >
+      <label>Address </label>
+      <input type="text" name="address" ng-model="address" minlength="6s" maxlength="40" required/>
+      <span class="errors" ng-show="(myform.$submitted || myform.address.$touched) && myform.address.$error.required && !focused">Please fill address</span>
+    </md-input-container>
 
-        <md-input-container style="margin-top:10px;">
-          <label>Phone Number </label>
-          <input type="text" name="phoneNumber" ng-model="phoneNumber" md-minlength="10" required/>
-          <span class="errors" ng-show="(myform.$submitted || myform.phoneNumber.$touched) && myform.phoneNumber.$error.required && !focused">Please fill phoneNumber</span>
-          </md-input-container>
+    <md-input-container style="margin-top:10px;">
+      <label>Phone Number </label>
+      <input type="text" name="phoneNumber" ng-model="phoneNumber" md-minlength="10"ng-pattern="/^\d+$/" required/>
+      <span class="errors" ng-show="(myform.$submitted || myform.phoneNumber.$touched) && myform.phoneNumber.$error.required && !focused">Please fill numberic phoneNumber</span>
+      </md-input-container>
 
-          <div>
-            <md-button ng-click="registerModel()" class="md-raised" id="button" style="margin:auto;display:block">Register</md-button>
-            <p class="message"> Already Registered User<a href="#!/login"> Signin </a></p>
-          </div>
+      <div>
+        <md-button ng-click="registerModel()" class="md-raised" id="button" style="margin:auto;display:block">Register</md-button>
+        <p class="message"> Already Registered User<a href="#!/login"> Signin </a></p>
+      </div>
 
-      </form>
-    </md-card>
+  </form>
+</md-card>

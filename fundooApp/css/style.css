@@ -1,39 +1,61 @@
-  label,input{
-    font-family: "comic sans",sans-serif;
+label,input{
+  font-family: "comic sans",sans-serif;
 
-    margin : 0 0 15px;
-    border: 0;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
-  }
-  input,textarea {width:150px;}
-
-  .login{
-  width:100%;
-  border-radius: 10px;
-  font-family:raleway;
-  border: 2px solid #ccc;
-  padding: 10px 40px 10px;
-  word-wrap: break-word;
-  }
-  .fonts{
-    font-size: 18;
-    font: Arial;
-  }
-  #button{
-    background-color: orange;
-    color:white;
-    display: block;
-  }
-  .parent {
-  overflow: hidden;
+  margin : 0 0 15px;
+  border: 0;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
-#card{
-  width:400px;
-  margin: 0px 0px 0px 450px;
+input,textarea {width:620px;}
 
+.login{
+width:100%;
+border-radius: 10px;
+font-family:raleway;
+border: 2px solid #ccc;
+padding: 10px 40px 10px;
+word-wrap: break-word;
+}
+.fonts{
+  font-size: 18;
+  font: Arial;
+}
+#labelSearch{
+    margin: 0 93px 15px;
+    }
+#button{
+  background-color: orange;
+  color:white;
+  display: block;
+}
+.parent {
+overflow: hidden;
+}
+
+#card{
+width: 400px;
+margin: 0px 0px 0px 450px;
 }
 #forgot{
-        margin: 98px 525px 0px 342px;
+      margin: 98px 525px 0px 342px;
+}
+#search{
+  width: 713px;
+border-radius: 60px;
+    margin-top: 35px;
+    }
+#searchIcon{
+    margin: -30px 132px 6px -722px;
+
+    }
+#navabarcolor{
+  color: rgba(68, 61, 61, 0.87);
+}
+#md-icon {
+  style="color: black;"
+    margin: 7px 4px 3px 6px;
+}
+#sidebar{
+  margin :0px 0px 0px 30px;
 }

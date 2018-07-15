@@ -2,59 +2,21 @@ app.factory('userservice', function($http,$window) {
 
 	var serviceobj =[];
 
-	serviceobj.registerModel = function(user) {
-
+	serviceobj.postModel = function(user,url) {
+		console.log(user);
 		return $http({
 			method : "POST",
-			url : "url",
-			data : user
+			url : url,
+			data:user
 		})
 	}
 
-	serviceobj.loginModel=function(user){
+	serviceobj.resetModel=function(user,token,url){
 		return $http({
-			method: "POST",
-			url: "/user/login",
+			method : "POST",
+			url : url,
 			data:user
-		}).then (function successCallback(response){
-			console.log(response.data);
-			$window.alert("successfully login");
-
-		},function errorCallback(response){
-			console.log(response.data)
-		});
+		})
 	}
-
-
-	serviceobj.forgotModel=function(user){
-		return  $http({
-			method:"POST",
-			url:"user/forgotPassword",
-			data:angular.toJson(user)
-		}).then (function successCallback(response){
-			console.log(response.data.message);
-
-			console.log(token);
-
-			$window.alert("check your email for login");
-		},function errorCallback(response){
-			console.log(response.data)
-		});
-	}
-
-	serviceobj.resetModel=function(user){
-		return $http({
-			method: "POST",
-			url:"user/resetPassword",
-			data:angular.toJson(user)
-		}).then (function successCallback(response){
-			console.log(response.data);
-
-			$window.alert("your password successfully updated");
-		},function errorCallback(response){
-			console.log(response.data)
-		});
-	}
-	return serviceobj;
-
-});
+				 return serviceobj;
+		})

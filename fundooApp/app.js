@@ -33,7 +33,13 @@ params: {
  {
    url:'/home',
    templateUrl:'templates/home.html',
-   controller:'userCtrl'
+   controller:'homeCtrl'
+})
+.state('home.dashboard',
+ {
+   url:'/dashboard',
+   templateUrl:'templates/dashboard.html',
+   controller:'noteCtrl'
 })
 
   $urlRouterProvider.otherwise("/Register")
