@@ -1,8 +1,8 @@
 app.factory('userservice', function($http,$window) {
-
+var baseUrl="http://localhost:9090/fundoo/";
 	var serviceobj =[];
 
-	serviceobj.postModel = function(user,url) {
+	serviceobj.postService = function(user,url) {
 		console.log(user);
 		return $http({
 			method : "POST",
@@ -11,12 +11,17 @@ app.factory('userservice', function($http,$window) {
 		})
 	}
 
-	serviceobj.resetModel=function(user,token,url){
+	serviceobj.resetService=function(user,token,url){
 		return $http({
 			method : "POST",
-			url : url,
-			data:user
+			url : baseUrl+ "user/resetPassword",
+			data:user,
+			headers:{
+			 	'token': token
+			 }
+
 		})
 	}
+
 				 return serviceobj;
 		})

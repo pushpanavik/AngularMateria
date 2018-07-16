@@ -1,0 +1,45 @@
+<div layout="row">
+  <md-button class="md-icon-button" >
+   <md-icon><img src= "images/reminders.svg"/></md-icon><md-tooltip>remind me</md-tooltip>
+ </md-button>
+
+<md-button class="md-icon-button" >
+<md-icon><img src= "images/baseline-person_add-24px.svg"/></md-icon><md-tooltip>Collabarator</md-tooltip>
+</md-button>
+
+<md-menu>
+<md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+  <md-icon>  <img src="images/baseline-color_lens-24px.svg"/></md-icon><md-tooltip>Change color</md-tooltip>
+</md-button>
+<md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+  <md-menu-item ng-repeat="item in [1, 2, 3]">
+    <md-button>  Option {{item}}
+    </md-button>
+  </md-menu-item>
+</md-menu-content>
+</md-menu>
+
+ <md-icon><i class="material-icons">photo</i></md-icon>
+    <md-tooltip>Add image</md-tooltip>
+  </md-button>
+
+  <md-button class="md-icon-button">
+    <md-icon> <img src="images/archive.svg" /></md-icon>
+    <md-tooltip>Archive</md-tooltip>
+  </md-button>
+
+  <md-button class="md-icon-button">
+    <md-icon> <img src="images/baseline-more_vert-24px.svg" /></md-icon>
+    <md-tooltip>more</md-tooltip>
+  </md-button>
+
+  <md-button class="md-icon-button">
+    <md-icon> <img src="images/baseline-undo-24px.svg" /></md-icon>
+    <md-tooltip>undo</md-tooltip>
+  </md-button>
+
+  <md-button class="md-icon-button">
+    <md-icon> <img src="images/baseline-redo-24px.svg" /></md-icon>
+    <md-tooltip>redo</md-tooltip>
+  </md-button>
+</div>

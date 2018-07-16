@@ -37,9 +37,10 @@
 
     <md-input-container style="margin-top:10px;">
       <label>Phone Number </label>
-      <input type="text" name="phoneNumber" ng-model="phoneNumber" md-minlength="10"ng-pattern="/^\d+$/" required/>
+      <input type="text" name="phoneNumber" ng-model="phoneNumber" md-minlength="10"ng-pattern="/^\+?\d{10}$/" required/>
       <span class="errors" ng-show="(myform.$submitted || myform.phoneNumber.$touched) && myform.phoneNumber.$error.required && !focused">Please fill numberic phoneNumber</span>
-      </md-input-container>
+
+      <span ng-if="inquiryForm.contact.$error.required"> phone number is required</span></md-input-container>
 
       <div>
         <md-button ng-click="registerModel()" class="md-raised" id="button" style="margin:auto;display:block">Register</md-button>

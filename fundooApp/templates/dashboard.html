@@ -1,31 +1,65 @@
-<div layout="row"  layout-align="center center">
+<div layout="row" layout-align="center center">
 
-  <md-card  style="width:600px;height:100px; margin: 0px 0px 0px 454px;">
-     <div layout="row">
-       <md-input-container md-no-float>
-<input type="text" placeholder="Take a note"/>
-       </md-input-container>
+  <md-card style="width:600px; margin: 0px 0px 0px 454px;" ng-show="!showWhenClicked">
 
+    <div layout="row">
 
+      <input type="text" placeholder="Take a note" style="width:400px;" ng-click="showWhenClicked=true" />
+      <md-button class="md-icon-button">
+        <md-icon><img src="images/baseline-list-24px.svg" /></md-icon>
+        <md-tooltip>New list</md-tooltip>
+      </md-button>
 
-    <md-list-item>
-     <md-icon><img src="images/baseline-list-24px.svg"/></md-icon>  <md-tooltip>New list</md-tooltip>
-    </md-list-item>
+      <md-button class="md-icon-button">
+        <md-icon><i class="material-icons">photo</i></md-icon>
+        <md-tooltip>New note with image</md-tooltip>
+      </md-button>
 
-    <md-button class="md-icon-button">
-    <md-icon ><i class="material-icons">crop_original</i></md-icon>
-    <md-tooltip>New note with image</md-tooltip>
+      <md-button class="md-icon-button">
+        <md-icon><i class="material-icons">edit</i</md-icon>
+    <md-tooltip>edit</md-tooltip>
     </md-button>
-
-    <md-button class="md-icon-button">
-    <md-icon ><i class="material-icons">edit</i</md-icon>
-    <md-tooltip>New note with image</md-tooltip>
-    </md-button>
-
-
+</div>
   </md-card>
 
+<div layout="row">
+  <md-card ng-show="showWhenClicked" style="width:600px; margin: 0px 0px 0px 454px;">
+    <div  layout="row">  <input type="text" placeholder="Title"  ng-model="noteTitle" style="width:400px;"/>
+      <md-icon><img src="images/pin.svg" style="margin: 2px 81px 0px 82px;"></md-icon>
+      <md-tooltip>pin</md-tooltip>
+    </div>
+    <div layout="row">
+      <input type="text" placeholder="Take a note..." ng-model="noteDescription" style="width:400px;"/>
+    </div>
+    <icon> </icon>
 
-<md-card >
-</md-card>
+    <div layout="row">
+      <md-button ng-click="showWhenClicked=false;noteModel()" style="color:black; border-radius:05px;margin:-38px 496px 0px 490px;">CLOSE</md-button>
+    </div>
+  </md-card>
 </div>
+</div>
+
+
+<md-card style="width:300px" ng-repeat="x in getNote" flex="">
+  <md-card-content>
+  <div> {x.title}</div>
+</md-card-content>
+</md-card>
+
+
+
+<!--
+      <md-menu>
+      <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+        <md-icon md-menu-origin md-svg-icon="call:textsms"></md-icon>
+      </md-button>
+      <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+        <md-menu-item ng-repeat="item in [1, 2, 3]">
+          <md-button>
+            Option {{item}}
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+-->
