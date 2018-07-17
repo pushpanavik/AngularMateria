@@ -1,8 +1,8 @@
-<div layout="row" layout-align="center center">
+<div layout="row" layout-align="center center" >
 
-  <md-card style="width:600px; margin: 0px 0px 0px 454px;" ng-show="!showWhenClicked">
+  <md-card style="width:600px; margin: 0px 0px 0px 454px;"flex-ft-xs='100' ng-show="!showWhenClicked">
 
-    <div layout="row">
+    <div layout="row" >
 
       <input type="text" placeholder="Take a note" style="width:400px;" ng-click="showWhenClicked=true" />
       <md-button class="md-icon-button">
@@ -24,8 +24,8 @@
 
 <div layout="row">
   <md-card ng-show="showWhenClicked" style="width:600px; margin: 0px 0px 0px 454px;">
-    <div  layout="row">  <input type="text" placeholder="Title"  ng-model="noteTitle" style="width:400px;"/>
-      <md-icon><img src="images/pin.svg" style="margin: 2px 81px 0px 82px;"></md-icon>
+    <div  layout="row">  <input type="text" placeholder="Title"  ng-model="noteTitle" style="width:380px;"/>
+      <md-icon><img src="images/pin.svg" style="margin: 2px 81px 0px 80px;"></md-icon>
       <md-tooltip>pin</md-tooltip>
     </div>
     <div layout="row">
@@ -40,12 +40,15 @@
 </div>
 </div>
 
-
+<div ng-init="getAllNote()">
 <md-card style="width:300px" ng-repeat="x in getNote" flex="">
   <md-card-content>
   <div> {x.title}</div>
+  <div> </div>
+  <icon> </icon>
 </md-card-content>
 </md-card>
+</div>
 
 
 

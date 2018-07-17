@@ -13,14 +13,15 @@ app
 		  };
 			console.log(user);
       // localStorage.register="registerModel";
+
       // console.log(localStorage.register);
-      // localStorage.setItem("emailId",$scope.emailId)
-      // localStorage.setItem("password",$scope.password)
+      localStorage.setItem("emailId",$scope.emailId)
+      localStorage.setItem("password",$scope.password)
 			var url=baseUrl + "user/registerUser";
 		  userservice.postService(user,url)
 			.then(function successCallback(response) {
-				console.log(response)
-				$state.go('home');
+				console.log(response);
+						$state.go('home.dashboard');
 				// $window.alert("Check your mail to activate your account ");
 			}, function errorCallback(response) {
 				console.log(response);
@@ -28,26 +29,26 @@ app
 	}
 
 	$scope.loginModel=function(){
+
 		var user={
 				emailId: $scope.emailId,
 				password: $scope.password
 		};
-		var email=localStorage.getItem("emailId")
-		console.log(email);
-		var password=localStorage.getItem("password")
-		console.log(password);
-			// if(email===$scope.emailId && password===$scope.password){
-				$state.go('home.dashboard');
-			// }
-		var url=baseUrl +"user/login";
+				var url=baseUrl +"user/login";
 		userservice.postService(user,url)
 		.then (function successCallback(response){
-			console.log(response.data);
-			console.log("successfully login");
+			$state.go('home.dashboard');
+			console.log(response);
+		localStorage.setItem("token",response.data)
+		console.log(response.data);
+			console.log("response for login", response)
+			console.log("successfully login")
 
+			localStorage.setItem("token",response)
 
 		},function errorCallback(response){
-			console.log(response)
+			$state.go('Login');
+			console.log('login failure');
 		});
 
 	}

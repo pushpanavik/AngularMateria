@@ -6,8 +6,12 @@ var baseUrl="http://localhost:9090/fundoo/";
 		console.log(user);
 		return $http({
 			method : "POST",
+			headers:{
+				"Content-Type":"application/json",
+				'token': localStorage.getItem("token")
+			},
 			url : url,
-			data:user
+			data:angular.toJson(user)
 		})
 	}
 
@@ -19,9 +23,17 @@ var baseUrl="http://localhost:9090/fundoo/";
 			headers:{
 			 	'token': token
 			 }
-
 		})
 	}
 
+	serviceobj.getService=function(url){
+		return $http({
+			method : "GET",
+			url : url,
+			headers:{
+				'token': localStorage.getItem('token')
+			 }
+		 })
+	 }
 				 return serviceobj;
 		})
