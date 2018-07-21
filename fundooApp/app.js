@@ -41,6 +41,30 @@ params: {
    templateUrl:'templates/dashboard.html',
    controller:'noteCtrl'
 })
+.state('home.dashboard.logout',
+{
+  url:'/Logout',
+  templateUrl:'templates/logout.html',
+  controller:'homeCtrl'
+})
+.state('Trash',
+{
+  url:'/trashnote',
+  templateUrl:'templates/trashnote.html',
+  controller:'homeCtrl'
+})
+.state('Note',
+{
+  url:'/note',
+  templateUrl:'templates/note.html',
+  controller:'homeCtrl'
+})
+.state('Reminder',
+{
+  url:'/reminder',
+  templateUrl:'templates/reminder.html',
+  controller:'homeCtrl'
+})
 
   $urlRouterProvider.otherwise("/Register")
 });

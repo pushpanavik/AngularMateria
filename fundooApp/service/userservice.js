@@ -14,7 +14,6 @@ var baseUrl="http://localhost:9090/fundoo/";
 			data:angular.toJson(user)
 		})
 	}
-
 	serviceobj.resetService=function(user,token,url){
 		return $http({
 			method : "POST",
@@ -26,14 +25,6 @@ var baseUrl="http://localhost:9090/fundoo/";
 		})
 	}
 
-	serviceobj.getService=function(url){
-		return $http({
-			method : "GET",
-			url : url,
-			headers:{
-				'token': localStorage.getItem('token')
-			 }
-		 })
-	 }
+
 				 return serviceobj;
 		})

@@ -1,5 +1,5 @@
 app
-.controller('userCtrl',function (userservice,$scope,$state, $stateParams,$location,$window) {
+.controller('userCtrl',function (userservice,$scope,$state, $stateParams,$rootScope,$location,$window) {
 	var baseUrl="http://localhost:9090/fundoo/";
 
 	$scope.registerModel=function(){
@@ -37,14 +37,13 @@ app
 				var url=baseUrl +"user/login";
 		userservice.postService(user,url)
 		.then (function successCallback(response){
+		 var  checktoken=response.data.msg;
 			$state.go('home.dashboard');
-			console.log(response);
-		localStorage.setItem("token",response.data)
-		console.log(response.data);
-			console.log("response for login", response)
+			console.log("response data is",response.data.msg);
+		localStorage.setItem("token",response.data.msg)
 			console.log("successfully login")
 
-			localStorage.setItem("token",response)
+
 
 		},function errorCallback(response){
 			$state.go('Login');
