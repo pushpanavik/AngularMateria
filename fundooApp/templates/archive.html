@@ -1,0 +1,68 @@
+<div ng-init="getallnotes()"  >
+ <div layout="row"  layout-wrap layout-fill style="padding-bottom: 32px;padding-left: 310px;">
+
+<md-card style="height: 150px;" class="dashboard"    flex="30" ng-repeat="x in getnotes | filter:{archive:true} " ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)">
+
+            <div  class="value-data" ng-click="showAlert($event,x)">{{x.title}}
+            <md-button ng-click="pin()" class="md-icon-button" style="margin: 6px 0px 3px 181px;" ng-show="hoverEdit" >
+    <md-icon ><img src="images/pin.svg" /></md-icon>
+    <md-tooltip>pin note</md-tooltip>
+    </md-button>
+    </div>
+           <div  class="value" >{{x.description}}</div>
+
+           <div layout="row" ng-show="hoverEdit" style="background-color:white;color: rgba(0,0,0,.54);">
+            <md-button class="md-icon-button"  >
+  <img src="images/baseline-touch_app-24px.svg" />
+  <md-tooltip>Remaind me</md-tooltip>
+</md-button>
+
+    <md-button class="md-icon-button">
+  <img src="images/outline-person_add-24px.svg" />
+  <md-tooltip>Collaborator</md-tooltip>
+</md-button>
+
+<md-menu class="menu" >
+ <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+<img src="images/outline-color_lens-24px.svg" />
+<md-tooltip>Change color</md-tooltip>
+ </md-button>
+ <md-menu-content width:3px ng-mouseleave="$mdMenu.close()">
+   <md-menu-item ng-repeat="y in customerData" width:30px; flex="space-around"  >
+   <div ng-click="changeColor(value)" ng-repeat="item in y" ng-style="{'background-color':item.value};" flex="space-around" style="height :36px;width :8px;border-radius: 25px;cursor:pointer;">
+   </div>
+
+   </md-menu-item>
+   </md-menu-content>
+</md-menu>
+
+<md-button class="md-icon-button" >
+<img src="images/outline-insert_photo-24px.svg" />
+<md-tooltip>Add image</md-tooltip>
+</md-button>
+
+<md-button class="md-icon-button"  ng-click="isArchive(x)"  >
+<img src="images/baseline-unarchive-24px.svg" />
+<md-tooltip>Unarchive</md-tooltip>
+</md-button>
+
+
+<md-menu class="menu" style="display: inline-block">
+<md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="Open some menu">
+<img src="images/outline-more_vert-24px.svg" />
+<md-tooltip>More</md-tooltip>
+</md-button>
+<md-menu-content>
+   <md-menu-item>
+   <md-button ng-click="isTrash(x)">Delete note</md-button>
+   </md-menu-item>
+
+   </md-menu-content>
+
+</md-menu>
+  </div>
+
+</md-card>
+</div>
+
+</div>

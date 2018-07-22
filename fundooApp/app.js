@@ -47,19 +47,19 @@ params: {
   templateUrl:'templates/logout.html',
   controller:'homeCtrl'
 })
-.state('Trash',
+.state('home.trash',
 {
-  url:'/trashnote',
-  templateUrl:'templates/trashnote.html',
+  url:'/trash',
+  templateUrl:'templates/trash.html',
   controller:'homeCtrl'
 })
-.state('Note',
+.state('hoem.note',
 {
   url:'/note',
   templateUrl:'templates/note.html',
   controller:'homeCtrl'
 })
-.state('Reminder',
+.state('home.reminder',
 {
   url:'/reminder',
   templateUrl:'templates/reminder.html',

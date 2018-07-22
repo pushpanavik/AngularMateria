@@ -24,19 +24,61 @@ app.controller('homeCtrl',function($mdSidenav,$state,$scope,$window){
   $state.go('Login');
   }
 
+  $scope.changeColor = function()
+   {
+       $scope.colorValue={};
+       $scope.currentcolor = $state.currentColor;
+       // console.log("name",$scope.currentcolor.name);
+       // console.log("url",$scope.currentcolor.url);
+       console.log("current color is",$scope.currentColor);
+
+       switch ($scope.currentcolor) {
+           case 'home.dashboard':  $scope.title = "Google keep";
+               $scope.definedColor = {
+                   'background-color': '#fb0',
+                   'color': 'black'
+               };
+               break;
+           case 'home.reminder':  $scope.title = "Reminders";
+               $scope.definedColor = {
+                   'background-color': '#607d8b',
+                   'color': '#ffffff'
+               };
+               break;
+           case 'home.archive':    $scope.title = "Archive";
+               $scope.definedColor = {
+                   'background-color': '#607d8b',
+                   'color': '#ffffff'
+               };
+               break;
+           case 'home.trash'  :    $scope.title = "Trash";
+               $scope.definedColor = {
+                   'background-color': '#636363',
+                   'color': '#ffffff'
+               };
+               break;
+
+       }
+       $scope.colorValue=$scope.definedColor;
+       console.log("colorValue",angular.toJson($scope.colorValue));
+   };
+
+
+   $scope.changeColor();
+
 $scope.gotoTrashPage=function(){
-  $state.go("Trash");
+  $state.go("home.trash");
 }
 
 $scope.goToNote=function(){
-  $state.go("Note");
+  $state.go("home.note");
 }
 
 $scope.goToArchive=function(){
-  $state.go("Archive");
+  $state.go("home.archive");
 }
 $scope.goToReminder=function(){
-  $state.go("Reminder");
+  $state.go("home.reminder");
 }
 $scope.mdIconProvider=function(){
   $mdIconProvider

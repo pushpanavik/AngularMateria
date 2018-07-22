@@ -4,21 +4,7 @@
     <md-card style="width:600px;" ng-show="!showWhenClicked">
       <div layout="row">
         <input type="text" placeholder="Take a note" style="width:400px;" ng-click="showWhenClicked=true" />
-        <md-button class="md-icon-button">
-          <!-- <md-icon><img src="images/baseline-list-24px.svg" /></md-icon>
-          <md-tooltip>New list</md-tooltip>
-        </md-button>
-
-        <md-button class="md-icon-button">
-          <md-icon><i class="material-icons">photo</i></md-icon>
-          <md-tooltip>New note with image</md-tooltip>
-        </md-button>
-
-        <md-button class="md-icon-button">
-          <md-icon><i class="material-icons">edit</i</md-icon>
-    <md-tooltip>edit</md-tooltip>
-    </md-button> -->
-</div>
+      </div>
   </md-card>
 </div>
 
@@ -32,17 +18,16 @@
     <div layout="row">
       <input type="text" placeholder="Take a note..." ng-model="description" style="width:400px;"/>
     </div>
-    <icon> </icon>
-
     <div layout="row">
       <md-button ng-click="showWhenClicked=false;noteModel()" style="color:black; border-radius:05px;margin:-38px 496px 0px 490px;">CLOSE</md-button>
     </div>
+      <icon> </icon>
   </md-card>
 </div>
 
 <div  style="height:200%;margin-left: 302px;">
   <div layout="row"  layout-xs="column" layout-align="center center">
-    <md-card  ng-repeat="note in notes" flex="30" layout-xs="column" padding:"20px;">
+    <md-card ng-repeat="note in notes | filter:{trash:false,archive:false} " ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" flex="30" layout-xs="column" padding:"20px;">
     <md-card-content><div>{{note.title}}</div>
     <div >{{note.description}}</div>
     <div layout="row" ng-show="hoverEdit" style= "background-color:white;color:#32CD32;"></div>
@@ -54,74 +39,3 @@
 
 
 </div>
-
-
-
-<!-- <div layout="row" layout-align="center center" id="sidenavId" flex="70">
-
-
-<div layout="row" layout align="center center">
-  <md-card ng-show="showWhenClicked"  class="das">
-    <div  layout="row" layout="center center">
-        <input type="text" placeholder="Title"  ng-model="title" style="width:380px;"/>
-      <md-icon><img src="images/pin.svg" style="margin: 2px 81px 0px 80px;"></md-icon></div>
-      <md-tooltip>pin</md-tooltip>
-
-    <div layout="row" layout="center center">
-      <input type="text" placeholder="Take a note..." ng-model="description" style="width:400px;"/>
-    </div>
-
-      <md-button class="md-icon-button" >
-       <md-icon><img src= "images/reminders.svg"/></md-icon><md-tooltip>remind me</md-tooltip>
-     </md-button>
-
-    <md-button class="md-icon-button" >
-    <md-icon><img src= "images/baseline-person_add-24px.svg"/></md-icon><md-tooltip>Collabarator</md-tooltip>
-    </md-button>
-
-    <md-menu>
-    <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-model="color" ng-mouseenter="$mdMenu.open()" >
-      <md-icon>  <img src="images/baseline-color_lens-24px.svg"/></md-icon><md-tooltip>Change color</md-tooltip>
-    </md-button>
-    <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
-      <md-menu-item  style="height:77px;width: 30px;border-radius:50px;"><div ng-repeat="customer in customerData">
-            <div ng-style="{background:colors[$index]};" class="colornote" ng-click="updateNote(customer.color)">&nbsp;{{customer.color}}</div>
-        </div>
-        </md-button>
-      </md-menu-item>
-    </md-menu-content>
-    </md-menu>
-
-     <md-icon><i class="material-icons" ng-show="open">photo</i></md-icon>
-          <md-tooltip>Add image</md-tooltip>
-        </md-button>
-
-        <md-button class="md-icon-button">
-          <md-icon> <img src="images/archive.svg" /></md-icon>
-          <md-tooltip>Archive</md-tooltip>
-        </md-button>
-
-        <md-menu layout="row">
-          <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
-            <md-icon> <img src="images/baseline-more_vert-24px.svg" /></md-icon>
-            <md-tooltip>more</md-tooltip>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item style="width:20px;height:100px;">
-              <!-- <div ng-repeat="customer in customerData" >
-              <div ng-style="{background:colors[$index]}" width="100px;"; ng-click="" >&nbsp; {{customer.color}}></div>
-          </div> -->
-              <!-- </md-button>
-        </md-menu-item>
-      </md-menu-content>
-      </md-menu>
-      <div>
-      <md-button ng-click="showWhenClicked=false; noteModel()"  style="color:black; border-radius:05px;margin:-18px 553px 0px 306px;">CLOSE</md-button>
-    </div>
-
-  </md-card>
-</div>
-
-
-
-</div>  -->
