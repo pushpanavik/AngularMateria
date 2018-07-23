@@ -78,9 +78,13 @@ span[contentEditable="true"] {
   margin: 10px 20px 10px 20px;
   border-radius:50px;
 }
-.intial-text after-click{
+.intial-text{
   width: :100px;
 }
 .content{
   margin-top:40px;
+}
+div[contenteditable]:empty::before {
+	content: attr(data-placeholder);
+	color: #888a85;
 }

@@ -1,30 +1,25 @@
-<div data-ng-init="getAllNotes()"  style="background-color: #e8e8e8;height: 200%;"  >
-
-    <div style="margin-top: 35px;" flex-offset="15">
-        <md-content  style="max-width: 800px;background-color: #e8e8e8;padding-top: 50px;margin-left: 180px;" layout="row" ng-cloak layout-xs="column" layout-wrap layout-align-gt-md="start center" layout-align-md="space-around center" layout-align-sm="space-around center" >
-            <md-card ng-mouseover="activateEdit(note)"  ng-mouseleave="deactivateEdit(note)" style="width: 250px;background-color:{{note.color}}"  ng-repeat="note in notes | filter:{trashed:true} as noteArray">
-                <md-card-title>
-                    <md-card-title-text>
-                        <div class="md-headline">{{note.title}} </div>
-                    </md-card-title-text>
-
-                </md-card-title>
-                <md-card-content class="center">
-                    <p>{{note.description}}</p>
-                </md-card-content>
-                <div  layout="row" style="height: 50px;" layout-align="start">
-                    <trashicon></trashicon>
-                </div>
-            </md-card>
-    </div>
-
-    <div layout="column"  ng-if="noteArray==0" layout-align="center center" layout-xs="colum">
-        <div layout="column" layout-align="top center">
-            <span class="trash-text">Notes in Trash are deleted after 7 days.</span>
+<div  layout="row" layout-xs='column' layout-align="center-center" layout-wrap style="padding-top:65px;">
+  <div  ng-repeat="note in notes | filter :{ isTrash: true,isPin:false,isArchive:false }">
+    <md-card style="width:250px;" ng-style="{'background-color': notes.color}">
+      <div layout="row" layout-align="space-between center">
+        <div>
+          <p> {{notes.title}} </p>
         </div>
-        <div layout="column" class="dashboard">
-            <img src="asset/trashLogo.svg" class="mid-logo" alt="dataNotFound">
-        </div>
-        <span class="mid-logo-text"><strong>Notes you add appear here</strong></span>
-    </div>
+      </div>
+      <div><strong> {{note.description}} </strong></div>
+      <md-menu>
+        <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open()">
+          <md-icon><img src="images/baseline-more_vert-24px.svg" /></md-icon>
+        </md-button>
+        <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+          <md-menu-item ng-repeat="item in trashList">
+            <md-button ng-click="trashNote($index,note)">
+              {{item.option}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+  </div>
+
+</md-card>
 </div>

@@ -26,11 +26,13 @@ serviceobj.getService=function(url){
  }
 
 
- serviceobj.putService=function(url,updatenote){
-   return $http({
+ serviceobj.putService=function(url,note){
+
+   console.log("after method call",note);
+	 return $http({
     method : "PUT",
     url : url,
-    data:updatenote,
+    data:note,
     headers:{
       'token':localStorage.getItem('token')
     }

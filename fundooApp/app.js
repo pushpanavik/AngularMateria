@@ -1,4 +1,4 @@
-var app=angular.module('fundooApp',['ui.router','ngMaterial']);
+var app=angular.module('fundooApp',['ui.router','ngMaterial','content-editable']);
 app.config(function($stateProvider,$urlRouterProvider)
 {
   $stateProvider

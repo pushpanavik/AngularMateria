@@ -1,4 +1,4 @@
-<div id="sidenavId" data-ng-init="getAllNote()">
+<div id="sidenavId" >
 
   <div style="margin-left : 400px;margin-top:20px;">
     <md-card style="width:600px;" ng-show="!showWhenClicked">
@@ -10,27 +10,28 @@
 
 <div layout="row">
   <md-card ng-show="showWhenClicked" style="width:600px; margin: 0px 0px 0px 454px;">
-    <div  layout="row">
-      <input type="text" placeholder="Title"  ng-model="title" style="width:380px;"/>
-      <md-icon><img src="images/pin.svg" style="margin: 2px 81px 0px 80px;"></md-icon>
+      <div layout="row">
+      <div contenteditable class="intial-text" data-placeholder="Title" ng-model="title"></div><br>
+      <!-- <p>{{text}}</p> -->
+      <img src="images/pin.svg" style="padding-left: 530px; ">
       <md-tooltip>pin</md-tooltip>
     </div>
-    <div layout="row">
+      <div layout="row">
       <input type="text" placeholder="Take a note..." ng-model="description" style="width:400px;"/>
     </div>
+<icon> </icon>
     <div layout="row">
       <md-button ng-click="showWhenClicked=false;noteModel()" style="color:black; border-radius:05px;margin:-38px 496px 0px 490px;">CLOSE</md-button>
-    </div>
-      <icon> </icon>
   </md-card>
+</div>
 </div>
 
 <div  style="height:200%;margin-left: 302px;">
-  <div layout="row"  layout-xs="column" layout-align="center center">
-    <md-card ng-repeat="note in notes | filter:{trash:false,archive:false} " ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" flex="30" layout-xs="column" padding:"20px;">
+  <div layout="row"  layout-xs="column" layout-align="center center" data-ng-init="getAllNote()">
+    <md-card style="background-color:{{note.color}}" ng-repeat="note in notes | filter:{trash:false,archive:false,pin:false} " flex="30" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" flex="30" layout-xs="column" padding:"20px;">
     <md-card-content><div>{{note.title}}</div>
     <div >{{note.description}}</div>
-    <div layout="row" ng-show="hoverEdit" style= "background-color:white;color:#32CD32;"></div>
+    <div layout="row" ng-show="hoverEdit"></div>
     </md-card-content>
     <icon></icon>
   </md-card>

@@ -1,4 +1,4 @@
-app.controller('homeCtrl',function($mdSidenav,$state,$scope,$window){
+app.controller('homeCtrl',function($mdSidenav,$state,$scope,$window,$rootScope){
 
   if (localStorage.getItem('token')===null) {
     $state.go('Login');
@@ -19,51 +19,48 @@ app.controller('homeCtrl',function($mdSidenav,$state,$scope,$window){
     }
   }
 
-  $scope.logout = function() {
-    $window.localStorage.clear();
-  $state.go('Login');
-  }
-
-  $scope.changeColor = function()
-   {
-       $scope.colorValue={};
-       $scope.currentcolor = $state.currentColor;
-       // console.log("name",$scope.currentcolor.name);
-       // console.log("url",$scope.currentcolor.url);
-       console.log("current color is",$scope.currentColor);
-
-       switch ($scope.currentcolor) {
-           case 'home.dashboard':  $scope.title = "Google keep";
-               $scope.definedColor = {
-                   'background-color': '#fb0',
-                   'color': 'black'
-               };
-               break;
-           case 'home.reminder':  $scope.title = "Reminders";
-               $scope.definedColor = {
-                   'background-color': '#607d8b',
-                   'color': '#ffffff'
-               };
-               break;
-           case 'home.archive':    $scope.title = "Archive";
-               $scope.definedColor = {
-                   'background-color': '#607d8b',
-                   'color': '#ffffff'
-               };
-               break;
-           case 'home.trash'  :    $scope.title = "Trash";
-               $scope.definedColor = {
-                   'background-color': '#636363',
-                   'color': '#ffffff'
-               };
-               break;
-
+  $scope.logoutCard = false;
+     $scope.logOut = function() {
+       if ($scope.logoutCard === false) {
+         $scope.logoutCard = true;
+         $window.localStorage.clear();
+       } else {
+         $scope.logoutCard = false;
        }
-       $scope.colorValue=$scope.definedColor;
-       console.log("colorValue",angular.toJson($scope.colorValue));
+     }
+
+
+
+ $scope.changeColor = function() {
+     if ($state.is('home.dashboard')) {
+       $scope.title = "Google keep";
+           $scope.definedColor = {
+               'background-color': '#fb0',
+               'color': 'black'
+     }
+   }
+      else if ($state.is('home.archive')) {
+       $scope.title = "Archive";
+           $scope.definedColor = {
+               'background-color': '#607d8b',
+               'color': '#ffffff'
+           };
+         }
+      else if ($state.is('home.trash')) {
+        $scope.title="Trash";
+        $scope.definedColor = {
+            'background-color': '#636363',
+            'color': '#ffffff'
+        };
+     }
+     else if($state.is('home.reminder')){
+          $scope.title = "Reminder";
+              $scope.definedColor = {
+                  'background-color': '#607d8b',
+                  'color': '#ffffff'
+              };
+            }
    };
-
-
    $scope.changeColor();
 
 $scope.gotoTrashPage=function(){

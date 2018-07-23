@@ -40,7 +40,7 @@
     </md-button>
     <md-menu-content class="md-menu" ng-mouseleave="$mdMenu.close()">
       <md-menu-item>
-        <md-button ng-click="deleteNote(note)">Delete note
+        <md-button ng-click="isTrash(note)">Delete note
           <!-- <span md-menu-align-target>{{x}}</span> -->
         </md-button>
       </md-menu-item>
@@ -48,7 +48,7 @@
   </md-menu>
 </div>
 
-<!-- 
+<!--
 <md-button class="md-icon-button" ng-click="isArchive(note)" >
                 <md-icon><i class="material-icons noteicon1">unarchive</i></md-icon>
                 <md-tooltip>Unarchive</md-tooltip>

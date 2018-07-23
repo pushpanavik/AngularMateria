@@ -32,8 +32,8 @@ app
       console.log("r1");
       var url = baseUrl + "user/displayNote";
       noteservice.getService(url)
-        .then(function successCallback(response) {
-          console.log(response);
+        .then(function successCallback(response)
+        {
           $scope.notes = response.data;
           console.log("noteinfo", $scope.notes);
           console.log("note successfully added");
@@ -44,32 +44,18 @@ app
         });
     };
 
+$scope.text="Title";
     $scope.updateNote = function(note, t1) {
-      var updatenote = {
 
-        title: note.title,
-        description: note.description,
-        color: t1,
-        isArchive: false,
-        isPin: false,
-        isTrash: false,
-        createdBy: note.createdBy,
-        createdAt: note.createdAt,
-        updatedAt: note.updatedAt,
-        lastupdatedAt: note.lastupdatedAt,
-        image: note.image
-      };
-
-      console.log("color set is", updatenote);
-      localStorage.getItem("token")
+      console.log("before note Info",note);
+      note.color=t1;
+      console.log("note inside update method",note.id);
       var url = baseUrl + "user/updateNote";
 
-      noteservice.putService(url, updatenote)
+      noteservice.putService(url, note)
         .then(function successCallback(response) {
-          console.log(response);
-          $scope.putNoteData = response.data;
-          console.log($scope.putNoteData);
-          console.log("note successfully updated");
+          console.log("note successfully updated",response);
+          $scope.getAllNote();
         }, function errorCallback(response) {
           console.log("cannot update note", response);
         });
@@ -131,17 +117,21 @@ app
       }]
     ];
 
-    $scope.isTrash = function(notes) {
-      if (user.isTrash === false) {
-        user.isTrash = true
+    $scope.isTrash = function(note)
+     {
+      var url=baseUrl + "user/updateNote";
+      console.log("before method call",note);
+      if (note.trash === false) {
+        console.log("r3");
+        note.trash = true;
       } else {
-        user.isTrash = false;
+        note.trash = false;
+        console.log("r4");
       }
-      noteservice.postService(url, note)
+      noteservice.putService(url, note)
         .then(function successCallback(response) {
           $scope.getAllNote();
-          console.log("Note deleted");
-          console.log("note successfully updated");
+          console.log("note successfully updated",response);
         }, function errorCallback(response) {
           console.log("cannot delete note", response);
         });
@@ -168,6 +158,7 @@ var url=baseUrl+ "user/updateNote";
         });
     }
 
+// $scope.title = '';
     $scope.hoverIn = function(ev) {
     	    this.hoverEdit = true;
     	  };
@@ -217,5 +208,92 @@ var url=baseUrl+ "user/updateNote";
             item.editable = false;
         };
 
+
+        $scope.archiveNote = function(notes) {
+           if (notes === undefined) {
+             $scope.isArchive = true;
+           } else if (notes.isArchive=== false) {
+             console.log("In archived false");
+             notes.isArchive = true;
+
+             var url = baseurl + 'updateNote/' ;
+            noteservice.postService(note, url).then(function successCallback(response) {
+               console.log(response);
+               getAllNote();
+             }, function errorCallback(response) {
+               console.log("erorr.................");
+               console.log("error" + response.data);
+             })
+           } else {
+             notes.isArchive = false;
+             var url = baseurl + 'updateNote/';
+            noteservice.postService(note, url)
+             .then(function successCallback(response) {
+               console.log(response);
+                 $scope.getAllNote();
+
+             }, function errorCallback(response) {
+               console.log("error" + response.data);
+             })
+           }
+         }
 $scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to Google Docs'];
+
+$scope.trashList = [{
+     option: 'Delete forever'
+   },
+   {
+     option: 'Restore'
+   }
+ ];
+ var deleteNoteforever = function(noteId) {
+     console.log("In delte forever");
+     var url = baseurl + 'deleteNote/'+note.id;
+
+     noteservice.delete(url).then(function successCallback(response) {
+       console.log(response);
+     }, function errorCallback(response) {
+       console.log("erorr.................");
+       console.log("error" + response);
+     })
+   }
+
+   var restoreNote = function(notes, data) {
+     console.log(notes + "in restore");
+     notes.isTrashed = false;
+     var url = baseurl + 'updateNote/' + note.noteId;
+     noteservice.postService(notes, url).then(function successCallback(response) {
+       console.log(response);
+       getNote();
+     }, function errorCallback(response) {
+       console.log("erorr.................");
+       console.log("error" + response.data);
+     })
+   }
+
+  $scope.menu = [{
+      option: 'Delete note'
+    },
+    {
+      option: 'Add Label'
+    }
+  ];
+  $scope.ctrlNote = function(index, note) {
+      console.log("in ctrl note");
+      if (index == 0) {
+        console.log("index");
+        trashNote(note)
+      }
+    }
+
+    $scope.trashNote = function(index, note) {
+      console.log("in ctrl trash");
+      if (index == 0) {
+        console.log("index");
+        deleteNoteforever(note.id)
+      }
+      if (index == 1) {
+        restoreNote(note, false)
+      }
+    }
   });
