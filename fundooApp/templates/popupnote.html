@@ -1,0 +1,18 @@
+<md-dialog style="height:200px; width:400px;">
+
+<div ng-init="getAllNotes()">
+     <div layout="row" layout-wrap>
+
+   <md-card style="width:350px;background-color:{{mydata.color}}; " ng-repeat="mydata in notes " ng-click="showAdvanced($event,x)">
+
+    <div>
+    <p>  {{mydata.title}} </p>
+      <p> {{mydata.description}} </p>
+       <div>
+        <icon></icon>
+       </div>
+
+</md-card>
+</div>
+</div>
+</md-dialog>

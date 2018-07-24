@@ -1,25 +1,23 @@
-<div  layout="row" layout-xs='column' layout-align="center-center" layout-wrap style="padding-top:65px;">
-  <div  ng-repeat="note in notes | filter :{ isTrash: true,isPin:false,isArchive:false }">
-    <md-card style="width:250px;" ng-style="{'background-color': notes.color}">
-      <div layout="row" layout-align="space-between center">
-        <div>
-          <p> {{notes.title}} </p>
-        </div>
+<div id="sidenavId" data-ng-init="getAllNote()" height:"200%" >
+  <div layout="row" layout-wrap layout-fill style="padding-left:310px; margin-top: 100px;">
+    <md-card flex="30"  ng-repeat="note in notes " ng-style="{'background-color': note.color}" style="height:100px;">
+      <div layout="row">
+        <strong>{{note.title}}</strong>
       </div>
-      <div><strong> {{note.description}} </strong></div>
+      <div>{{note.description}}</div>
       <md-menu>
-        <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-click="$mdMenu.open()">
+        <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
           <md-icon><img src="images/baseline-more_vert-24px.svg" /></md-icon>
         </md-button>
-        <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
-          <md-menu-item ng-repeat="item in trashList">
+        <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
+          <md-menu-item ng-repeat="item in ['Delete forever','Restore']">
             <md-button ng-click="trashNote($index,note)">
-              {{item.option}}
+              {{item}}
             </md-button>
           </md-menu-item>
         </md-menu-content>
       </md-menu>
   </div>
 
-</md-card>
+  </md-card>
 </div>

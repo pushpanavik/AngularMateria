@@ -1,8 +1,30 @@
 app
-  .controller('noteCtrl', function(noteservice, $scope, $state, $location, $window) {
+  .controller('noteCtrl', function(noteservice, $scope, $state, $location, $window,$mdDialog) {
     var baseUrl = "http://localhost:9090/fundoo/";
 
+    $scope.showAdvanced = function(ev,note) {
+      console.log('note info inside showAdvanced',note);
+      console.log('in show advanced function');
+        $mdDialog.show({
+
+          controller: DialogController,
+          templateUrl: 'templates/popupnote.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose:true,
+          fullscreen : $scope.customFullscreen,
+          locals:{
+              mydata : note
+        }
+  })
+    };
+
+    function DialogController($scope,mydata){
+      $scope.mydata=mydata;
+      console.log('in dialog controller');
+    }
     $scope.noteModel = function() {
+    
       var note = {
         title: $scope.title,
         description: $scope.description,
@@ -45,6 +67,7 @@ app
     };
 
 $scope.text="Title";
+
     $scope.updateNote = function(note, t1) {
 
       console.log("before note Info",note);
@@ -60,31 +83,6 @@ $scope.text="Title";
           console.log("cannot update note", response);
         });
     };
-
-    //$('#txt').text('Take a note');
-
-
-    $scope.deleteNote = function(note, option) {
-      switch (option) {
-        case 'Delete forever':
-          var url = baseUrl + "user/deleteNote/" + notes.id;
-
-          noteservice.getDeleteService(notes, url)
-            .then(function successCallback(response) {
-              $scope.getAllNote();
-              console.log(response);
-              console.log("Note deleted");
-              console.log("note successfully updated");
-            }, function errorCallback(response) {
-              console.log("cannot delete note", response);
-            })
-          break;
-        case 'Restore':
-          $scope.isTrash(note);
-          break;
-      }
-    }
-
 
     $scope.customerData = [
       [{
@@ -124,13 +122,15 @@ $scope.text="Title";
       if (note.trash === false) {
         console.log("r3");
         note.trash = true;
+
       } else {
         note.trash = false;
+
         console.log("r4");
       }
       noteservice.putService(url, note)
         .then(function successCallback(response) {
-          $scope.getAllNote();
+        $scope.getAllNote();
           console.log("note successfully updated",response);
         }, function errorCallback(response) {
           console.log("cannot delete note", response);
@@ -158,7 +158,7 @@ var url=baseUrl+ "user/updateNote";
         });
     }
 
-// $scope.title = '';
+
     $scope.hoverIn = function(ev) {
     	    this.hoverEdit = true;
     	  };
@@ -239,35 +239,32 @@ var url=baseUrl+ "user/updateNote";
          }
 $scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to Google Docs'];
 
-$scope.trashList = [{
-     option: 'Delete forever'
-   },
-   {
-     option: 'Restore'
-   }
- ];
- var deleteNoteforever = function(noteId) {
-     console.log("In delte forever");
-     var url = baseurl + 'deleteNote/'+note.id;
+ var deleteNoteforever = function(note) {
 
-     noteservice.delete(url).then(function successCallback(response) {
+     console.log("In delte forever",note);
+     var url = baseUrl + 'user/deleteNote/' + note;
+
+     noteservice.getDeleteService(note,url)
+     .then(function successCallback(response) {
        console.log(response);
+       $scope.getAllNote();
      }, function errorCallback(response) {
        console.log("erorr.................");
        console.log("error" + response);
      })
    }
 
-   var restoreNote = function(notes, data) {
-     console.log(notes + "in restore");
-     notes.isTrashed = false;
-     var url = baseurl + 'updateNote/' + note.noteId;
-     noteservice.postService(notes, url).then(function successCallback(response) {
+   var restoreNote = function(note, data) {
+     console.log(note + "in restore");
+     notes.isTrash = false;
+     var url = baseurl + 'updateNote/' + note;
+     noteservice.postService(note, url).then(function successCallback(response) {
+
        console.log(response);
-       getNote();
+       $scope.getAllNote();
      }, function errorCallback(response) {
        console.log("erorr.................");
-       console.log("error" + response.data);
+       console.log("error" + response.msg);
      })
    }
 
@@ -289,8 +286,8 @@ $scope.trashList = [{
     $scope.trashNote = function(index, note) {
       console.log("in ctrl trash");
       if (index == 0) {
-        console.log("index");
-        deleteNoteforever(note.id)
+
+        deleteNoteforever(note.id);
       }
       if (index == 1) {
         restoreNote(note, false)

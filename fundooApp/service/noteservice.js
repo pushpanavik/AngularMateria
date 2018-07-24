@@ -52,10 +52,3 @@ console.log("note info", note);
 }
 return serviceobj;
 });
-
-
-// $scope.isTrashNote = function(note, key) {
-//     console.log(note);
-//     console.log(key);
-//     var isTrash = noteService.isTrashNote(note, key);
-//

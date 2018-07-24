@@ -51,20 +51,28 @@ params: {
 {
   url:'/trash',
   templateUrl:'templates/trash.html',
-  controller:'homeCtrl'
+  controller:'noteCtrl'
 })
-.state('hoem.note',
+.state('home.archive',
+{
+  url:'/Archive',
+  templateUrl:'templates/archive.html',
+  controller:'noteCtrl'
+})
+.state('home.note',
 {
   url:'/note',
   templateUrl:'templates/note.html',
-  controller:'homeCtrl'
+  controller:'noteCtrl'
 })
 .state('home.reminder',
 {
   url:'/reminder',
   templateUrl:'templates/reminder.html',
-  controller:'homeCtrl'
+  controller:'noteCtrl'
 })
+
+// $locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise("/Register")
 });

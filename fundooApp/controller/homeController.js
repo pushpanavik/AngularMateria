@@ -33,28 +33,28 @@ app.controller('homeCtrl',function($mdSidenav,$state,$scope,$window,$rootScope){
 
  $scope.changeColor = function() {
      if ($state.is('home.dashboard')) {
-       $scope.title = "Google keep";
+       $scope.htitle = "Google keep";
            $scope.definedColor = {
                'background-color': '#fb0',
                'color': 'black'
      }
    }
       else if ($state.is('home.archive')) {
-       $scope.title = "Archive";
+       $scope.htitle = "Archive";
            $scope.definedColor = {
                'background-color': '#607d8b',
                'color': '#ffffff'
            };
          }
-      else if ($state.is('home.trash')) {
-        $scope.title="Trash";
+      else if ($state.is("home.trash")) {
+        $scope.htitle="Trash";
         $scope.definedColor = {
             'background-color': '#636363',
             'color': '#ffffff'
         };
      }
      else if($state.is('home.reminder')){
-          $scope.title = "Reminder";
+          $scope.htitle = "Reminder";
               $scope.definedColor = {
                   'background-color': '#607d8b',
                   'color': '#ffffff'
@@ -77,6 +77,8 @@ $scope.goToArchive=function(){
 $scope.goToReminder=function(){
   $state.go("home.reminder");
 }
+
+
 $scope.mdIconProvider=function(){
   $mdIconProvider
      .iconSet('call', 'img/icons/sets/communication-icons.svg', 24);
