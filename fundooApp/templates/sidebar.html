@@ -1,56 +1,62 @@
-<!-- creating a sidebar with multiple checkbox using section -->
-<div  layout="row" flex="20">
-  <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4"
-  style="margin-top:4.0em; z-index:1;" style="position:fixed;">
-               <md-button ng-click="toggleLeft()" class="md-accent"></md-button>
+<div layout="row" flex="20">
+  <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4" style="margin-top:4.0em; z-index:1;" style="position:fixed;">
+    <md-button ng-click="toggleLeft()" class="md-accent"></md-button>
 
-               <md-list-item style="margin-top: -36px;" ng-click="goToNote()">
-                <md-icon><img src="images/notes.svg"/></md-icon>
-                <p id="sidebar">Notes</p>
-               </md-list-item>
+    <md-list-item style="margin-top: -36px;" ng-click="goToNote()">
+      <md-icon><img src="images/notes.svg" /></md-icon>
+      <p id="sidebar">Notes</p>
+    </md-list-item>
 
-               <md-list-item ng-click="goToReminder()" >
-                <md-icon><img src= "images/reminders.svg"/></md-icon><p id="sidebar">Reminders</p>
-              </md-list-item>
+    <md-list-item ng-click="goToReminder()">
+      <md-icon><img src="images/reminders.svg" /></md-icon>
+      <p id="sidebar">Reminders</p>
+    </md-list-item>
 
-               <md-list-item>
-               <md-icon><img src= "images/labe.svg"/></md-icon><p id="sidebar">Label</p>
-                </md-list-item>
+    <md-list-item>
+      <md-icon><img src="images/labe.svg" /></md-icon>
+      <p id="sidebar">Label</p>
+    </md-list-item>
 
-               <md-list-item>
-              <md-icon>  <img src="images/ceateLabel.svg"/></md-icon><p id="sidebar">Create new label</p>
-               </md-list-item>
+    <md-list-item>
+      <md-icon> <img src="images/ceateLabel.svg" /></md-icon>
+      <p id="sidebar">Create new label</p>
+    </md-list-item>
 
-               <md-list-item ng-click="goToArchive()">
-              <md-icon> <img src="images/archive.svg"/></md-icon><p id="sidebar">Archive</p>
-               </md-list-item>
+    <md-list-item ng-click="goToArchive()">
+      <md-icon> <img src="images/archive.svg" /></md-icon>
+      <p id="sidebar">Archive</p>
+    </md-list-item>
 
-               <md-list-item ng-click="gotoTrashPage()">
-                <md-icon><img src="images/trash.svg"/></md-icon><p id="sidebar">Trash</p>
-                </md-list-item>
+    <md-list-item ng-click="gotoTrashPage()">
+      <md-icon><img src="images/trash.svg" /></md-icon>
+      <p id="sidebar">Trash</p>
+    </md-list-item>
 
-               <md-list-item>
-              <md-icon> <img src="images/setting.svg"/></md-icon><p id="sidebar">Setting</p>
-               </md-list-item>
+    <md-list-item>
+      <md-icon> <img src="images/setting.svg" /></md-icon>
+      <p id="sidebar">Setting</p>
+    </md-list-item>
 
-               <md-list-item>
-              <md-icon>  <img src="images/sendFeed.svg"/></md-icon><p id="sidebar">Send Feedback</p>
-               </md-list-item>
+    <md-list-item>
+      <md-icon> <img src="images/sendFeed.svg" /></md-icon>
+      <p id="sidebar">Send Feedback</p>
+    </md-list-item>
 
-               <md-list-item>
-              <md-icon>  <img src="images/help.svg"/></md-icon><p id="sidebar">Help </p>
-               </md-list-item>
+    <md-list-item>
+      <md-icon> <img src="images/help.svg" /></md-icon>
+      <p id="sidebar">Help </p>
+    </md-list-item>
 
-               <md-list-item>
-               <md-icon><img src="images/app.svg"/></md-icon><p id="sidebar">App downloads</p>
-             </md-list-item>
+    <md-list-item>
+      <md-icon><img src="images/app.svg" /></md-icon>
+      <p id="sidebar">App downloads</p>
+    </md-list-item>
 
-               <md-list-item>
-                <md-icon><img src="images/keyboard.svg"/></md-icon><p id="sidebar">Keyboard shortcuts</p>
-             </md-list-item>
+    <md-list-item>
+      <md-icon><img src="images/keyboard.svg" /></md-icon>
+      <p id="sidebar">Keyboard shortcuts</p>
+    </md-list-item>
 
+  </md-sidenav>
 
-
-   </md-sidenav>
-
-  </div>
+</div>

@@ -1,0 +1,55 @@
+<div id="sidenavId" data-ng-init="getAllNote()" height:"200%" >
+  <div layout="row" layout-wrap layout-fill style="padding-left:310px; margin-top: 100px;">
+    <md-card flex="30"  ng-repeat="note in notes|filter:{trash:true} " ng-style="{'background-color': note.color}" style="height:100px;">
+      <div layout="row">
+        <strong>{{note.title}}</strong>
+      </div>
+      <md-button class="md-icon-button" ng-click="isPin(note)">
+      <md-icon><img src="images/pin.svg">
+      <md-tooltip>pin</md-tooltip>
+      </md-icon>
+    </md-button>
+      <div>{{note.description}}</div>
+      <md-menu>
+        <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+          <md-icon><img src="images/baseline-more_vert-24px.svg" /></md-icon>
+        </md-button>
+        <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
+          <md-menu-item ng-repeat="item in ['Delete forever','Restore']">
+            <md-button ng-click="trashNote($index,note)">
+              {{item}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+  </div>
+
+  </md-card>
+</div>
+
+
+
+
+<div id="sidenavId" data-ng-init="getAllNote()" height:"200%" >
+  <div layout="row" layout-wrap layout-fill style="padding-left:310px; margin-top: 100px;">
+    <md-card flex="30"  ng-repeat="note in notes|filter:{trash:true} " ng-style="{'background-color': note.color}" style="height:100px;">
+      <div layout="row">
+        <strong>{{note.title}}</strong>
+      </div>
+      <div>{{note.description}}</div>
+      <md-menu>
+        <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+          <md-icon><img src="images/baseline-more_vert-24px.svg" /></md-icon>
+        </md-button>
+        <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
+          <md-menu-item ng-repeat="item in ['Delete forever','Restore']">
+            <md-button ng-click="trashNote($index,note)">
+              {{item}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+  </div>
+
+  </md-card>
+</div>

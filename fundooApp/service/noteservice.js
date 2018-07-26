@@ -2,8 +2,8 @@ app.factory('noteservice', function($http,$window) {
 var baseUrl="http://localhost:9090/fundoo/";
 	var serviceobj =[];
 
-serviceobj.postService = function(note,url) {
-  console.log(note);
+serviceobj.postService = function(data,url) {
+  console.log(data);
   return $http({
     method : "POST",
     headers:{
@@ -11,7 +11,7 @@ serviceobj.postService = function(note,url) {
       'token': localStorage.getItem("token")
     },
     url : url,
-    data:angular.toJson(note)
+    data:angular.toJson(data)
   })
 }
 serviceobj.getService=function(url){
@@ -26,26 +26,26 @@ serviceobj.getService=function(url){
  }
 
 
- serviceobj.putService=function(url,note){
+ serviceobj.putService=function(url,data){
 
-   console.log("after method call",note);
+   console.log("after method call",data);
 	 return $http({
     method : "PUT",
     url : url,
-    data:note,
+    data:data,
     headers:{
       'token':localStorage.getItem('token')
     }
  })
 }
 
-serviceobj.getDeleteService=function(note,url){
+serviceobj.getDeleteService=function(data,url){
 	console.log("url is http ",url);
-console.log("note info", note);
+console.log("note info", data);
  return $http({
   method : "DELETE",
   url : url,
-  data: note
+  data: data
 
 })
 

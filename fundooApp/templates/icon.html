@@ -1,51 +1,53 @@
-<div layout="row" layout-align="center center" ng-mouseover="open = true" ng-mouseleave="open = false">
+<div layout="row" ng-mouseover="open = true" ng-mouseleave="open = false" >
   <md-button class="md-icon-button" ng-show="open">
     <md-icon><img src="images/reminders.svg" /></md-icon>
     <md-tooltip>remind me</md-tooltip>
   </md-button>
 
-  <md-button class="md-icon-button" ng-show="open">
+  <md-button class="md-icon-button" ng-show="open" >
     <md-icon><img src="images/baseline-person_add-24px.svg" /></md-icon>
     <md-tooltip>Collabarator</md-tooltip>
   </md-button>
 
-  <md-menu >
-<md-button  class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-mouseenter="$mdMenu.open()" ng-show="open">
-  <md-icon><img src="images/baseline-color_lens-24px.svg"/></md-icon><md-tooltip>Change color</md-tooltip>
-</md-button>
-<md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
-  <md-menu-item ng-repeat="x in customerData">
-    <div class="colorBox" ng-repeat="t1 in x" ng-style="{'background-color':t1.name};" ng-click="updateNote(note,t1.name)"></div>
-    </md-button>
-  </md-menu-item>
-</md-menu-content>
-</md-menu>
+  <md-menu>
+ <md-button  class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-mouseenter="$mdMenu.open()" ng-show="open">
+   <md-icon><img src="images/baseline-color_lens-24px.svg"/></md-icon><md-tooltip>Change color</md-tooltip>
+ </md-button>
+ <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
+   <md-menu-item ng-repeat="x in customerData">
+     <div class="colorBox" ng-repeat="t1 in x" ng-style="{'background-color':t1.name};" ng-click="updateNote(note,t1.name)"></div>
+     </md-button>
+   </md-menu-item>
+ </md-menu-content>
+ </md-menu>
 
+<md-button class="md-icon-button">
   <md-icon><i class="material-icons" ng-show="open">photo</i></md-icon>
   <md-tooltip>Add image</md-tooltip>
-  </md-button>
+</md-button>
 
   <md-button class="md-icon-button" ng-show="open" ng-click="isArchive(note)">
-    <md-icon> <img src="images/archive.svg" /></md-icon>
+    <md-icon> <img src="images/archive.svg" /></p></md-icon>
     <md-tooltip>Archive</md-tooltip>
   </md-button>
-  <md-button class="md-icon-button">
-  </md-button>
 
-  <md-menu md-position-mode="target-right target">
-    <md-button class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-click="$mdMenu.open($event)">
-      <md-icon><i class="material-icons">more_vert</i></md-icon>
-      <md-tooltip>More</md-tooltip>
-    </md-button>
-    <md-menu-content class="md-menu" ng-mouseleave="$mdMenu.close()">
-      <md-menu-item>
-        <md-button ng-click="isTrash(note)">Delete note
-          <!-- <span md-menu-align-target>{{x}}</span> -->
+    <md-menu md-position-mode="target-right target" ng-show="open" >
+      <md-button class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-click="$mdMenu.open($event)" >
+        <md-icon><i class="material-icons">more_vert</i></md-icon>
+        <md-tooltip>More</md-tooltip>
+      </md-button>
+      <md-menu>
+        <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()" >
+          <md-icon><img src="images/baseline-more_vert-24px.svg" /></md-icon>
         </md-button>
-      </md-menu-item>
-    </md-menu-content>
-  </md-menu>
-</div>
+        <md-menu-content width="2" ng-mouseleave="$mdMenu.close()" >
+          <md-menu-item>
+            <md-button ng-click="isTrash(note)">Delete note
+          </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+  </div>
 
 <!--
 <md-button class="md-icon-button" ng-click="isArchive(note)" >

@@ -33,19 +33,13 @@ params: {
  {
    url:'/home',
    templateUrl:'templates/home.html',
-   controller:'homeCtrl'
+   controller:'noteCtrl'
 })
 .state('home.dashboard',
  {
    url:'/dashboard',
    templateUrl:'templates/dashboard.html',
    controller:'noteCtrl'
-})
-.state('home.dashboard.logout',
-{
-  url:'/Logout',
-  templateUrl:'templates/logout.html',
-  controller:'homeCtrl'
 })
 .state('home.trash',
 {

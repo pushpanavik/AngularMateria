@@ -1,86 +1,54 @@
-app.controller('homeCtrl',function($mdSidenav,$state,$scope,$window,$rootScope){
-
-  if (localStorage.getItem('token')===null) {
-    $state.go('Login');
-  }
-
-  $scope.toggleLeft = buildToggler('left');
-
-  function buildToggler(componentId) {
-    return function() {
-      $mdSidenav(componentId).toggle();
-
-      var isOpen=$mdSidenav(componentId).isOpen();
-      if(isOpen){
-      document.getElementById("sidenavId").style.marginLeft="200px";
-    }else {
-      document.getElementById("sidenavId").style.marginLeft="0px";
-    }
-    }
-  }
-
-  $scope.logoutCard = false;
-     $scope.logOut = function() {
-       if ($scope.logoutCard === false) {
-         $scope.logoutCard = true;
-         $window.localStorage.clear();
-       } else {
-         $scope.logoutCard = false;
-       }
-     }
+app.controller('homeCtrl',function($state,$scope,$window){
 
 
 
- $scope.changeColor = function() {
-     if ($state.is('home.dashboard')) {
-       $scope.htitle = "Google keep";
-           $scope.definedColor = {
-               'background-color': '#fb0',
-               'color': 'black'
-     }
-   }
-      else if ($state.is('home.archive')) {
-       $scope.htitle = "Archive";
-           $scope.definedColor = {
-               'background-color': '#607d8b',
-               'color': '#ffffff'
-           };
-         }
-      else if ($state.is("home.trash")) {
-        $scope.htitle="Trash";
-        $scope.definedColor = {
-            'background-color': '#636363',
-            'color': '#ffffff'
-        };
-     }
-     else if($state.is('home.reminder')){
-          $scope.htitle = "Reminder";
-              $scope.definedColor = {
-                  'background-color': '#607d8b',
-                  'color': '#ffffff'
-              };
+
+
+$scope.addLabel=function(labelModel)
+        {
+            var url=baseUrl+"addlabel";
+            if(labelModel.labelName !== "")
+            {
+                labelService.postAPIWithHeader(url,labelModel).then(function successCallback(response)
+                {
+                    console.log("Add Label Successfully in Dialog",response);
+                    $scope.labelModel.labelName="";
+                    getAllLabelsInDialog();
+                    getAllLabels();
+                },function errorCallback(response){
+                    console.log("Add Label failed in Dialog",response.data);
+                })
             }
-   };
-   $scope.changeColor();
-
-$scope.gotoTrashPage=function(){
-  $state.go("home.trash");
-}
-
-$scope.goToNote=function(){
-  $state.go("home.note");
-}
-
-$scope.goToArchive=function(){
-  $state.go("home.archive");
-}
-$scope.goToReminder=function(){
-  $state.go("home.reminder");
-}
+        };
 
 
-$scope.mdIconProvider=function(){
-  $mdIconProvider
-     .iconSet('call', 'img/icons/sets/communication-icons.svg', 24);
-}
-})
+       function getAllLabelsInDialog()
+        {
+            var url=baseUrl+"labels";
+
+            labelService.getAPIWithHeader(url).then(function successCallback(response)
+            {
+                console.log("Get Label Successfully in Dialog",response);
+                $scope.labelInfo=response.data;
+
+                    $scope.labelDisplay=true;
+            },function errorCallback(response){
+                console.log("Get Label failed in Dialog",response.data);
+            });
+        };
+
+        $scope.deleteLabel=function(labelInfo)
+           {
+               var url=baseUrl+"deletelabel/";
+               labelService.deleteAPIWithHeader(url,labelInfo.id).then(function successCallback(response)
+               {
+                   $mdDialog.hide(response.data);
+                   console.log("Delete Label Successfully",response);
+
+               },function errorCallback(response){
+                   console.log("Delete Label failed in Delete Dialog",response.data);
+               })
+           }
+
+
+   })

@@ -1,10 +1,79 @@
 app
-  .controller('noteCtrl', function(noteservice, $scope, $state, $location, $window,$mdDialog) {
+  .controller('noteCtrl', function(noteservice, $scope, $state, $location, $window,$mdDialog,$mdSidenav) {
     var baseUrl = "http://localhost:9090/fundoo/";
 
+    var regex= /(<([^>]+)>)/ig;
+
+    $scope.gotoTrashPage=function(){
+      $state.go("home.trash");
+    }
+
+    $scope.goToNote=function(){
+      $state.go("home.note");
+    }
+
+    $scope.goToArchive=function(){
+      $state.go("home.archive");
+    }
+    $scope.goToReminder=function(){
+      $state.go("home.reminder");
+    }
+
+    if (localStorage.getItem('token')===null) {
+      $state.go('Login');
+    }
+
+      $scope.goToLogin=function(){
+        $window.localStorage.clear();
+       $state.go('Login');
+      }
+
+      $scope.myVar = false;
+          $scope.logOut = function() {
+              $scope.myVar = !$scope.myVar;
+          };
+
+    $scope.mdIconProvider=function(){
+      $mdIconProvider
+         .iconSet('call', 'img/icons/sets/communication-icons.svg', 24);
+    }
+
+
+   $scope.changeColor = function() {
+       if ($state.is('home.dashboard')) {
+         $scope.htitle = "Google keep";
+             $scope.definedColor = {
+                 'background-color': '#fb0',
+                 'color': 'black'
+       }
+     }
+        else if ($state.is('home.archive')) {
+         $scope.htitle = "Archive";
+             $scope.definedColor = {
+                 'background-color': '#607d8b',
+                 'color': '#ffffff'
+             };
+           }
+        else if ($state.is("home.trash")) {
+          $scope.htitle="Trash";
+          $scope.definedColor = {
+              'background-color': '#636363',
+              'color': '#ffffff'
+          };
+       }
+       else if($state.is('home.reminder')){
+            $scope.htitle = "Reminder";
+                $scope.definedColor = {
+                    'background-color': '#607d8b',
+                    'color': '#ffffff'
+                };
+              }
+     };
+     $scope.changeColor();
+
+
     $scope.showAdvanced = function(ev,note) {
-      console.log('note info inside showAdvanced',note);
-      console.log('in show advanced function');
+
         $mdDialog.show({
 
           controller: DialogController,
@@ -15,17 +84,16 @@ app
           fullscreen : $scope.customFullscreen,
           locals:{
               mydata : note
-        }
+            },
   })
     };
 
     function DialogController($scope,mydata){
-      $scope.mydata=mydata;
-      console.log('in dialog controller');
+      $scope.mydata= mydata;
+      console.log('in dialog controller in mydata',mydata);
     }
     $scope.noteModel = function() {
-    
-      var note = {
+        var note = {
         title: $scope.title,
         description: $scope.description,
         color: "white",
@@ -48,23 +116,56 @@ app
       }
     }
 
+    $scope.toggleLeft = buildToggler('left');
+
+    function buildToggler(componentId) {
+      return function() {
+        $mdSidenav(componentId).toggle();
+
+        var isOpen=$mdSidenav(componentId).isOpen();
+        if(isOpen){
+        document.getElementById("sidenavId").style.marginLeft="200px";
+      }else {
+        document.getElementById("sidenavId").style.marginLeft="0px";
+      }
+      }
+    }
+
     $scope.notes = [];
 
     $scope.getAllNote = function() {
-      console.log("r1");
+
       var url = baseUrl + "user/displayNote";
       noteservice.getService(url)
         .then(function successCallback(response)
         {
           $scope.notes = response.data;
           console.log("noteinfo", $scope.notes);
-          console.log("note successfully added");
-
         }, function errorCallback(response) {
           console.log(response, "note cannot be displayed");
 
         });
     };
+    $scope.changeView=false;
+        $scope.toggelView=function()
+        {
+            $scope.changeView = !$scope.changeView;
+            var notes = document.getElementsByClassName("mycard");
+            if($scope.changeView)
+            {
+                for (i = 0; i < notes.length; i++) {
+                    notes[i].style.width = "79%";
+                    notes[i].style.marginLeft="10%";
+                }
+            }
+            else
+            {
+                for (i = 0; i < notes.length; i++) {
+                    notes[i].style.width = "30%";
+                    notes[i].style.marginLeft="0%";
+                }
+            }
+        }
 
 $scope.text="Title";
 
@@ -84,27 +185,40 @@ $scope.text="Title";
         });
     };
 
+$scope.updateNoteTitleDescripn=function(note){
+  var url = baseUrl + "user/updateNote";
+  console.log('inside update method of title and description',note);
+  noteservice.putService(url, note)
+    .then(function successCallback(response) {
+      console.log("note successfully updated",response);
+      $scope.getAllNote();
+    }, function errorCallback(response) {
+      console.log("cannot update note", response);
+    });
+};
+
+
     $scope.customerData = [
       [{
         name: "#FFFFFF"
       }, {
-        name: "#339E42"
+        name: "#ff0000"
       }, {
-        name: "#039BE5"
+        name: "#FFA500"
       }],
       [{
-        name: "#EF6C00"
+        name: "#FFFF00"
       }, {
-        name: "#A1887F"
+        name: "#008000"
       }, {
-        name: "#607D8B"
+        name: "#008080"
       }],
       [{
-        name: "#039BE5"
+        name: "#0000FF"
       }, {
-        name: "#009688"
+        name: "#003366"
       }, {
-        name: "#536DFE"
+        name: "#800080"
       }],
       [{
         name: "#AB47BC"
@@ -120,13 +234,11 @@ $scope.text="Title";
       var url=baseUrl + "user/updateNote";
       console.log("before method call",note);
       if (note.trash === false) {
-        console.log("r3");
         note.trash = true;
-
+        note.pin=false;
+        note.archive-false;
       } else {
         note.trash = false;
-
-        console.log("r4");
       }
       noteservice.putService(url, note)
         .then(function successCallback(response) {
@@ -139,20 +251,20 @@ $scope.text="Title";
 
     $scope.showArchiveNote;
     $scope.isArchive = function(note) {
-var url=baseUrl+ "user/updateNote";
-      if (note.isArchive === false) {
+      console.log('note info inside archive ',note.archive);
+      var url=baseUrl+ "user/updateNote";
+      if (note.archive === false) {
         $scope.showArchiveNote=true;
-        note.isArchive = true;
+        note.archive = true;
+        note.pin=false;
       } else {
         $scope.showArchiveNote=false;
-        note.isArchive = false;
+        note.archive = false;
       }
-
-      noteservice.postService(note,url)
+      noteservice.putService(url, note)
         .then(function successCallback(response) {
           $scope.getAllNote();
-
-          console.log("note successfully updated");
+          console.log("note  is inside archive ");
         }, function errorCallback(response) {
           console.log("cannot update note", response);
         });
@@ -168,14 +280,15 @@ var url=baseUrl+ "user/updateNote";
     	  };
 
 
-    $scope.isPin = function(notes) {
-
+    $scope.isPin = function(note) {
+var url=baseUrl+ "user/updateNote";
+console.log('note info inside ispin',);
       if (note.isPin === false) {
         note.isPin = true;
       } else {
         note.isPin = false;
       }
-      noteservice.postService(url, note)
+        noteservice.putService(url, note)
         .then(function successCallback(response) {
           $scope.getAllNote();
 
@@ -185,21 +298,6 @@ var url=baseUrl+ "user/updateNote";
         });
     }
 
-    $scope.actionFunction = function(option,note) {
-      switch (option) {
-        case 'Delete note':
-          $scope.isTrash(note);
-          break;
-        case 'Add label':
-          break;
-        case 'Make a copy':
-          break;
-        case 'Show checkboxes':
-          break;
-        case 'Copy to Google Docs':
-          break;
-      }
-    }
 
     $scope.activateEdit = function (item) {
             item.editable = true;
@@ -208,15 +306,14 @@ var url=baseUrl+ "user/updateNote";
             item.editable = false;
         };
 
-
         $scope.archiveNote = function(notes) {
            if (notes === undefined) {
              $scope.isArchive = true;
-           } else if (notes.isArchive=== false) {
+           } else if (notes.archive=== false) {
              console.log("In archived false");
-             notes.isArchive = true;
+             notes.archive = true;
 
-             var url = baseurl + 'updateNote/' ;
+             var url = baseurl + 'user/updateNote' ;
             noteservice.postService(note, url).then(function successCallback(response) {
                console.log(response);
                getAllNote();
@@ -225,7 +322,7 @@ var url=baseUrl+ "user/updateNote";
                console.log("error" + response.data);
              })
            } else {
-             notes.isArchive = false;
+             notes.archive = false;
              var url = baseurl + 'updateNote/';
             noteservice.postService(note, url)
              .then(function successCallback(response) {
@@ -239,6 +336,13 @@ var url=baseUrl+ "user/updateNote";
          }
 $scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to Google Docs'];
 
+$scope.mList = [{
+      option: 'Delete note'
+    },
+    {
+      option: 'Add Label'
+    }
+  ];
  var deleteNoteforever = function(note) {
 
      console.log("In delte forever",note);
@@ -256,9 +360,9 @@ $scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to 
 
    var restoreNote = function(note, data) {
      console.log(note + "in restore");
-     notes.isTrash = false;
-     var url = baseurl + 'updateNote/' + note;
-     noteservice.postService(note, url).then(function successCallback(response) {
+     note.trash = false;
+     var url = baseUrl + 'user/updateNote';
+     noteservice.putService(url,note).then(function successCallback(response) {
 
        console.log(response);
        $scope.getAllNote();
@@ -268,13 +372,6 @@ $scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to 
      })
    }
 
-  $scope.menu = [{
-      option: 'Delete note'
-    },
-    {
-      option: 'Add Label'
-    }
-  ];
   $scope.ctrlNote = function(index, note) {
       console.log("in ctrl note");
       if (index == 0) {
@@ -285,12 +382,43 @@ $scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to 
 
     $scope.trashNote = function(index, note) {
       console.log("in ctrl trash");
-      if (index == 0) {
-
+      if (index ==0 ) {
         deleteNoteforever(note.id);
       }
       if (index == 1) {
         restoreNote(note, false)
       }
     }
+    $scope.updatePin = function(note) {
+   if (notes === undefined) {
+     $scope.isPin = true;
+
+   } else if (note.pin === false) {
+     console.log("In update false");
+     note.pin = true;
+     note.archive = false;
+     note.trash = false;
+
+     var url = baseurl + 'user/updateNote';
+       noteservice.putService(url, note)
+       .then(function successCallback(response) {
+       console.log(response);
+       getNote();
+     }, function errorCallback(response) {
+       console.log("error" + response.data);
+     })
+   } else {
+     note.pin = false;
+     var url = baseurl + 'user/updateNote';
+       noteservice.putService(url, note)
+       .then(function successCallback(response) {
+       console.log(response);
+       getNote();
+     }, function errorCallback(response) {
+       console.log("error" + response);
+     })
+   }
+
+ }
+
   });

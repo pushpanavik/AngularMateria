@@ -1,68 +1,18 @@
-<div ng-init="getallnotes()">
-  <div layout="row" layout-wrap layout-fill style="padding-bottom: 32px;padding-left: 310px;">
-
-    <md-card style="height: 150px;" flex="30" ng-repeat="x in notes | filter:{archive:true} " ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)">
-
-      <div class="value-data" ng-click="showAlert($event,x)">{{x.title}}
-        <md-button ng-click="pin()" class="md-icon-button" style="margin: 6px 0px 3px 181px;" ng-show="hoverEdit">
-          <md-icon><img src="images/pin.svg" /></md-icon>
-          <md-tooltip>pin note</md-tooltip>
-        </md-button>
+<div id="sidenavId" data-ng-init="getAllNote()" height:"200%" ng-click="showAdvanced($event,note)" >
+  <div layout="row" layout-wrap layout-fill style="padding-left:310px; margin-top: 100px;">
+    <md-card flex="30"  ng-repeat="note in notes |filter:{archive:true} " ng-style="{'background-color': note.color}" style="height:100px;">
+      <div layout="row">
+        <strong>{{note.title}}</strong>
       </div>
-      <div class="value">{{x.description}}</div>
-
-      <div layout="row" ng-show="hoverEdit" style="background-color:white;color: rgba(0,0,0,.54);">
-        <md-button class="md-icon-button">
-          <img src="images/reminders.svg" />
-          <md-tooltip>Remind me</md-tooltip>
-        </md-button>
-
-        <md-button class="md-icon-button">
-          <img src="images/baseline-person_add-24px.svg" />
-          <md-tooltip>Collaborator</md-tooltip>
-        </md-button>
-
-        <md-menu class="menu">
-          <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
-            <img src="images/baseline-color_lens-24px.svg" />
-            <md-tooltip>Change color</md-tooltip>
+      <div>
+          <md-button class="md-icon-button" ng-click="updatePin(note)">
+            <img ng-if="note.pin === true"  src="images/pin.svg">
+              <img ng-if="note.pin === false"  src="images/pin0.svg">
           </md-button>
-          <md-menu-content width:3px ng-mouseleave="$mdMenu.close()">
-            <md-menu-item ng-repeat="y in customerData" width:30px; flex="space-around">
-              <div ng-click="changeColor(value)" ng-repeat="item in y" ng-style="{'background-color':item.value};" flex="space-around" style="height :36px;width :8px;border-radius: 25px;cursor:pointer;">
-              </div>
-
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
-
-        <md-button class="md-icon-button">
-          <img src="images/googleaccount.jpg" />
-          <md-tooltip>Add image</md-tooltip>
-        </md-button>
-
-        <md-button class="md-icon-button" ng-click="isArchive(x)">
-          <img src="images/baseline-unarchive-24px.svg" />
-          <md-tooltip>Unarchive</md-tooltip>
-        </md-button>
-
-
-        <md-menu class="menu" style="display: inline-block">
-          <md-button class="md-icon-button" ng-click="$mdOpenMenu()" aria-label="Open some menu">
-            <img src="images/baseline-more_vert-24px.svg" />
-            <md-tooltip>More</md-tooltip>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item>
-              <md-button ng-click="isTrash(x)">Delete note</md-button>
-            </md-menu-item>
-
-          </md-menu-content>
-
-        </md-menu>
-      </div>
-
-    </md-card>
+          <md-tooltip>Pin Note</md-tooltip>
+        </div>
+      <div>{{note.description}}</div>
+<icon></icon>
   </div>
-
+  </md-card>
 </div>
