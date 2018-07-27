@@ -9,7 +9,7 @@ app
     }
 
     $scope.goToNote=function(){
-      $state.go("home.note");
+      $state.go("home.dashboard");
     }
 
     $scope.goToArchive=function(){
@@ -73,7 +73,7 @@ app
 
 
     $scope.showAdvanced = function(ev,note) {
-
+console.log("comes under showAdvance from archive call");
         $mdDialog.show({
 
           controller: DialogController,
@@ -97,9 +97,9 @@ app
         title: $scope.title,
         description: $scope.description,
         color: "white",
-        isArchive: false,
-        isPin: false,
-        isTrash: false
+        archive: false,
+        pin: false,
+        trash: false
       };
       var url = baseUrl + "user/addNote";
       console.log(localStorage.getItem("token"));
@@ -139,6 +139,7 @@ app
       noteservice.getService(url)
         .then(function successCallback(response)
         {
+          // shownhide();
           $scope.notes = response.data;
           console.log("noteinfo", $scope.notes);
         }, function errorCallback(response) {
@@ -280,25 +281,6 @@ $scope.updateNoteTitleDescripn=function(note){
     	  };
 
 
-    $scope.isPin = function(note) {
-var url=baseUrl+ "user/updateNote";
-console.log('note info inside ispin',);
-      if (note.isPin === false) {
-        note.isPin = true;
-      } else {
-        note.isPin = false;
-      }
-        noteservice.putService(url, note)
-        .then(function successCallback(response) {
-          $scope.getAllNote();
-
-          console.log("note successfully updated");
-        }, function errorCallback(response) {
-          console.log("cannot update note", response);
-        });
-    }
-
-
     $scope.activateEdit = function (item) {
             item.editable = true;
         };
@@ -389,31 +371,41 @@ $scope.mList = [{
         restoreNote(note, false)
       }
     }
-    $scope.updatePin = function(note) {
-   if (notes === undefined) {
-     $scope.isPin = true;
 
-   } else if (note.pin === false) {
+    var shownhide = function() {
+   var array1 = $scope.notes;
+   console.log(array1);
+   for (var i = 0; i < array1.length; i++) {
+     var noteI = array1[i];
+     if (noteI.pin === true) {
+         $scope.showOnePin = true;
+     } else if (noteI.pin === false) {
+       $scope.showOtherPin = true;
+     }
+   }
+ }
+    $scope.updatePin = function(note) {
+ if (note.pin === false) {
      console.log("In update false");
      note.pin = true;
      note.archive = false;
      note.trash = false;
 
-     var url = baseurl + 'user/updateNote';
+     var url = baseUrl + 'user/updateNote';
        noteservice.putService(url, note)
        .then(function successCallback(response) {
        console.log(response);
-       getNote();
+       $scope.getAllNote();
      }, function errorCallback(response) {
        console.log("error" + response.data);
      })
    } else {
      note.pin = false;
-     var url = baseurl + 'user/updateNote';
+     var url = baseUrl + 'user/updateNote';
        noteservice.putService(url, note)
        .then(function successCallback(response) {
        console.log(response);
-       getNote();
+       $scope.getAllNote();
      }, function errorCallback(response) {
        console.log("error" + response);
      })

@@ -53,12 +53,6 @@ params: {
   templateUrl:'templates/archive.html',
   controller:'noteCtrl'
 })
-.state('home.note',
-{
-  url:'/note',
-  templateUrl:'templates/note.html',
-  controller:'noteCtrl'
-})
 .state('home.reminder',
 {
   url:'/reminder',

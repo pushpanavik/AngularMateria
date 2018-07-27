@@ -12,8 +12,8 @@
     <md-card ng-show="showWhenClicked" style="width:500px; margin: 0px 0px 0px 454px;">
       <div layout="row">
         <div contenteditable class="intial-text" convert-new-lines="true" data-placeholder="Title" ng-model="title" style="width:400px;margin-top: 10px;"></div>
-        <md-button class="md-icon-button" >
-        <md-icon><img src="images/pin.svg" style="padding-left: 32px;padding-top:9px; ">
+        <md-button class="md-icon-button">
+        <md-icon><img src="images/pin0.svg" style="padding-left: 32px;padding-top:9px; ">
           <md-tooltip>pin</md-tooltip>
         </md-icon>
       </md-button>
@@ -25,22 +25,59 @@
     </md-card>
   </div>
 
-  <div style="height:150px;">
+
+    <div style="height:150px;" layout-align="center center" >
+    <md-subheader style="margin-left: 270px;">Pinned </md-subheader>
     <div layout="row" layout-wrap layout-fill data-ng-init="getAllNote()" style="margin-top: 20px;">
-      <md-card style="background-color:{{note.color}};width:30%;" class="mycard"  ng-repeat="note in notes | filter:{trash:false,archive:false,pin:false}|orderBy: '-notes':true |filter:searchText" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)">
-        <md-card-content>
-      <p ng-click="showAdvanced($event,note)">{{note.title}}</p>
-      <md-button class="md-icon-button" ng-click="isPin(note)">
-          <md-icon>
-            <p ng-if="note.isPin==false"><img src="images/pin.svg"/></p>
-            <p ng-if="note.isPin==true"><img src="images/pin0.svg" style="backgoround-color:blue;"/></p>
-            <md-tooltip>pin</md-tooltip>
-          </md-icon>
-        </md-button>
-          <p ng-click="showAdvanced($event,note)">{{note.description}} </p>
-          <div layout="row" ng-show="hoverEdit"></div>
-        </md-card-content>
-        <icon></icon>
-      </md-card>
+      <md-card ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="width: 250px;background-color:{{note.color}};"  ng-repeat="note in notes ">
+                  <md-card-title ng-click="showAdvanced($event,note)">
+                      <md-card-title-text>
+                          <div class="md-headline">{{note.title}} </div>
+                      </md-card-title-text>
+                        </md-card-title>
+                        <md-button class="md-icon-button" ng-click="updatePin(note)">
+                          <img ng-if="note.pin === true" src="images/bluepin.svg">
+                          <img ng-if="note.pin === false" src="images/pin0.svg">
+                        </md-button>
+                        <md-tooltip>Pin Note</md-tooltip>
+
+                  <md-card-content class="center" ng-click="showAdvanced($event,note)">
+                      <p>{{note.description}}</p>
+                  </md-card-content>
+                  <div  layout="row" style="height: 50px;" layout-align="space-around center">
+                      <icon></icon>
+                  </div>
+              </md-card>
     </div>
+</div>
+
+
+<div style="height:150px;" layout-align="center center"  >
+  <md-subheader style="margin-left: 270px;">Others </md-subheader>
+  <div layout="row" layout-wrap layout-fill data-ng-init="getAllNote()" style="margin-top: 20px;" layout-align="center center">
+    <md-card flex="30"  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="width: 250px;background-color:{{note.color}};"  ng-repeat="note in notes|filter: {pin:false,trash:flase,archive:false} |orderBy: '-notes':true |filter: searchText">
+                <md-card-title ng-click="showAdvanced($event,note)">
+
+                    <div class="intial-text after-click" contenteditable>{{note.title}}</div>
+             <!-- <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;"><strong> {{notes.description}} </strong></div> -->
+                   </md-card-title>
+           <div>
+             <md-button class="md-icon-button" ng-click="updatePin(note)">
+               <img ng-if="note.pin === true"  src="images/bluepin.svg">
+                 <img ng-if="note.pin=== false"  src="images/pin0.svg">
+             </md-button>
+             <md-tooltip>Pin Note</md-tooltip>
+           </div>
+
+         <div contenteditable  style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;">
+           <strong ng-bind-html="note.description"> </strong></div>
+                <md-card-content class="center" ng-click="showAdvanced($event,note)">
+                    <div class="initial-text">{{note.description}}</div>
+                </md-card-content>
+                <div layout="row" style="height: 50px;" layout-align="space-around center">
+                    <icon></icon>
+                </div>
+            </md-card>
   </div>
+</div>
+</div>

@@ -1,15 +1,13 @@
 <md-dialog style="height:200px; width:600px;">
 <div ng-init="getAllNotes()">
   <div layout="row">
-    <div contenteditable class="intial-text" ng-model="mydata.title" style="width:400px;margin-top: 10px;"></div>
-    <md-icon><img src="images/pin.svg" style="padding-left: 32px;padding-top: 9px; ">
-      <md-tooltip>pin</md-tooltip>
+    <div contenteditable ng-model="mydata.title" style="width:400px;margin-top: 10px">  </div>
+    <md-icon><img src="images/pin0.svg" style="padding-left: 32px;padding-top: 9px; "/>
     </md-icon>
   </div>
+
     <div contenteditable ng-model="mydata.description" convert-new-lines="true"style="width:400px;height:50px;"></div>
   <icon></icon>
-        <div>
        <md-button ng-click="showWhenClicked=false;noteModel();updateNoteTitleDescripn(mydata);" style="color:black; border-radius:05px;margin:95px 494px 0px 490px;">CLOSE</md-button>
-     </div>
 </div>
 </md-dialog>

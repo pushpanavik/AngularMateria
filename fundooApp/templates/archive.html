@@ -1,18 +1,18 @@
-<div id="sidenavId" data-ng-init="getAllNote()" height:"200%" ng-click="showAdvanced($event,note)" >
-  <div layout="row" layout-wrap layout-fill style="padding-left:310px; margin-top: 100px;">
-    <md-card flex="30"  ng-repeat="note in notes |filter:{archive:true} " ng-style="{'background-color': note.color}" style="height:100px;">
-      <div layout="row">
-        <strong>{{note.title}}</strong>
-      </div>
-      <div>
-          <md-button class="md-icon-button" ng-click="updatePin(note)">
-            <img ng-if="note.pin === true"  src="images/pin.svg">
-              <img ng-if="note.pin === false"  src="images/pin0.svg">
-          </md-button>
-          <md-tooltip>Pin Note</md-tooltip>
-        </div>
-      <div>{{note.description}}</div>
-<icon></icon>
-  </div>
-  </md-card>
+
+<div ng-init="getAllNote()">
+ <div layout="row"  layout-wrap layout-fill style="padding-bottom: 32px;padding-left: 310px;">
+
+<md-card ng-click="showAdvanced($event,x)" class="mycard" ng-repeat="x in notes | filter:{pin:false,archive:true,trash:false} " style="height: 160px;background-color:{{x.color}};width:30%" >
+
+        <md-button ng-click="isPin(x)" class="md-icon-button" style="margin: -13px 0px 3px 246px;" ng-show="hoverEdit" >
+  </md-button>
+      <div>{{x.title}} </div>
+  <img src="images/pin0.svg" style="width: 18px;margin-top: -13px;margin-left: 265px"  />
+    <md-tooltip>pin note</md-tooltip>
+
+           <div>{{x.description}}</div>
+                <icon></icon>
+          </div>
+</md-card>
+</div>
 </div>
