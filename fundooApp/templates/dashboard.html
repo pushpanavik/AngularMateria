@@ -11,7 +11,7 @@
   <div layout="row">
     <md-card ng-show="showWhenClicked" style="width:500px; margin: 0px 0px 0px 454px;">
       <div layout="row">
-        <div contenteditable class="intial-text" convert-new-lines="true" data-placeholder="Title" ng-model="title" style="width:400px;margin-top: 10px;"></div>
+        <div contenteditable  aria-multiline="true" class="intial-text" convert-new-lines="true" data-placeholder="Title" ng-model="title" style="width:400px;margin-top: 10px;"></div>
         <md-button class="md-icon-button">
         <md-icon><img src="images/pin0.svg" style="padding-left: 32px;padding-top:9px; ">
           <md-tooltip>pin</md-tooltip>
@@ -27,7 +27,7 @@
 
 
     <div style="height:150px;" layout-align="center center" >
-    <md-subheader style="margin-left: 270px;">Pinned </md-subheader>
+    <md-subheader style="margin-left: 270px;"><strong>Pinned</strong> </md-subheader>
     <div layout="row" layout-wrap layout-fill data-ng-init="getAllNote()" style="margin-top: 20px;">
       <md-card  flex="30" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="width: 250px;background-color:{{note.color}};"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
                   <md-card-title ng-click="showAdvanced($event,note)">
@@ -35,8 +35,7 @@
                           <div class="md-headline">{{note.title}} </div>
                       </md-card-title-text>
                         </md-card-title>
-                        <md-button class="md-icon-button" ng-click="updatePin(note)" style="margin-left: 210px;
-    margin-top: -44px;">
+                        <md-button class="md-icon-button" ng-click="updatePin(note)" style="margin-left: 285px;margin-top: -50px;">
                           <img ng-if="note.pin === true" src="images/bluepin.svg">
                           <img ng-if="note.pin === false" src="images/pin0.svg">
                         </md-button>
@@ -52,9 +51,8 @@
     </div>
 </div>
 
-
 <div  layout-align="center center" style="margin-top:200px;" >
-  <md-subheader style="margin-left: 270px;"><Strong>Others</Strong> </md-subheader>
+  <md-subheader style="margin-left: 270px;"><strong>Others</strong> </md-subheader>
   <div layout="row" layout-wrap layout-fill data-ng-init="getAllNote()"  layout-align="center center">
     <md-card flex="30"  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="width: 250px;background-color:{{note.color}};"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
                 <md-card-title ng-click="showAdvanced($event,note)">
