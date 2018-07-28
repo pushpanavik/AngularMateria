@@ -140,8 +140,9 @@ console.log("comes under showAdvance from archive call");
         .then(function successCallback(response)
         {
           // shownhide();
+            console.log("get all notes",response);
           $scope.notes = response.data;
-          console.log("noteinfo", $scope.notes);
+
         }, function errorCallback(response) {
           console.log(response, "note cannot be displayed");
 
@@ -170,7 +171,7 @@ console.log("comes under showAdvance from archive call");
 
 $scope.text="Title";
 
-    $scope.updateNote = function(note, t1) {
+    $scope.updateColor = function(note, t1) {
 
       console.log("before note Info",note);
       note.color=t1;
@@ -250,9 +251,10 @@ $scope.updateNoteTitleDescripn=function(note){
         });
     }
 
-    $scope.showArchiveNote;
+    $scope.showArchiveNote=false;
     $scope.isArchive = function(note) {
-      console.log('note info inside archive ',note.archive);
+
+      console.log('note info inside archive ',note);
       var url=baseUrl+ "user/updateNote";
       if (note.archive === false) {
         $scope.showArchiveNote=true;
@@ -287,35 +289,7 @@ $scope.updateNoteTitleDescripn=function(note){
         $scope.deactivateEdit = function (item) {
             item.editable = false;
         };
-
-        $scope.archiveNote = function(notes) {
-           if (notes === undefined) {
-             $scope.isArchive = true;
-           } else if (notes.archive=== false) {
-             console.log("In archived false");
-             notes.archive = true;
-
-             var url = baseurl + 'user/updateNote' ;
-            noteservice.postService(note, url).then(function successCallback(response) {
-               console.log(response);
-               getAllNote();
-             }, function errorCallback(response) {
-               console.log("erorr.................");
-               console.log("error" + response.data);
-             })
-           } else {
-             notes.archive = false;
-             var url = baseurl + 'updateNote/';
-            noteservice.postService(note, url)
-             .then(function successCallback(response) {
-               console.log(response);
-                 $scope.getAllNote();
-
-             }, function errorCallback(response) {
-               console.log("error" + response.data);
-             })
-           }
-         }
+      
 $scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to Google Docs'];
 
 $scope.mList = [{
