@@ -31,7 +31,7 @@ app.controller('homeCtrl', function($scope, $mdSidenav, $state, $rootScope, $htt
   $scope.toggleFunction = function(option, selectedItem) {
     switch (option) {
      case 'manufacturer':
-       AcceptAnyData(selectedManufactur, selectedItem);
+       AcceptAnyData(selectedManufactur, selectedItem)
        break;
      case 'storage':
        AcceptAnyData(selectedStorage, selectedItem)
@@ -71,6 +71,7 @@ GenericArray = function(array, option, x) {
       var selectedItem = array[i];
       if (item.specs[option] == selectedItem) {
         filteredArray.push(item);
+        break;
       }
     }
   }
@@ -83,25 +84,28 @@ app.filter('customFilter', function() {
     var filteredArray = [];
     var temparray = [];
     if (x != undefined) {
-      if (arrayManufacturer.length > 0 || arrayStorage.length > 0 || osarray.length > 0 || cameraarray.length > 0) {
+      if (arrayManufacturer.length!=undefined || arrayStorage.length!=undefined || osarray.length!=undefined || cameraarray.length!=undefined) {
         filteredArray = GenericArray(arrayManufacturer, 'manufacturer', x);
       }
-      if (filteredArray.length > 0) {
+      if (filteredArray.length>0) {
         temparray = filteredArray;
         filteredArray = [];
+
       } else {
         temparray = x;
       }
-      // console.log("temparray", temparray);
-      if (arrayStorage.length > 0) {
+
+        if (arrayStorage.length > 0) {
         for (var j = 0; j < temparray.length; j++) {
           var item = temparray[j];
+
           filteredArray = GenericArray(arrayStorage, 'storage', temparray);
         }
         temparray = filteredArray;
+
         filteredArray = [];
       }
-
+    
       if (osarray.length > 0) {
         for (var j = 0; j < temparray.length; j++) {
           var item = temparray[j];

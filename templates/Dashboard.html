@@ -4,7 +4,7 @@
   <div  layout="row" layout-wrap layout-align="center center">
 
     <!-- using the customFilter to traverse through all the list -->
-    <md-card ng-repeat="x in jsonRecord | customFilter : arrayManufacturer : arrayStorage : osarray :cameraarray">
+    <md-card flex-gt-xs=30 flex-xs=100 ng-repeat="x in jsonRecord | customFilter : arrayManufacturer : arrayStorage : osarray :cameraarray">
 
       <md-card-title>
         <img style="height:350px;width:300px;" ng-src={{x.image.small}} class="md-card-image"><br>
