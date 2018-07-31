@@ -1,9 +1,24 @@
-<div layout="row" ng-mouseover="open = true" ng-mouseleave="open = false" >
-  <md-button class="md-icon-button" >
+<div layout="row" ng-mouseenter="$mdMenu.open()" style="margin-top:300px;" >
+
+  <md-button class="md-icon-button" ng-click="$mdMenu.open($event)"    >
     <md-icon><img src="images/reminders.svg" /></md-icon>
     <md-tooltip>remind me</md-tooltip>
   </md-button>
 
+  <md-menu-content width="4" ng-mouseleave="$mdMenu.close()" >
+    <md-button ng-click="updateReminder(note)">
+           <md-menu-item ng-repeat="x in reminderList">
+         <div ng-repeat="t1 in x"></div>
+       </md-menu-item>
+       <md-menu-item><md-button  ng-click="">Pick date & time</md-button>
+       </md-menu-item>
+       <md-menu-item><md-button  ng-click="">Pickup place</md-button>
+       </md-menu-item>
+       <md-menu-divider></md-menu-divider>
+      </md-menu-content>
+  </md-menu>
+
+<div ng-mouseover="open = true" ng-mouseleave="open = false">
   <md-button class="md-icon-button" >
     <md-icon><img src="images/baseline-person_add-24px.svg" /></md-icon>
     <md-tooltip>Collabarator</md-tooltip>
@@ -33,12 +48,10 @@
 
     <md-menu md-position-mode="target-right target"  >
       <md-button class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-click="$mdMenu.open($event)" >
-        <md-icon><i class="material-icons">more_vert</i></md-icon>
-        <md-tooltip>More</md-tooltip>
+      <md-icon><i class="material-icons">more_vert</i></md-icon>
       </md-button>
       <md-menu>
         <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()" >
-          <md-icon><img src="images/baseline-more_vert-24px.svg" /></md-icon>
         </md-button>
         <md-menu-content width="2" ng-mouseleave="$mdMenu.close()" >
           <md-menu-item>
@@ -48,9 +61,4 @@
         </md-menu-content>
       </md-menu>
   </div>
-
-<!--
-<md-button class="md-icon-button" ng-click="isArchive(note)" >
-                <md-icon><i class="material-icons noteicon1">unarchive</i></md-icon>
-                <md-tooltip>Unarchive</md-tooltip>
-              </md-button> -->
+</div>

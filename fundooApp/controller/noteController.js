@@ -299,6 +299,28 @@ $scope.mList = [{
       option: 'Add Label'
     }
   ];
+var originatorEv;
+  this.openMenu = function($mdMenu, ev) {
+     originatorEv = ev;
+     $mdMenu.open(ev);
+   };
+  $scope.reminderList = [{
+        option: 'Reminder:'
+      },
+      {
+        option: 'Later today',
+        value:'8.00 PM'
+      },
+      {
+        option: 'Tommorrow',
+        value:'8.00 AM'
+      },
+      {
+        option: 'Next week',
+        value: 'Mon 8.00 AM'
+      }
+
+    ];
  var deleteNoteforever = function(note) {
 
      console.log("In delte forever",note);
