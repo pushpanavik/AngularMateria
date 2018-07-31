@@ -96,6 +96,7 @@ console.log("comes under showAdvance from archive call");
         var note = {
         title: $scope.title,
         description: $scope.description,
+        reminder:$scope.reminder,
         color: "white",
         archive: false,
         pin: false,
@@ -234,7 +235,7 @@ $scope.updateNoteTitleDescripn=function(note){
     $scope.isTrash = function(note)
      {
       var url=baseUrl + "user/updateNote";
-      console.log("before method call",note);
+      console.log("before method call inside trash",note.trash);
       if (note.trash === false) {
         note.trash = true;
         note.pin=false;
@@ -253,7 +254,6 @@ $scope.updateNoteTitleDescripn=function(note){
 
     $scope.showArchiveNote=false;
     $scope.isArchive = function(note) {
-
       console.log('note info inside archive ',note);
       var url=baseUrl+ "user/updateNote";
       if (note.archive === false) {
@@ -289,7 +289,7 @@ $scope.updateNoteTitleDescripn=function(note){
         $scope.deactivateEdit = function (item) {
             item.editable = false;
         };
-      
+
 $scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to Google Docs'];
 
 $scope.mList = [{
@@ -386,5 +386,7 @@ $scope.mList = [{
    }
 
  }
+
+
 
   });
