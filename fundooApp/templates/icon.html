@@ -1,47 +1,96 @@
-<div layout="row" ng-mouseenter="$mdMenu.open()" style="margin-top:300px;" >
-
-  <md-button class="md-icon-button" ng-click="$mdMenu.open($event)"    >
+<div layout="row">
+<md-menu>
+  <md-button class="md-icon-button" ng-click="$mdMenu.open($event)" >
     <md-icon><img src="images/reminders.svg" /></md-icon>
     <md-tooltip>remind me</md-tooltip>
   </md-button>
+       <md-menu-content  width="6" direction="down" flex  style="margin-top:-10px;">
+                  <div>Reminder: </div>
+                  <md-menu-item  ng-click="todayReminder(note)" readonly>
+                    <div>Later today</div>
+                  <div style="padding-left:130px;" readonly>8.00 PM</div>
+                  </md-menu-item>
+                  <md-menu-item ng-click="tomorrowReminder(note) " readonly>
+                    <div>Tomorrow </div>
+                    <div style="padding-left:130px;">8.00 AM</div>
+                  </md-menu-item>
+                  <md-menu-item ng-click="nextWeekReminder(note)" readonly >
+                    <div>Next week </div>
+                    <div style="padding-left:100px;">Mon, 8.00 AM </div>
+                  </md-menu-item>
 
-  <md-menu-content width="4" ng-mouseleave="$mdMenu.close()" >
-    <md-button ng-click="updateReminder(note)">
-           <md-menu-item ng-repeat="x in reminderList">
-         <div ng-repeat="t1 in x"></div>
-       </md-menu-item>
-       <md-menu-item><md-button  ng-click="">Pick date & time</md-button>
-       </md-menu-item>
-       <md-menu-item><md-button  ng-click="">Pickup place</md-button>
-       </md-menu-item>
-       <md-menu-divider></md-menu-divider>
-      </md-menu-content>
-  </md-menu>
+                <md-menu-item>
+                  <md-menu>
+              <md-button ng-click="$mdMenu.open()"><img src="images/clock.svg"/>  Pick date & time</md-button>
+              <md-menu-content>
+                <md-menu-item><md-button ng-click=""><img src="images/arrowbavk.svg"/>Pick date & time</md-button></md-menu-item>
+                <md-menu-item><input type="date" min="{{ today | date: 'MMMM d,y' }}" ng-model="note.reminderDate"/></md-menu-item>
+                <md-menu-item><input list="listofTime" ng-model="note.reminderTime"/>
+                 <datalist id="listofTime"><option ng-repeat="time in Time" value="{{time.value}}">{{time.name}}</option>
+                 </datalist></md-menu-item>
+                 <md-menu-item><md-button ng-click="ReminderDate(note);">Save</md-button></md-menu-item>
+              </md-menu-content>
+            </md-menu>
 
-<div ng-mouseover="open = true" ng-mouseleave="open = false">
-  <md-button class="md-icon-button" >
+              </md-menu-item>
+
+              <md-menu-item><md-button ng-click=""><img src="images/place.jpg" style="width:16px;height:15px;"/> Pick place</md-button></md-menu-item>
+  </md-menu-content>
+
+</md-menu-item>
+</md-menu>
+</div>
+
+
+<!-- <select class="form-control">
+<option value="8.00 AM">Morning</option>
+<option value="1.00 PM">AfterNoon</option>
+<option value="6.00 PM">Evening</option>
+<option value="9.00 PM">Night</option>
+</select> -->
+
+
+
+
+
+
+         <!-- <md-menu-item md-prevent-menu-close="md-prevent-menu-close">
+           <md-button ng-click="UpdateReminderDate(note);" >Save</md-button>
+         </md-menu-item>
+
+         <md-menu-item>
+
+         </md-menu-item>
+  </md-menu-content> -->
+
+
+
+
+
+<div  ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:71px;margin-top:-39px;">
+  <md-button class="md-icon-button"  >
     <md-icon><img src="images/baseline-person_add-24px.svg" /></md-icon>
     <md-tooltip>Collabarator</md-tooltip>
   </md-button>
 
-  <md-menu>
- <md-button  class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-mouseenter="$mdMenu.open()" >
+  <md-menu >
+ <md-button  class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-mouseenter="$mdMenu.open()"  >
    <md-icon><img src="images/baseline-color_lens-24px.svg"/></md-icon><md-tooltip>Change color</md-tooltip>
  </md-button>
  <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
    <md-menu-item ng-repeat="x in customerData">
      <div class="colorBox" ng-repeat="t1 in x" ng-style="{'background-color':t1.name};" ng-click="updateColor(note,t1.name)"></div>
-     </md-button>
+
    </md-menu-item>
  </md-menu-content>
  </md-menu>
 
-<md-button class="md-icon-button" >
+<md-button class="md-icon-button"  >
   <md-icon><i class="material-icons" >photo</i></md-icon>
   <md-tooltip>Add image</md-tooltip>
 </md-button>
 
-  <md-button class="md-icon-button"  ng-click="isArchive(note);">
+  <md-button class="md-icon-button"  ng-click="isArchive(note);" >
     <md-icon > <img src="images/archive.svg" /></p></md-icon>
     <md-tooltip>Archive</md-tooltip>
   </md-button>
@@ -60,5 +109,6 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
-  </div>
+    </md-menu>
+
 </div>

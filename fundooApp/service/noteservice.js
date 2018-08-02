@@ -15,7 +15,6 @@ serviceobj.postService = function(data,url) {
   })
 }
 serviceobj.getService=function(url){
-	console.log("r2");
   return $http({
     method : "GET",
     url : url,
@@ -27,21 +26,21 @@ serviceobj.getService=function(url){
 
 
  serviceobj.putService=function(url,data){
-
-   console.log("after method call",data);
+	 console.log('data from reminder',data);
 	 return $http({
     method : "PUT",
     url : url,
-    data:data,
+    data : data,
     headers:{
       'token':localStorage.getItem('token')
     }
  })
+ console.log('data2: ',data);
+
 }
 
 serviceobj.getDeleteService=function(data,url){
 	console.log("url is http ",url);
-console.log("note info", data);
  return $http({
   method : "DELETE",
   url : url,

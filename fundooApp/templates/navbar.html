@@ -1,5 +1,4 @@
-<div layout-align="center center">
-<md-toolbar  class="md-toolbar-tools" style="background-color:#fb0;"  id="md-icon" id="search" style="position:fixed;">
+<md-toolbar  class="md-toolbar-tools"  style="background-color:#fb0; position:fixed;">
 
   <md-button class="md-icon-button"  ng-click="toggleLeft()" >
    <md-icon> <i class="material-icons" style="color: black;">menu</i></md-icon>
@@ -9,8 +8,8 @@
 <div style="color: black;"><b>Google</b> keep</div>
 
 <md-list-item>
-  <div style="background-color:white;height: 52px;width: 700px;">
-  <img src="images/baseline-search-24px.svg" style="margin-top: 10px;">
+  <div class="search">
+  <img src="images/baseline-search-24px.svg" class="searchimg">
   <span flex="5"></span>
   <input type="text" placeholder="Search" ng-model="searchText"/>
 
@@ -43,14 +42,14 @@
    <img src="images/baby.jpg" style="width:30px;height:28px; border-radius: 76px;"/><md-tooltip>account circle</md-tooltip>
  </md-button>
  </md-toolbar>
- </div>
+
 
 
   <div layout="column" layout-align="center center">
-  <md-card ng-show="myVar" style="width: 348px;margin-top: -3px;margin-left:974px;">
+  <md-card ng-show="myVar" class="profile">
     <md-card-content>
-      <div><img src="images/baby.jpg" style="width: 85px;height: 40px;border-radius: 50px;"/></div>
-      <strong style="padding-left:152px;"> aadira khan </strong>
+      <div><img src="images/baby.jpg" class="babyimg"/></div>
+      <strong > aadira khan </strong>
       <span style="padding-left:152px;">aadira392@gmail.com</span>
       <md-button ng-click="goToLogin()" class="add-btn">Add account</md-button>
       <span flex></span>

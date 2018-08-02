@@ -72,6 +72,7 @@ app
      $scope.changeColor();
 
 
+
     $scope.showAdvanced = function(ev,note) {
 console.log("comes under showAdvance from archive call");
         $mdDialog.show({
@@ -96,7 +97,8 @@ console.log("comes under showAdvance from archive call");
         var note = {
         title: $scope.title,
         description: $scope.description,
-        reminder:$scope.reminder,
+        reminderDate:'',
+        reminderTime:'',
         color: "white",
         archive: false,
         pin: false,
@@ -205,30 +207,30 @@ $scope.updateNoteTitleDescripn=function(note){
       [{
         name: "#FFFFFF"
       }, {
-        name: "#ff0000"
+        name: "rgb(255, 138, 128)"
       }, {
-        name: "#FFA500"
+        name: "rgb(255, 209, 128)"
       }],
       [{
-        name: "#FFFF00"
+        name: "rgb(255, 255, 141)"
       }, {
-        name: "#008000"
+        name: "rgb(204, 255, 144)"
       }, {
-        name: "#008080"
+        name: "rgb(167,255,235)"
       }],
       [{
-        name: "#0000FF"
+        name: "rgb(128, 216, 255)"
       }, {
-        name: "#003366"
+        name: "rgb(130, 177, 255)"
       }, {
-        name: "#800080"
+        name: "rgb(179, 136, 255)"
       }],
       [{
-        name: "#AB47BC"
+        name: "rgb(248, 187, 208)"
       }, {
-        name: "#E53935"
+        name: "rgb(215, 204, 200)"
       }, {
-        name: "#3F51B5"
+        name: "rgb(207, 216, 220)"
       }]
     ];
 
@@ -273,6 +275,17 @@ $scope.updateNoteTitleDescripn=function(note){
         });
     }
 
+$scope.UpdateReminderDate=function(note){
+
+  console.log("from UpdateReminderDate(): ",note);
+  var url=baseUrl+ "user/updateNote";
+  noteservice.putService(url, note)
+    .then(function successCallback(response) {
+      $scope.getAllNote();
+      }, function errorCallback(response) {
+      console.log("cannot update note", response);
+    });
+}
 
     $scope.hoverIn = function(ev) {
     	    this.hoverEdit = true;
@@ -299,28 +312,111 @@ $scope.mList = [{
       option: 'Add Label'
     }
   ];
-var originatorEv;
-  this.openMenu = function($mdMenu, ev) {
-     originatorEv = ev;
+
+  $scope.openMenu = function($mdMenu, ev) {
+
+     ev.preventDefault();
+     ev.stopPropagation();
      $mdMenu.open(ev);
    };
-  $scope.reminderList = [{
-        option: 'Reminder:'
-      },
-      {
-        option: 'Later today',
-        value:'8.00 PM'
-      },
-      {
-        option: 'Tommorrow',
-        value:'8.00 AM'
-      },
-      {
-        option: 'Next week',
-        value: 'Mon 8.00 AM'
-      }
 
-    ];
+   $scope.closeMenu=function($mdMenu,ev){
+     $mdMenu.close(ev);
+   }
+
+   $scope.getTodayTime = function() {
+    var date = new Date();
+    if (date.getHours() > 12) {
+      $scope.todaystime = "8:00 PM";
+    } else {
+      $scope.todaystime = "8:00 AM";
+    }
+  }
+
+  $scope.todayReminder = function(note) {
+    console.log('inside todayReminder');
+    $scope.today = new Date();
+    console.log('todays date',$scope.today);
+    if ($scope.today.getHours() > 20 && $scope.today.getHours() < 8) {
+      $scope.today.setHours(08);
+      // $scope.today.setMinutes(00);
+    } else if ($scope.today.getHours() < 20 && $scope.today.getHours() > 8) {
+      $scope.today.setHours(20);
+      // $scope.today.setMinutes(00);
+    }
+    console.log("today: ", $scope.today);
+    note.reminderDate = [$scope.today];
+    $scope.UpdateReminderDate(note);
+  }
+
+  $scope.tomorrowReminder = function(note) {
+    console.log('inside tomorrowReminder');
+    $scope.tomorrow = new Date();
+    $scope.tomorrow.setDate($scope.tomorrow.getDate() + 1);
+    $scope.tomorrow.setHours(08);
+    $scope.tomorrow.setMinutes(00);
+
+    note.reminderDate = [$scope.tomorrow];
+    $scope.UpdateReminderDate(note);
+  }
+
+  $scope.nextWeekReminder = function(note) {
+    console.log("inside nextWeekReminder");
+    $scope.nextWeek = new Date();
+    $scope.nextWeek.setDate($scope.nextWeek.getDate() + 7);
+    $scope.nextWeek.setHours(08);
+    $scope.nextWeek.setMinutes(00);
+    note.reminderDate = [$scope.nextWeek];
+    console.log('note.reminderDate',note.reminderDate);
+    $scope.UpdateReminderDate(note);
+  }
+  $scope.removeReminder = function(note, key) {
+    console.log("inside remove reminder method...");
+    note.reminderDa = [];
+    $scope.UpdateReminderDate(note);
+  }
+
+   $scope.ReminderDate=function(note)
+       {
+         $scope.today = new Date();
+         var myDate = new Date(note.reminderDate);
+         console.log('reminderTime is',note.reminderTime);
+                 if($scope.today.getHours() > 12){
+               myDate.setHours(note.reminderTime.split(':')[0]);
+               myDate.setMinutes(note.reminderTime.split(':')[1].split(' ')[0]);
+           }else if($scope.today.getHours() < 12) {
+               myDate.setHours('20');
+               myDate.setMinutes('00');
+           }
+           // console.log("myDate with time",myDate+note.reminderTime.split(':')[1].split(' ')[1]);
+
+     note.reminderDate=myDate;
+
+     $scope.UpdateReminderDate(note);
+
+   };
+
+   // $scope.isReminderVisible=false;
+   //  $scope.clickReminder = function(note) {
+   //      $scope.isReminderVisible = !$scope.isReminderVisible;
+   //
+   //      console.log("Reminder",$scope.isReminderVisible);
+   //
+   //      note.editable=$scope.isReminderVisible;
+   //      //=$scope.isReminderVisible;
+   //  };
+
+
+    $scope.Time=[
+        {'name':'Morning   8:00 AM','value':'8:00 AM'},
+       {'name':'Afternoon 1:00 PM','value':'1:00 PM'},
+       {'name':'Evening   6:00 PM','value':'6:00 PM'},
+       {'name':'Night     8:00 PM','value':'8:00 PM'},
+       {'name':'custom','value':''}
+
+    ]
+
+
  var deleteNoteforever = function(note) {
 
      console.log("In delte forever",note);
@@ -368,18 +464,19 @@ var originatorEv;
       }
     }
 
-    var shownhide = function() {
-   var array1 = $scope.notes;
-   console.log(array1);
-   for (var i = 0; i < array1.length; i++) {
-     var noteI = array1[i];
-     if (noteI.pin === true) {
-         $scope.showOnePin = true;
-     } else if (noteI.pin === false) {
-       $scope.showOtherPin = true;
-     }
-   }
- }
+    $scope.isPinNote=function(note)
+  {
+      if(note.pin===false)
+      {
+          $scope.showPinNote=false;
+      }
+      else
+      {
+          $scope.showOtherNote=true;
+      }
+
+     updatePin(note);
+  };
     $scope.updatePin = function(note) {
  if (note.pin === false) {
      console.log("In update false");
@@ -408,6 +505,8 @@ var originatorEv;
    }
 
  }
+
+
 
 
 

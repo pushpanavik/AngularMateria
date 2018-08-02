@@ -88,10 +88,10 @@ span[contentEditable="true"] {
   left: 200px
 }
 .colorBox{
-  width:30px;
-  height:30px;
-  margin: 10px 20px 10px 20px;
-  border-radius:50px;
+  width:10px;
+  height:15px;
+  margin: 10px 15px 20px 10px;
+  border-radius:50%;
 }
 .intial-text{
   width: :100px;
@@ -124,4 +124,30 @@ div[contenteditable]:empty::before {
     content: "";
     display: table;
     clear: both;
+}
+
+#profile{
+  width: 37px;
+height: 30px;
+border-radius: 50%;
+}
+
+#babyimg{
+  width: 85px;
+  height: 40px;
+  border-radius: 50px;
+}
+
+.textshift{
+  padding-left:152px;
+}
+
+.search{
+  background-color:white;
+  height: 52px;
+  width: 700px;"
+}
+
+.searchimg{
+  margin-top: 10px;
 }
