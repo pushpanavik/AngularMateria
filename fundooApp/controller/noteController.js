@@ -28,10 +28,6 @@ app
        $state.go('Login');
       }
 
-      $scope.myVar = false;
-          $scope.logOut = function() {
-              $scope.myVar = !$scope.myVar;
-          };
 
     $scope.mdIconProvider=function(){
       $mdIconProvider
@@ -201,7 +197,19 @@ $scope.updateNoteTitleDescripn=function(note){
       console.log("cannot update note", response);
     });
 };
+$scope.goToSearch = function() {
+  $state.go('home.search');
+}
 
+$scope.isVisible = false;
+     $scope.clickProfile = function() {
+        $scope.isVisible = !$scope.isVisible;
+    };
+
+$scope.profileInfo=function()
+    {
+        $scope.userData=noteservice.getUserToken();
+    }
 
     $scope.customerData = [
       [{
@@ -332,47 +340,51 @@ $scope.mList = [{
       $scope.todaystime = "8:00 AM";
     }
   }
+  $scope.today = new Date();
 
   $scope.todayReminder = function(note) {
-    console.log('inside todayReminder');
-    $scope.today = new Date();
-    console.log('todays date',$scope.today);
     if ($scope.today.getHours() > 20 && $scope.today.getHours() < 8) {
+      note.reminderDate=$scope.today;
       $scope.today.setHours(08);
+        $scope.UpdateReminderDate(note);
       // $scope.today.setMinutes(00);
     } else if ($scope.today.getHours() < 20 && $scope.today.getHours() > 8) {
+        note.reminderDate=$scope.today;
       $scope.today.setHours(20);
       // $scope.today.setMinutes(00);
+        $scope.UpdateReminderDate(note);
     }
-    console.log("today: ", $scope.today);
-    note.reminderDate = [$scope.today];
-    $scope.UpdateReminderDate(note);
+
   }
 
+
   $scope.tomorrowReminder = function(note) {
-    console.log('inside tomorrowReminder');
     $scope.tomorrow = new Date();
+
     $scope.tomorrow.setDate($scope.tomorrow.getDate() + 1);
     $scope.tomorrow.setHours(08);
-    $scope.tomorrow.setMinutes(00);
-
-    note.reminderDate = [$scope.tomorrow];
+    note.reminderDate = $scope.tomorrow;
     $scope.UpdateReminderDate(note);
   }
 
   $scope.nextWeekReminder = function(note) {
     console.log("inside nextWeekReminder");
     $scope.nextWeek = new Date();
+
     $scope.nextWeek.setDate($scope.nextWeek.getDate() + 7);
     $scope.nextWeek.setHours(08);
-    $scope.nextWeek.setMinutes(00);
-    note.reminderDate = [$scope.nextWeek];
+    note.reminderDate = $scope.nextWeek;
     console.log('note.reminderDate',note.reminderDate);
     $scope.UpdateReminderDate(note);
-  }
+      }
+
+
+
+
   $scope.removeReminder = function(note, key) {
     console.log("inside remove reminder method...");
-    note.reminderDa = [];
+    note.reminderDate='';
+    note.reminderTime=null;
     $scope.UpdateReminderDate(note);
   }
 
@@ -395,6 +407,7 @@ $scope.mList = [{
      $scope.UpdateReminderDate(note);
 
    };
+
 
    // $scope.isReminderVisible=false;
    //  $scope.clickReminder = function(note) {

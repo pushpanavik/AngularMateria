@@ -8,7 +8,7 @@
 <div style="color: black;"><b>Google</b> keep</div>
 
 <md-list-item>
-  <div class="search">
+  <div class="search" ng-click="goToSearch();">
   <img src="images/baseline-search-24px.svg" class="searchimg">
   <span flex="5"></span>
   <input type="text" placeholder="Search" ng-model="searchText"/>
@@ -45,16 +45,33 @@
 
 
 
-  <div layout="column" layout-align="center center">
-  <md-card ng-show="myVar" class="profile">
-    <md-card-content>
-      <div><img src="images/baby.jpg" class="babyimg"/></div>
-      <strong > aadira khan </strong>
-      <span style="padding-left:152px;">aadira392@gmail.com</span>
-      <md-button ng-click="goToLogin()" class="add-btn">Add account</md-button>
-      <span flex></span>
-      <md-button class ="md-icon-button" class="add-btn" ng-click="goToLogin()" style="width:80px;">Sign out</md-button>
-      <div  class="navhide" ng-hide="myVar"></div>
-    </md-card-content>
-  </md-card>
-</div>
+ <a ng-click="clickProfile()"><img src="images/baby.jpg" class="profile"></a>
+      <div layout="row"    layout-align="center end">
+          <md-card  class="profile-card">
+              <md-content>
+                  <md-list>
+                      <md-list-item class="md-3-line">
+                          <img src="images/baby.jpg"  class="profile-card-img" alt="profile" />
+                          <div class="md-list-item-text" style="text-align: justify-all" layout="column" layout-align="space-around end">
+                              <div layout="row" class="profile-name">{{userData.iss}}</div>
+                              <div layout="row" class="profile-email">{{userData.sub}}</div>
+                              <div layout="row">
+                                  <a ui-sref="google.com" class="google" target="_blank" style="margin-right: 5px">Google+ Profile</a>
+                                  <span aria-hidden="true">–</span>
+                                  <a ui-sref="#"  class="google" target="_blank">Privacy</a>
+                              </div>
+                              <button class="profile-button">FundooApp Account</button>
+
+                          </div>
+                      </md-list-item>
+                      <br>
+                      <md-divider ></md-divider>
+                      <div layout="row"  layout-xs="row">
+                          <md-button ng-click="goToLogin()" class="add-btn">Add account</md-button>
+                          <span flex></span>
+                          <md-button ng-click="goToLogin()" class="sign-out-btn" >Sign out</md-button>
+                      </div>
+                  </md-list>
+              </md-content>
+          </md-card>
+      </div>

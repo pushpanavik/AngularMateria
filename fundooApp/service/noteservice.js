@@ -22,6 +22,23 @@ serviceobj.getService=function(url){
       'token': localStorage.getItem('token')
      }
    })
+
+
+	 serviceobj.getUserToken=function getUserToken() {
+        var tokenL = localStorage.getItem('token');
+        var user = {};
+        if (tokenL !== null) {
+            var encoded = token.split('.')[1];
+            user = JSON.parse(tokenDecode(encoded));
+        }
+        else
+        {
+         $location.path('login');
+        }
+
+        return user;
+    };
+
  }
 
 

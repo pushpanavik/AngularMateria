@@ -1,0 +1,30 @@
+ <a ng-click="clickProfile()"><img src="asset/profile.jpg" class="profile"></a>
+        <div layout="row"  ng-show="isVisible"  layout-align="center end">
+            <md-card  class="profile-card">
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-3-line">
+                            <img src="asset/profile.jpg"  class="profile-card-img" alt="profile" />
+                            <div class="md-list-item-text" style="text-align: justify-all" layout="column" layout-align="space-around end">
+                                <div layout="row" class="profile-name">{{value.iss}}</div>
+                                <div layout="row" class="profile-email">{{value.sub}}</div>
+                                <div layout="row">
+                                    <a ui-sref="google.com" class="google" target="_blank" style="margin-right: 5px">Google+ Profile</a>
+                                    <span aria-hidden="true">–</span>
+                                    <a ui-sref="#"  class="google" target="_blank">Privacy</a>
+                                </div>
+                                <button class="profile-button">Fundoo Account</button>
+
+                            </div>
+                        </md-list-item>
+                        <br>
+                        <md-divider ></md-divider>
+                        <div layout="row"  layout-xs="row">
+                            <md-button ng-click="sendToLogin()" class="add-btn">Add account</md-button>
+                            <span flex></span>
+                            <md-button ng-click="sendToLogin()" class="sign-out-btn" >Sign out</md-button>
+                        </div>
+                    </md-list>
+                </md-content>
+            </md-card>
+        </div>
