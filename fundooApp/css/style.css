@@ -33,6 +33,69 @@ word-wrap: break-word;
 overflow: hidden;
 }
 
+.archive{
+  font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;
+}
+
+#archive-btn{
+  margin:-49px 0px 4px 357px;
+}
+#pinondashboard{
+  margin-left: 221px;
+}
+.margintop-10{
+  margin-top:-10px;
+}
+.paddingleft-1{
+  padding-left:100px
+}
+.paddingleft{
+  padding-left:130px;
+}
+#otherDash{
+  float:right;
+  margin-top: -14px;
+}
+.contentsize{
+      margin-top: -63px;
+}
+.placesize{
+  width:400px;
+}
+
+.pincard{
+  margin-top: 20px;
+}
+.chip{
+  margin: 0px auto;padding: 0px;
+}
+.chipstyle{
+  margin-left: 5px;
+}
+#header-btn{
+  margin-left: 270px;"
+}
+#close-btn{
+    float: right;
+    padding-top: -116px;
+    margin-top: -38px;
+    border-radius: 10px;
+}
+#right{
+  right: -155px;
+}
+#notecard1{
+  width: 400px;
+  margin-top:10px;
+}
+.notecard{
+      margin-top: 56px;
+      width:600px;
+}
+.take_note{
+  margin-left :400px;
+  margin-top:10px;
+}
 #card{
 width: 400px;
 margin: 0px 0px 0px 450px;
@@ -88,9 +151,9 @@ span[contentEditable="true"] {
   left: 200px
 }
 .colorBox{
-  width:10px;
+  width:5px;
   height:15px;
-  margin: 10px 15px 20px 10px;
+  margin: 10px 15px 10px 10px;
   border-radius:50%;
 }
 .intial-text{

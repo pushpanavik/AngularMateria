@@ -49,7 +49,7 @@ params: {
 })
 .state('home.archive',
 {
-  url:'/Archive',
+  url:'/archive',
   templateUrl:'templates/archive.html',
   controller:'noteCtrl'
 })

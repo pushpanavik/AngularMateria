@@ -22,7 +22,7 @@
  </md-button>
 
 <div>
-   <md-button class="md-icon-button" ng-click="toggelView()">
+   <md-button class="md-icon-button" ng-click="toggleView()">
      <md-icon> <i class="material-icons" style="color: black;">list view</i></md-icon>
    <md-tooltip>grid view </md-tooltip>
    </md-button>
@@ -45,8 +45,8 @@
 
 
 
- <a ng-click="clickProfile()"><img src="images/baby.jpg" class="profile"></a>
-      <div layout="row"    layout-align="center end">
+ <a  href="" 3+ng-click="clickProfile()" ><img src="images/baby.jpg" class="profile"></a>
+      <div layout="row" ng-show = "isVisible"  layout-align="center end" >
           <md-card  class="profile-card">
               <md-content>
                   <md-list>

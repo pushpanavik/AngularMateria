@@ -95,14 +95,15 @@ console.log("comes under showAdvance from archive call");
         description: $scope.description,
         reminderDate:'',
         reminderTime:'',
-        color: "white",
+        color: $scope.mycolor,
         archive: false,
         pin: false,
         trash: false
       };
       var url = baseUrl + "user/addNote";
-      console.log(localStorage.getItem("token"));
+
       if ($scope.title != null && $scope.description != null) {
+        console.log('condition check');
         noteservice.postService(note, url)
           .then(function successCallback(response) {
             console.log("successfully note added", response);
@@ -148,10 +149,11 @@ console.log("comes under showAdvance from archive call");
         });
     };
     $scope.changeView=false;
-        $scope.toggelView=function()
+        $scope.toggleView=function()
         {
+          console.log('inside toggleView');
             $scope.changeView = !$scope.changeView;
-            var notes = document.getElementsByClassName("mycard");
+            var notes = document.getElementsByClassName("dashboard");
             if($scope.changeView)
             {
                 for (i = 0; i < notes.length; i++) {
@@ -169,14 +171,17 @@ console.log("comes under showAdvance from archive call");
         }
 
 $scope.text="Title";
-
+$scope.showWhenClicked=false;
     $scope.updateColor = function(note, t1) {
 
-      console.log("before note Info",note);
-      note.color=t1;
-      console.log("note inside update method",note.id);
-      var url = baseUrl + "user/updateNote";
+    if(note===undefined){
+    $scope.mycolor=t1;
 
+        console.log('color is',$scope.mycolor);
+      }
+        else{
+          note.color=t1;
+      var url = baseUrl + "user/updateNote";
       noteservice.putService(url, note)
         .then(function successCallback(response) {
           console.log("note successfully updated",response);
@@ -184,8 +189,8 @@ $scope.text="Title";
         }, function errorCallback(response) {
           console.log("cannot update note", response);
         });
-    };
-
+  }
+}
 $scope.updateNoteTitleDescripn=function(note){
   var url = baseUrl + "user/updateNote";
   console.log('inside update method of title and description',note);
@@ -203,7 +208,9 @@ $scope.goToSearch = function() {
 
 $scope.isVisible = false;
      $scope.clickProfile = function() {
-        $scope.isVisible = !$scope.isVisible;
+       console.log($scope.isVisible);
+      $scope.IsVisible = !$scope.IsVisible;
+      console.log('after',$scope.isVisible);
     };
 
 $scope.profileInfo=function()
@@ -341,7 +348,6 @@ $scope.mList = [{
     }
   }
   $scope.today = new Date();
-
   $scope.todayReminder = function(note) {
     if ($scope.today.getHours() > 20 && $scope.today.getHours() < 8) {
       note.reminderDate=$scope.today;
@@ -463,7 +469,11 @@ $scope.mList = [{
       console.log("in ctrl note");
       if (index == 0) {
         console.log("index");
-        trashNote(note)
+        trashNote(note);
+      }
+      else if(index==1){
+        console.log("index");
+        addLabel(note);
       }
     }
 

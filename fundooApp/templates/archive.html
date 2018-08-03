@@ -1,22 +1,22 @@
 
 <div ng-init="getAllNote()">
- <div layout="row"  layout-wrap layout-fill style="padding-bottom: 32px;padding-left: 310px;">
+ <div layout="row" layout-align="center center"  layout-wrap layout-fill >
 
-<md-card  class="mycard" ng-repeat="note in notes | filter:{pin:false,archive:true,trash:false}" style="height: 160px;background-color:{{x.color}};width:30%;" >
+<md-card  class="mycard" ng-repeat="note in notes | filter:{pin:false,archive:true,trash:false}" style="background-color:{{x.color}};width:400px;" >
   <md-card-title ng-click="showAdvanced($event,note)">
       <div class="intial-text" contenteditable>{{note.title}}</div>
          </md-card-title>
-        <md-button ng-click="updatePin(note)" class="md-icon-button" style="margin:-32px 0px 3px 246px;"  >
-         <img src="images/pin0.svg" style="width: 18px;margin-top:-18px;"  />
+        <md-button ng-click="updatePin(note)" class="md-icon-button" id="archive-btn">
+         <img src="images/pin0.svg"   />
             <md-tooltip>pin note</md-tooltip>
   </md-button>
 
-  <div style=" font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;font-weight: bold;font-size: 30px;">
+  <div class="archive">
   </div>
         <md-card-content class="center" ng-click="showAdvanced($event,note)">
              <div class="initial-text" contentediable>{{note.description}}</div>
          </md-card-content>
-         <icon></icon>
+      <unarchivicon><unarchivicon>
          </div>
 
 </md-card>

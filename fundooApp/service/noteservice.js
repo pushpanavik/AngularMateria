@@ -25,7 +25,9 @@ serviceobj.getService=function(url){
 
 
 	 serviceobj.getUserToken=function getUserToken() {
+
         var tokenL = localStorage.getItem('token');
+				console.log('token inside getUser from token',tokenL);
         var user = {};
         if (tokenL !== null) {
             var encoded = token.split('.')[1];
