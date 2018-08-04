@@ -62,7 +62,16 @@ overflow: hidden;
 .placesize{
   width:400px;
 }
+.profile
+{
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
 
+}
+.pinother{
+  width:200px;
+}
 .pincard{
   margin-top: 20px;
 }
@@ -74,6 +83,7 @@ overflow: hidden;
 }
 #header-btn{
   margin-left: 270px;"
+  width:300px;
 }
 #close-btn{
     float: right;
@@ -89,8 +99,18 @@ overflow: hidden;
   margin-top:10px;
 }
 .notecard{
-      margin-top: 56px;
+      margin-top: 85px;
       width:600px;
+}
+.dialog{
+  margin-top:14px;
+}
+.popup{
+  color:black;
+  border-radius:05px;
+  margin-left:380px;
+margin-top: -37px;
+width:10px;
 }
 .take_note{
   margin-left :400px;

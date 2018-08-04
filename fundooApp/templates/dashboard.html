@@ -23,8 +23,8 @@
   </div>
 
 
-      <md-subheader  id="header-btn"><strong>Pinned</strong> </md-subheader>
-      <div layout="row" layout-wrap  data-ng-init="getAllNote()" layout-align="center center">
+      <md-subheader  id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader>
+      <div layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()" layout-align="center center">
         <md-card class="dashboard"  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
                     <md-card-title ng-click="showAdvanced($event,note)">
                         <md-card-title-text>
@@ -37,12 +37,12 @@
                               <md-tooltip>Pin Note</md-tooltip>
                           </md-button>
                           </div>
-                    <md-card-content class="center" ng-click="showAdvanced($event,note)" class="placesize">
+                    <md-card-content class="center" class="placesize">
                       <div  contenteditable ng-bind-html="note.description"> </div>
                     </md-card-content>
                     <div  layout="row" >
                         <md-chips ng-if="note.reminderDate"  ng-mouseover="enableEdit(note)"  ng-mouseleave="disableEdit(note)">
-                            <md-chip class="chip"><span class="chipstyle">{{note.reminderDate | date : 'MMM dd,HH:00 a'}}</span><md-button   class="md-icon-button" ng-click="" style="margin: 0px auto;padding: 0px;"><md-icon><i class="material-icons">close</i></md-icon></md-button ></md-chip>
+                            <md-chip class="chip"><span class="chipstyle">{{note.reminderDate | date : 'MMM dd,HH:00 a'}}</span><md-button   class="md-icon-button" ng-click="UpdateReminderDate(note)" class="chip"><md-icon><i class="material-icons">close</i></md-icon></md-button ></md-chip>
                         </md-chips>
 
                         <!-- <md-chips  ng-mouseover="enableEdit(label)"  ng-mouseleave="disableEdit(label)" ng-repeat="label in note.listOfLabels">
@@ -54,8 +54,8 @@
       </div>
 
 
-    <md-subheader  id="header-btn"><strong>Others</strong> </md-subheader>
-    <div layout="row" layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
+    <md-subheader  id="header-btn" class="pinother"><strong>Others</strong> </md-subheader>
+    <div layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
       <md-card ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
         <md-card-title ng-click="showAdvanced($event,note)">
         <md-card-title-text>
@@ -69,12 +69,12 @@
                <md-tooltip>Pin Note</md-tooltip>
                </div>
 
-                  <md-card-content class="center" ng-click="showAdvanced($event,note)">
+                  <md-card-content class="center">
                      <div contenteditable ng-bind-html="note.description"></div>
                   </md-card-content>
                   <div layout="row">
                     <md-chips ng-if="note.reminderDate"  ng-mouseover="enableEdit(note)"  ng-mouseleave="disableEdit(note)">
-                        <md-chip class="chip"><span class="chipstyle">{{note.reminderDate | date : 'MMM dd,HH:00 a'}}</span><md-button   class="md-icon-button" ng-click="" style="margin: 0px auto;padding: 0px;"><md-icon><i class="material-icons">close</i></md-icon></md-button ></md-chip>
+                        <md-chip class="chip" ><span class="chipstyle">{{note.reminderDate | date : 'MMM dd,HH:00 a'}}</span><md-button   class="md-icon-button" ng-click="" class="chip"><md-icon><i class="material-icons">close</i></md-icon></md-button ></md-chip>
                     </md-chips>
                  <!-- <md-chips ng-repeat="label in note.listOfLabels">
                      <md-chip >{{label.labelName}}</md-chip>

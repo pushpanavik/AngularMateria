@@ -102,6 +102,9 @@ console.log("comes under showAdvance from archive call");
       };
       var url = baseUrl + "user/addNote";
 
+      console.log("user info",note);
+      console.log($scope.title);
+      console.log($scope.description);
       if ($scope.title != null && $scope.description != null) {
         console.log('condition check');
         noteservice.postService(note, url)
@@ -140,7 +143,7 @@ console.log("comes under showAdvance from archive call");
         .then(function successCallback(response)
         {
           // shownhide();
-            console.log("get all notes",response);
+            console.log("get all notes"+response);
           $scope.notes = response.data;
 
         }, function errorCallback(response) {
@@ -148,6 +151,34 @@ console.log("comes under showAdvance from archive call");
 
         });
     };
+
+
+    $scope.isVisible = false;
+         $scope.clickProfile = function() {
+           console.log('inside profile');
+
+          if($scope.isVisible ===false){
+            $scope.isVisible=true;
+            var tokenL = localStorage.getItem('token');
+            console.log('token inside getUser from token',tokenL);
+            var user = {};
+            if (tokenL !== undefined) {
+                var encode = tokenL.split('.')[1];
+                userDetail = JSON.parse(tokenDecode(encode));
+
+                  console.log('hjdfsdhfsdf',userDetail.iss);
+                  $scope.userDetails=userDetail;
+                  console.log($scope.userDetails);
+                } else {
+                  $location.path('Login');
+                }
+
+              } else {
+                $scope.isVisible = false;
+              }
+            }
+
+
     $scope.changeView=false;
         $scope.toggleView=function()
         {
@@ -171,15 +202,17 @@ console.log("comes under showAdvance from archive call");
         }
 
 $scope.text="Title";
-$scope.showWhenClicked=false;
-    $scope.updateColor = function(note, t1) {
 
+$scope.showWhenClicked=false;
+
+    $scope.updateColor = function(note, t1) {
     if(note===undefined){
     $scope.mycolor=t1;
 
         console.log('color is',$scope.mycolor);
       }
         else{
+
           note.color=t1;
       var url = baseUrl + "user/updateNote";
       noteservice.putService(url, note)
@@ -190,7 +223,9 @@ $scope.showWhenClicked=false;
           console.log("cannot update note", response);
         });
   }
+
 }
+
 $scope.updateNoteTitleDescripn=function(note){
   var url = baseUrl + "user/updateNote";
   console.log('inside update method of title and description',note);
@@ -206,17 +241,11 @@ $scope.goToSearch = function() {
   $state.go('home.search');
 }
 
-$scope.isVisible = false;
-     $scope.clickProfile = function() {
-       console.log($scope.isVisible);
-      $scope.IsVisible = !$scope.IsVisible;
-      console.log('after',$scope.isVisible);
-    };
-
-$scope.profileInfo=function()
-    {
-        $scope.userData=noteservice.getUserToken();
+function tokenDecode(str) {
+        var output = str.replace('-', '+').replace('_', '/');
+        return window.atob(output);
     }
+
 
     $scope.customerData = [
       [{
@@ -292,6 +321,8 @@ $scope.profileInfo=function()
 
 $scope.UpdateReminderDate=function(note){
 
+if(note!==undefined){
+
   console.log("from UpdateReminderDate(): ",note);
   var url=baseUrl+ "user/updateNote";
   noteservice.putService(url, note)
@@ -301,7 +332,7 @@ $scope.UpdateReminderDate=function(note){
       console.log("cannot update note", response);
     });
 }
-
+}
     $scope.hoverIn = function(ev) {
     	    this.hoverEdit = true;
     	  };
@@ -350,15 +381,23 @@ $scope.mList = [{
   $scope.today = new Date();
   $scope.todayReminder = function(note) {
     if ($scope.today.getHours() > 20 && $scope.today.getHours() < 8) {
+
       note.reminderDate=$scope.today;
-      $scope.today.setHours(08);
+      // $scope.today.setHours(08);
+
+      console.log("call to todayReminder");
         $scope.UpdateReminderDate(note);
+        console.log(note.reminderDate );
+        console.log("after UpdateReminderDate" ,note);
       // $scope.today.setMinutes(00);
     } else if ($scope.today.getHours() < 20 && $scope.today.getHours() > 8) {
+      console.log("pushapa  ");
+      console.log('scope today',$scope.today);
         note.reminderDate=$scope.today;
       $scope.today.setHours(20);
       // $scope.today.setMinutes(00);
         $scope.UpdateReminderDate(note);
+        console.log('pushpa note info',note);
     }
 
   }
@@ -380,7 +419,7 @@ $scope.mList = [{
     $scope.nextWeek.setDate($scope.nextWeek.getDate() + 7);
     $scope.nextWeek.setHours(08);
     note.reminderDate = $scope.nextWeek;
-    console.log('note.reminderDate',note.reminderDate);
+    console.log('note.reminderDate',note);
     $scope.UpdateReminderDate(note);
       }
 
@@ -406,7 +445,7 @@ $scope.mList = [{
                myDate.setHours('20');
                myDate.setMinutes('00');
            }
-           // console.log("myDate with time",myDate+note.reminderTime.split(':')[1].split(' ')[1]);
+           console.log("myDate with time",myDate+note.reminderTime.split(':')[1].split(' ')[1]);
 
      note.reminderDate=myDate;
 
@@ -528,7 +567,6 @@ $scope.mList = [{
    }
 
  }
-
 
 
 

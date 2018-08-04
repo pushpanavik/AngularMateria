@@ -22,27 +22,7 @@ serviceobj.getService=function(url){
       'token': localStorage.getItem('token')
      }
    })
-
-
-	 serviceobj.getUserToken=function getUserToken() {
-
-        var tokenL = localStorage.getItem('token');
-				console.log('token inside getUser from token',tokenL);
-        var user = {};
-        if (tokenL !== null) {
-            var encoded = token.split('.')[1];
-            user = JSON.parse(tokenDecode(encoded));
-        }
-        else
-        {
-         $location.path('login');
-        }
-
-        return user;
-    };
-
- }
-
+}
 
  serviceobj.putService=function(url,data){
 	 console.log('data from reminder',data);
@@ -68,5 +48,6 @@ serviceobj.getDeleteService=function(data,url){
 })
 
 }
+
 return serviceobj;
 });

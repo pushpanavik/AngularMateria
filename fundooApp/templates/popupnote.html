@@ -1,17 +1,13 @@
-<md-dialog  style="height: 175px;width:600px;">
 <div ng-init="getAllNotes()">
-  <div layout="row">
+<md-dialog  style="width:600px;">
     <div contenteditable ng-model="mydata.title"><strong ng-bind-html="mydata.title"></strong> </div>
-    <md-icon><img src="images/pin0.svg" style="margin-left: 229px;
-    margin-top: 6px;"/ >
+    <md-icon><img src="images/pin0.svg" style="margin-top: -43px;    margin-left: 200px;"/ >
     </md-icon>
-  </div>
-    <div contenteditable ng-model="mydata.description" ng-bind-html="description">
-    </div>
-  </div>
-<div style="margin-top:14px;">  <icon></icon></div>
-       <md-button ng-click="showWhenClicked=false;noteModel();updateNoteTitleDescripn(mydata);" style="color:black; border-radius:05px;margin-left:484px;
-    margin-top: -37px;
-    width:10px;">CLOSE</md-button>
 
+    <div contenteditable ng-model="mydata.description" >
+    </div>
+
+<div class="dialog">  <icon></icon></div>
+       <md-button ng-click="showWhenClicked=false;updateNoteTitleDescripn(mydata);" class="popup">CLOSE</md-button>
 </md-dialog>
+</div>
