@@ -612,11 +612,11 @@ $scope.mList = [{
        noteservice.postService(label,url)
        .then(function successCallback(response) {
          $scope.getAllLabel();
-         console.log("successfully note added", response);
-         console.log("title for note is", response);
+         console.log("successfully label added", response);
+
 
        }, function errorCallback(response) {
-         console.log("note cannot be  added", response);
+         console.log("label cannot be  added", response);
 
        });
      }
