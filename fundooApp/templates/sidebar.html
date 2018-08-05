@@ -12,7 +12,7 @@
       <p id="sidebar">Reminders</p>
     </md-list-item>
 
-    <md-list-item><span>Labels</span><md-button id="cl" ng-click="showAlert($event,label)">Edit</md-button></md-list-item>
+    <md-list-item><span>Labels</span><md-button id="cl" ng-click="showlabelDialog($event,label)">Edit</md-button></md-list-item>
     <div ng-init="getAllLabels()">
       <md-list-item ng-repeat="label in getlabels">
         <md-button ng-click="goToLabel()" class="md-icon-button md-icon-left" layout="row">
