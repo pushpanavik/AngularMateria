@@ -84,11 +84,36 @@ console.log("comes under showAdvance from archive call");
             },
   })
     };
-
     function DialogController($scope,mydata){
       $scope.mydata= mydata;
       console.log('in dialog controller in mydata',mydata);
     }
+    $scope.goToLabel=function(){
+      $state.go('home.label');
+    }
+
+    $scope.showlabelDialog = function(ev,label) {
+console.log("comes under showAdvance from archive call");
+        $mdDialog.show({
+
+          controller: DialogController,
+          templateUrl: 'templates/labelDialog.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose:true,
+          fullscreen : $scope.customFullscreen,
+          locals:{
+              labelpopup : label
+            },
+  })
+    };
+    function DialogController($scope,labelpopup){
+
+      $scope.labelpopup=labelpopup;
+      console.log('in dialog controller in labelpopup',labelpopup);
+    }
+
+
     $scope.noteModel = function() {
         var note = {
         title: $scope.title,
@@ -349,7 +374,7 @@ if(note!==undefined){
             item.editable = false;
         };
 
-$scope.more=['Delete note','Add label','Make a copy','Show checkboxes','Copy to Google Docs'];
+$scope.more=['Delete note','Add label'];
 
 $scope.mList = [{
       option: 'Delete note'
@@ -426,9 +451,9 @@ $scope.mList = [{
 
 
 
-  $scope.removeReminder = function(note, key) {
+  $scope.removeReminder = function(note) {
     console.log("inside remove reminder method...");
-    note.reminderDate='';
+    note.reminderDate=null;
     note.reminderTime=null;
     $scope.UpdateReminderDate(note);
   }
@@ -567,6 +592,202 @@ $scope.mList = [{
    }
 
  }
+
+ function dialogController($cope,$mdDialog,noteservice){
+   $scope.cancel=function(){
+     $mdDialog.cancel();
+   }
+
+   $scope.addLabel=function(){
+     var label={
+
+           name:$scope.labelname
+     };
+     console.log("label info",label);
+
+     var url=baseUrl+"/user/addLabel";
+     console.log("label info",label);
+     if(label.name!==' '){
+
+       noteservice.postService(label,url)
+       .then(function successCallback(response) {
+         $scope.getAllLabel();
+         console.log("successfully note added", response);
+         console.log("title for note is", response);
+
+       }, function errorCallback(response) {
+         console.log("note cannot be  added", response);
+
+       });
+     }
+
+   }
+$scope.getlabels=[];
+   $scope.getAllLabel=function(){
+     var url=baseUrl +"user/displayLabel";
+
+       noteservice.getService(url)
+       .then(function successCallback(response)
+       {
+             console.log("get all labels"+response);
+         $scope.getlabels = response.data;
+
+       }, function errorCallback(response) {
+         console.log(response, "get all labels cannot be displayed");
+
+       });
+   }
+
+   $scope.deleteLabel=function(label){
+     console.log("label info inside delete function",label)
+     var url=baseUrl + "user/delete" +label.id;
+
+     noteservice.getDeleteService(label,url)
+     .then(function successCallback(response) {
+       console.log("successfully label dleted", response);
+
+       $scope.getAllNote();
+     }, function errorCallback(response) {
+       console.log("label cannot be  dleted", response);
+
+     });
+
+   }
+
+   $scope.updateLabel=function(label){
+     console.log("inside update label method",label);
+     var url=baseUrl + "user/updateLabel";
+     noteservice.putService(url,data)
+     .then(function successCallback(response) {
+       console.log("label updated ", response);
+
+       $scope.getAllNote();
+     }, function errorCallback(response) {
+       console.log("label cannot be updated", response);
+
+     });
+   }
+ }
+
+$scope.goToLabelPage=function(label){
+  if(event!==undefined){
+        event.stopPropagation();}
+  console.log("go to label page");
+  var labelid=label.id;
+  $state.go('home.label',{labelid:label.id});
+  $scope.getLabelOnNote(label);
+}
+
+
+$scope.getLabelOnNote=function(){
+  console.log("label id in getLabelOnNote", label.id);
+
+  var url=baseUrl +"user/labelNote/" +label.id;
+  noteservice.getService(url)
+  .then(function successCallback(response) {
+  console.log(response);
+  $scope.getAllNote();
+}, function errorCallback(response) {
+  console.log("error" + response);
+});
+}
+
+function dialogControl($scope,$mdDialog){
+  $scope.cancel=function(){
+    $mdDialog.cancel();
+  };
+}
+  $scope.getAllLabels=function(){
+    var url=baseUrl + "user/displayLabel";
+
+    noteservice.getService(url)
+    .then(function successCallback(response) {
+    console.log(response);
+    $scope.getAllNote();
+  }, function errorCallback(response) {
+    console.log("error" + response);
+  });
+}
+
+$scope.close = false;
+    $scope.done = false;
+    $scope.add = true;
+    $scope.isClicked = false;
+    $scope.changeIcon = function() {
+      $scope.isClicked = !$scope.isClicked;
+      if ($scope.isClicked) {
+        $scope.add = true;
+        $scope.close = false;
+        $scope.done = false;
+      } else {
+        $scope.add = false;
+        $scope.close = true;
+        $scope.done = true;
+      }
+    }
+
+$scope.removeLabelOnNote=function(label,note){
+  console.log("label in dashboard ", label);
+  console.log("note in dashboard:", note);
+  console.log('noteid in dashboard',note.id);
+  var index=note.listOfLabels.findIndex(x => x.labelname===label.name);
+  if (idx > -1) {
+           note.listOfLabels.splice(idx, 1);
+       }
+       else {
+           note.listOfLabels.push(label);
+       }
+       var url=baseUrl +"user/deleteLabel/" +note.id/+label.id;
+       noteservice.getDeleteService(note,url)
+       .then(function successCallback(response) {
+         console.log(response);
+         $scope.getAllNote();
+       }, function errorCallback(response) {
+         console.log("error" + response);
+       })
+}
+$scope.addlabelNote=function(label){
+  console.log("label in dashboard ", label);
+  console.log("note in dashboard:", noteobj);
+  console.log('noteid in dashboard',noteobj.id);
+
+  var idx=noteobj.listOfLabels.findIndex(x => x.labelname===label.name);
+  if (idx > -1) {
+           noteobj.listOfLabels.splice(idx, 1);
+       }
+       else {
+           noteobj.listOfLabels.push(label);
+       }
+
+       var url= baseUrl +"user/updateNoteLabel/" +noteobj.id/ +label.id;
+       console.log('url under allLabelNote',url);
+       noteservice.putService(url, note)
+         .then(function successCallback(response) {
+           console.log("relation on label and note is updated",response);
+           $scope.getAllNote();
+         }, function errorCallback(response) {
+           console.log("cannot update note", response);
+         });
+}
+
+
+var noteobj=[];
+$scope.showlabeldialog=function(event,note){
+  console.log("inside showlabeldialog:  ",note);
+  noteobj=note;
+
+  $mdDialog.show({
+    locals:{mydata1 :note},
+    controller: dialogControl,
+    templateUrl :'templates/labelDialog.html',
+    parent: angular.element(document.body),
+    targetEvent:event,
+    clickOutsideToClose:true
+
+  })
+  console.log('dialog event mydata1..........',mydata1);
+}
+
 
 
 

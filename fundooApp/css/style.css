@@ -69,12 +69,24 @@ overflow: hidden;
     border-radius: 50px;
 
 }
+.labeldialog{
+  border: none;
+  outline: none;
+  margin-left: 15px;
+}
 .pinother{
   width:200px;
 }
 .pincard{
   margin-top: 20px;
 }
+#cl{
+  margin-left:163px;
+}
+.createLabe{
+  border:none;outline: none;
+}
+
 .chip{
   margin: 0px auto;padding: 0px;
 }

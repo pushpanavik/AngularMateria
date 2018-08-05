@@ -1,0 +1,30 @@
+
+ <div layout="row">
+   <div class="take_note">
+     <md-card class="notecard" ng-show="!showWhenClicked">
+       <div layout="row" class="take-note-input">
+         <input type="text" placeholder="Take a note" class="placesize"  ng-click="showWhenClicked=true" />
+       </div>
+     </md-card>
+   </div>
+
+<div layout="row" layout-align="center center">
+<md-card  class="mycard" ng-show="showWhenClicked" >
+  <md-card-title ng-click="showAdvanced($event,note)">
+      <div class="intial-text" contenteditable>{{note.title}}</div>
+         </md-card-title>
+        <md-button ng-click="updatePin(note)" class="md-icon-button" id="archive-btn">
+         <img src="images/pin0.svg"   />
+            <md-tooltip>pin note</md-tooltip>
+  </md-button>
+</div>
+
+        <div>
+        <md-card-content class="center" ng-click="showAdvanced($event,note)">
+             <div class="initial-text" contentediable>{{note.description}}</div>
+         </md-card-content>
+      <icon></icon>
+         </div>
+         <md-button  ng-click="showWhenClicked=false;addNote()">Close</md-buton>
+</md-card>
+</div>

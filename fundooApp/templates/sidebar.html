@@ -2,7 +2,7 @@
   <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4" style="margin-top:4.0em; z-index:1;" style="position:fixed;">
     <md-button ng-click="toggleLeft()" class="md-accent"></md-button>
 
-    <md-list-item style="margin-top: -36px;" ng-click="goToNote()">
+    <md-list-item style="margin-top:-36px;" ng-click="goToNote()">
       <md-icon><img src="images/notes.svg" /></md-icon>
       <p id="sidebar">Notes</p>
     </md-list-item>
@@ -12,10 +12,16 @@
       <p id="sidebar">Reminders</p>
     </md-list-item>
 
-    <md-list-item>
-      <md-icon><img src="images/labe.svg" /></md-icon>
-      <p id="sidebar">Label</p>
-    </md-list-item>
+    <md-list-item><span>Labels</span><md-button id="cl" ng-click="showAlert($event,label)">Edit</md-button></md-list-item>
+    <div ng-init="getAllLabels()">
+      <md-list-item ng-repeat="label in getlabels">
+        <md-button ng-click="goToLabel()" class="md-icon-button md-icon-left" layout="row">
+      <md-icon> <img src="images/labe.svg" />label</md-icon>
+    </md-button>
+    {{label.name}}
+        </md-list-item>
+      </div>
+
 
     <md-list-item>
       <md-icon> <img src="images/ceateLabel.svg" /></md-icon>

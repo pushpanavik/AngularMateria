@@ -1,54 +1,84 @@
 app.controller('homeCtrl',function($state,$scope,$window){
 
+  function dialogController($cope,$mdDialog,noteservice){
+    $scope.cancel=function(){
+      $mdDialog.cancel();
+    }
 
+    $scope.createLabel=function(){
+      var label={
+            name:$scope.labelname
+      };
+      console.log("label info",label);
 
+      var url=baseUrl+"/user/addLabel";
+      console.log("label info",label);
+      if(label.name!=undefined){
+        noteservice.postService(label,url)
+        .then(function successCallback(response) {
+          console.log("successfully note added", response);
+          console.log("title for note is", response);
+          $scope.getAllNote();
+        }, function errorCallback(response) {
+          console.log("note cannot be  added", response);
 
+        });
+      }
 
-$scope.addLabel=function(labelModel)
+    }
+
+    $scope.getAllLabel=function(){
+      var url=baseUrl +"user/displayLabel";
+
+        noteservice.getService(url)
+        .then(function successCallback(response)
         {
-            var url=baseUrl+"addlabel";
-            if(labelModel.labelName !== "")
-            {
-                labelService.postAPIWithHeader(url,labelModel).then(function successCallback(response)
-                {
-                    console.log("Add Label Successfully in Dialog",response);
-                    $scope.labelModel.labelName="";
-                    getAllLabelsInDialog();
-                    getAllLabels();
-                },function errorCallback(response){
-                    console.log("Add Label failed in Dialog",response.data);
-                })
-            }
-        };
+              console.log("get all labels"+response);
+          $scope.getlabels = response.data;
+
+        }, function errorCallback(response) {
+          console.log(response, "get all labels cannot be displayed");
+
+        });
+    }
+
+    $scope.deleteLabel=function(label){
+      console.log("label info inside delete function",label)
+      var url=baseUrl + "user/delete" +label.id;
+
+      noteservice.getDeleteService(label,url)
+      .then(function successCallback(response) {
+        console.log("successfully label dleted", response);
+
+        $scope.getAllNote();
+      }, function errorCallback(response) {
+        console.log("label cannot be  dleted", response);
+
+      });
+
+    }
+
+    $scope.updateLabel=function(label){
+      console.log("inside update label method",label);
+      var url=baseUrl + "user/updateLabel";
+      noteservice.putService(url,data)
+      .then(function successCallback(response) {
+        console.log("label updated ", response);
+
+        $scope.getAllNote();
+      }, function errorCallback(response) {
+        console.log("label cannot be updated", response);
+
+      });
+    }
+  }
 
 
-       function getAllLabelsInDialog()
-        {
-            var url=baseUrl+"labels";
 
-            labelService.getAPIWithHeader(url).then(function successCallback(response)
-            {
-                console.log("Get Label Successfully in Dialog",response);
-                $scope.labelInfo=response.data;
 
-                    $scope.labelDisplay=true;
-            },function errorCallback(response){
-                console.log("Get Label failed in Dialog",response.data);
-            });
-        };
 
-        $scope.deleteLabel=function(labelInfo)
-           {
-               var url=baseUrl+"deletelabel/";
-               labelService.deleteAPIWithHeader(url,labelInfo.id).then(function successCallback(response)
-               {
-                   $mdDialog.hide(response.data);
-                   console.log("Delete Label Successfully",response);
 
-               },function errorCallback(response){
-                   console.log("Delete Label failed in Delete Dialog",response.data);
-               })
-           }
+
 
 
    })

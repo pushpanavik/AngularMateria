@@ -64,7 +64,11 @@ params: {
      templateUrl: 'templates/search.html',
      controller: 'noteCtrl'
    })
-
+   .state('home.label', {
+        url: '/label',
+        templateUrl: 'templates/label.html',
+        controller: 'noteCtrl'
+      })
 // $locationProvider.html5Mode(true);
 
   $urlRouterProvider.otherwise("/Register")
