@@ -21,17 +21,25 @@
 
                 <md-menu-item>
                   <md-menu>
-              <md-button ng-click="$mdMenu.open()"><img src="images/clock.svg"/>  Pick date & time</md-button>
-              <md-menu-content>
-                <md-menu-item><md-button ng-click=""><img src="images/arrowbavk.svg"/>Pick date & time</md-button></md-menu-item>
-                <md-menu-item><input type="date" min="{{ today | date: 'MMMM d,y' }}" ng-model="note.reminderDate"/></md-menu-item>
-                <md-menu-item><input list="listofTime" ng-model="note.reminderTime"/>
-                 <datalist id="listofTime"><option ng-repeat="time in Time" value="{{time.value}}">{{time.name}}</option>
-                 </datalist></md-menu-item>
-                 <md-menu-item><md-button ng-click="ReminderDate(note);">Save</md-button></md-menu-item>
+              <md-button ng-click="$mdMenu.open()"><img src="images/clock.svg"/>  <label>Pick date & time</label></md-button>
+              <md-menu-content style="width:350px;">
+                <md-menu-item><md-button ng-click="" style="width:3px;"><img src="images/arrowbavk.svg"/></md-button>Pick date & time</md-menu-item>
+                <md-menu-item><input type="date" min="{{ today | date: 'MMMM d,y' }}" ng-model="note.reminderDat"/></md-menu-item>
+                <md-menu-item ng-model="note.reminderTime ">
+                  <select class="form-control">
+                  <option value="Morning">8.00 AM</option>
+                  <option value="AfterNoon">1.00 PM</option>
+                  <option value="Evening">6.00 PM</option>
+                  <option value="Night">9.00 PM</option>
+                  </select> </md-menu-item>
+
+                  <md-menu-item>
+                                <div layout="row" layout-align="end end">
+                                  <input type="button"  value="Save"  ng-click="ReminderDate(note)">
+                                </div>
+                           </md-menu-item>
               </md-menu-content>
             </md-menu>
-
               </md-menu-item>
 
               <md-menu-item><md-button ng-click=""><img src="images/place.jpg" style="width:16px;height:15px;"/> Pick place</md-button></md-menu-item>
@@ -42,26 +50,7 @@
 </div>
 
 
-<!-- <select class="form-control">
-<option value="8.00 AM">Morning</option>
-<option value="1.00 PM">AfterNoon</option>
-<option value="6.00 PM">Evening</option>
-<option value="9.00 PM">Night</option>
-</select> -->
 
-
-
-
-
-
-         <!-- <md-menu-item md-prevent-menu-close="md-prevent-menu-close">
-           <md-button ng-click="UpdateReminderDate(note);" >Save</md-button>
-         </md-menu-item>
-
-         <md-menu-item>
-
-         </md-menu-item>
-  </md-menu-content> -->
 
 
 

@@ -92,12 +92,12 @@ console.log("comes under showAdvance from archive call");
       $state.go('home.label');
     }
 
-    $scope.showlabelDialog = function(ev,label) {
+    $scope.createlabelDialog = function(ev,label) {
 console.log("comes under showAdvance from archive call");
         $mdDialog.show({
 
           controller: DialogController,
-          templateUrl: 'templates/labelDialog.html',
+          templateUrl: 'templates/createLabel.html',
           parent: angular.element(document.body),
           targetEvent: ev,
           clickOutsideToClose:true,
@@ -111,6 +111,51 @@ console.log("comes under showAdvance from archive call");
 
       $scope.labelpopup=labelpopup;
       console.log('in dialog controller in labelpopup',labelpopup);
+
+      $scope.addLabel=function(label){
+        console.log('inside add label');
+
+        var label={
+
+              name:$scope.name
+        };
+        console.log("label info",label);
+
+        var url=baseUrl+"/user/addLabel";
+        console.log("label info",label);
+
+        if(label.name!=undefined){
+
+          noteservice.postService(label,url)
+          .then(function successCallback(response) {
+            $scope.getAllLabel();
+            console.log("successfully label added", response);
+
+
+          }, function errorCallback(response) {
+            console.log("label cannot be  added", response);
+
+          });
+        }
+
+      }
+      $scope.getlabels=[];
+
+         $scope.getAllLabel=function(){
+           console.log("in get ll label");
+           var url=baseUrl +"user/displayLabel";
+
+             noteservice.getService(url)
+             .then(function successCallback(response)
+             {
+                   console.log("get all labels"+response);
+               $scope.getlabels = response.data;
+
+             }, function errorCallback(response) {
+               console.log(response, "get all labels cannot be displayed");
+
+             });
+         }
     }
 
 
@@ -118,7 +163,7 @@ console.log("comes under showAdvance from archive call");
         var note = {
         title: $scope.title,
         description: $scope.description,
-        reminderDate:'',
+        reminderDat:'',
         reminderTime:'',
         color: $scope.mycolor,
         archive: false,
@@ -347,17 +392,27 @@ function tokenDecode(str) {
 $scope.UpdateReminderDate=function(note){
 
 if(note!==undefined){
+  console.log('note under updateReminderDate',note);
 
-  console.log("from UpdateReminderDate(): ",note);
   var url=baseUrl+ "user/updateNote";
   noteservice.putService(url, note)
     .then(function successCallback(response) {
+      console.log("response from update reminder..........." +response);
       $scope.getAllNote();
       }, function errorCallback(response) {
       console.log("cannot update note", response);
     });
 }
 }
+
+$scope.hoverIn = function(){
+    this.Edit = true;
+};
+
+$scope.hoverOut = function(){
+    this.Edit = false;
+};
+
     $scope.hoverIn = function(ev) {
     	    this.hoverEdit = true;
     	  };
@@ -395,45 +450,18 @@ $scope.mList = [{
      $mdMenu.close(ev);
    }
 
-   $scope.getTodayTime = function() {
-    var date = new Date();
-    if (date.getHours() > 12) {
-      $scope.todaystime = "8:00 PM";
-    } else {
-      $scope.todaystime = "8:00 AM";
-    }
-  }
   $scope.today = new Date();
   $scope.todayReminder = function(note) {
-    if ($scope.today.getHours() > 20 && $scope.today.getHours() < 8) {
-
-      note.reminderDate=$scope.today;
-      // $scope.today.setHours(08);
-
-      console.log("call to todayReminder");
-        $scope.UpdateReminderDate(note);
-        console.log(note.reminderDate );
-        console.log("after UpdateReminderDate" ,note);
-      // $scope.today.setMinutes(00);
-    } else if ($scope.today.getHours() < 20 && $scope.today.getHours() > 8) {
-      console.log("pushapa  ");
-      console.log('scope today',$scope.today);
-        note.reminderDate=$scope.today;
-      $scope.today.setHours(20);
-      // $scope.today.setMinutes(00);
+       note.reminderDate="Today,8:00 PM";
         $scope.UpdateReminderDate(note);
         console.log('pushpa note info',note);
     }
 
-  }
+
 
 
   $scope.tomorrowReminder = function(note) {
-    $scope.tomorrow = new Date();
-
-    $scope.tomorrow.setDate($scope.tomorrow.getDate() + 1);
-    $scope.tomorrow.setHours(08);
-    note.reminderDate = $scope.tomorrow;
+     note.reminderDate="Tomorrow,8:00 AM";
     $scope.UpdateReminderDate(note);
   }
 
@@ -453,7 +481,7 @@ $scope.mList = [{
 
   $scope.removeReminder = function(note) {
     console.log("inside remove reminder method...");
-    note.reminderDate=null;
+    note.reminderDat=null;
     note.reminderTime=null;
     $scope.UpdateReminderDate(note);
   }
@@ -461,22 +489,48 @@ $scope.mList = [{
    $scope.ReminderDate=function(note)
        {
          $scope.today = new Date();
-         var myDate = new Date(note.reminderDate);
-         console.log('reminderTime is',note.reminderTime);
-                 if($scope.today.getHours() > 12){
-               myDate.setHours(note.reminderTime.split(':')[0]);
-               myDate.setMinutes(note.reminderTime.split(':')[1].split(' ')[0]);
-           }else if($scope.today.getHours() < 12) {
-               myDate.setHours('20');
-               myDate.setMinutes('00');
-           }
-           console.log("myDate with time",myDate+note.reminderTime.split(':')[1].split(' ')[1]);
+         var myDate = new Date(note.reminderDat);
 
-     note.reminderDate=myDate;
+         if(note.reminderTime.split(':')[1].split(' ')[1]==='PM')
+
+   {
+       var a=note.reminderTime.split(':')[0];
+       console.log('a',a);
+       var b=12;
+       var time24=addTime(a,b);
+       console.log("time in 24 hr"+time24);
+       myDate.setHours(time24);
+       myDate.setMinutes(note.reminderTime.split(':')[1].split(' ')[0]);
+
+       console.log("date and time "+myDate+" "+myDate.getHours()+" "+myDate.getMinutes());
+   }
+   else {
+       myDate.setHours(note.reminderTime.split(':')[0]);
+       myDate.setMinutes(note.reminderTime.split(':')[1].split(' ')[0]);
+
+   console.log("date and time "+myDate+" "+myDate.getHours()+" "+myDate.getMinutes());
+   }
+
+       console.log("myDate with time",myDate+note.reminderTime.split(':')[1].split(' ')[1]);
+
+ note.reminderDate=myDate;
 
      $scope.UpdateReminderDate(note);
 
    };
+
+   function addTime(a,b)
+    {
+        console.log("value of a and b",a+" "+b);
+        var count=0;
+        while (count<a)
+        {
+            b++;
+            count++;
+
+        }
+        return b;
+    }
 
 
    // $scope.isReminderVisible=false;
@@ -491,10 +545,10 @@ $scope.mList = [{
 
 
     $scope.Time=[
-        {'name':'Morning   8:00 AM','value':'8:00 AM'},
-       {'name':'Afternoon 1:00 PM','value':'1:00 PM'},
-       {'name':'Evening   6:00 PM','value':'6:00 PM'},
-       {'name':'Night     8:00 PM','value':'8:00 PM'},
+        {'name':'Morning   ','value':'8:00 AM'},
+       {'name':'Afternoon ','value':'1:00 PM'},
+       {'name':'Evening  ','value':'6:00 PM'},
+       {'name':'Night    ','value':'8:00 PM'},
        {'name':'custom','value':''}
 
     ]
@@ -598,45 +652,8 @@ $scope.mList = [{
      $mdDialog.cancel();
    }
 
-   $scope.addLabel=function(){
-     var label={
-
-           name:$scope.labelname
-     };
-     console.log("label info",label);
-
-     var url=baseUrl+"/user/addLabel";
-     console.log("label info",label);
-     if(label.name!==' '){
-
-       noteservice.postService(label,url)
-       .then(function successCallback(response) {
-         $scope.getAllLabel();
-         console.log("successfully label added", response);
 
 
-       }, function errorCallback(response) {
-         console.log("label cannot be  added", response);
-
-       });
-     }
-
-   }
-$scope.getlabels=[];
-   $scope.getAllLabel=function(){
-     var url=baseUrl +"user/displayLabel";
-
-       noteservice.getService(url)
-       .then(function successCallback(response)
-       {
-             console.log("get all labels"+response);
-         $scope.getlabels = response.data;
-
-       }, function errorCallback(response) {
-         console.log(response, "get all labels cannot be displayed");
-
-       });
-   }
 
    $scope.deleteLabel=function(label){
      console.log("label info inside delete function",label)
@@ -697,13 +714,15 @@ function dialogControl($scope,$mdDialog){
     $mdDialog.cancel();
   };
 }
+$scope.getLabels=[];
   $scope.getAllLabels=function(){
     var url=baseUrl + "user/displayLabel";
 
     noteservice.getService(url)
     .then(function successCallback(response) {
+      getLabels=response.data;
     console.log(response);
-    $scope.getAllNote();
+
   }, function errorCallback(response) {
     console.log("error" + response);
   });
@@ -741,7 +760,7 @@ $scope.removeLabelOnNote=function(label,note){
        noteservice.getDeleteService(note,url)
        .then(function successCallback(response) {
          console.log(response);
-         $scope.getAllNote();
+         $scope.getAllLabel();
        }, function errorCallback(response) {
          console.log("error" + response);
        })

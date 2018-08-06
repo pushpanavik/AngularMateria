@@ -86,7 +86,13 @@ overflow: hidden;
 .createLabe{
   border:none;outline: none;
 }
-
+.btn-licon{
+  margin-top: 11px;
+}
+.divicon{
+  width:50px;
+  height:50px;
+}
 .chip{
   margin: 0px auto;padding: 0px;
 }

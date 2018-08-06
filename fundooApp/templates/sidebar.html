@@ -12,16 +12,13 @@
       <p id="sidebar">Reminders</p>
     </md-list-item>
 
-    <md-list-item><span>Labels</span><md-button id="cl" ng-click="showlabelDialog($event,label)">Edit</md-button></md-list-item>
-    <div ng-init="getAllLabels()">
-      <md-list-item ng-repeat="label in getlabels">
-        <md-button ng-click="goToLabel()" class="md-icon-button md-icon-left" layout="row">
-      <md-icon> <img src="images/labe.svg" />label</md-icon>
-    </md-button>
-    {{label.name}}
+    <md-list-item><span>Labels</span><md-button id="cl" ng-click="createlabelDialog($event,label)">Edit</md-button></md-list-item>
+    <div ng-init="getAllLabel()" >
+      <md-list-item ng-repeat="label in getlabels ">
+      <md-icon> <img src="images/labe.svg" /></md-icon>
+    {{labelpopup.name}}
         </md-list-item>
-      </div>
-
+              </div>
 
     <md-list-item>
       <md-icon> <img src="images/ceateLabel.svg" /></md-icon>

@@ -3,34 +3,25 @@
         <div class="md-dialog-content">
             <md-subheader class="label-header">Edit labels</md-subheader>
             <div layout="row" layout-align="start center">
-                <md-button ng-click="changeIcon()" style="margin: 0 auto;padding: 0px;" ng-show="close" class="md-icon-button md-icon-left">
-                    <md-icon><i class="material-icons">close</i></md-icon>
-                </md-button>
+
                 <md-button ng-click="changeIcon()" style="margin: 0 auto;padding: 0px;" ng-show="add" class="md-icon-button md-icon-left">
-                    <md-icon><i class="material-icons">add</i></md-icon>
+                    <i class="material-icons">add</i></md-icon>
                 </md-button>
 
-
-                 <input type="text" class="createLabe" ng-model="label.name" placeholder="Create new label" />
-
-                <md-button class="md-icon-button md-icon-right" ng-click="addLabel(label);" style="margin: 0 auto;padding: 0px;" ng-show="done">
-                  <md-icon><img src="images/baseline-done-24px.svg" />done</md-icon>
+                <md-icon class="btn-licon"><img src="images/baseline-clear-24px.svg"/ ></md-icon>   <md-input-container md-no-float class="md-block"><input type="text" class="createLabe" ng-model="name" placeholder="Create new label" /></md-input-container>
+                  <md-icon  class="btn-licon" ng-click="addLabel(label);"><img src="images/baseline-done-24px.svg"/></md-icon>
                 </md-button>
             </div>
 
-          
-            <div ng-init="getAllLabels()">
-            <div  layout="row" layout-align="start"  ng-repeat="label in getlabels">
-               <md-button  ng-click="deleteLabel(label)"  class="chip" class="md-icon-button md-icon md-icon-left">
-                    <md-icon><i class="material-icons">delete</i></md-icon>
-                </md-button>
-                <md-button class="chip" class="md-icon-button md-icon md-icon-left">
-                    <md-icon><i class="material-icons">label</i></md-icon>
-                </md-button>
-                 <input  type="text" ng-mouseover="enableEdit(label)" ng-mouseleave="disableEdit(label)" style="border:none;outline: none;" ng-model="label.name" />
+            <div ng-init="getAlllabel()">
+            <div  layout="row"  ng-repeat="label in getlabels">
+                <md-icon>
+                    <img src="images/labe.svg"/></md-icon>
 
-                <md-button  ng-mouseover="enableEdit(label)" ng-mouseleave="disableEdit(label)" class="chip" ng-click="updateLabel(label)" class="md-icon-button md-icon md-icon-right">
-                    <md-icon><i class="material-icons">create</i>
+                 <input  type="text" style="border:none;outline: none;" data-ng-model="label.name" />
+
+                <md-button   class="chip" ng-click="updateLabel(label)" class="md-icon-button md-icon md-icon-right">
+                    <md-icon><i class="material-icons"></i>
                     <md-tooltip>Rename label</md-tooltip></md-icon>
                 </md-button>
 
