@@ -4,33 +4,33 @@
             <md-subheader class="label-header">Edit labels</md-subheader>
             <div layout="row" layout-align="start center">
 
-                <md-button ng-click="changeIcon()" style="margin: 0 auto;padding: 0px;" ng-show="add" class="md-icon-button md-icon-left">
+                <md-button class="chip" ng-show="add" class="md-icon-button md-icon-left">
                     <i class="material-icons">add</i></md-icon>
                 </md-button>
 
-                <md-icon class="btn-licon"><img src="images/baseline-clear-24px.svg"/ ></md-icon>   <md-input-container md-no-float class="md-block"><input type="text" class="createLabe" ng-model="name" placeholder="Create new label" /></md-input-container>
+                <md-icon class="btn-licon"><img src="images/baseline-clear-24px.svg"/ ></md-icon> <md-input-container md-no-float class="md-block"><input type="text" class="createLabe" ng-model="name" placeholder="Create new label" /></md-input-container>
                   <md-icon  class="btn-licon" ng-click="addLabel(label);"><img src="images/baseline-done-24px.svg"/></md-icon>
                 </md-button>
             </div>
 
-            <div ng-init="getAlllabel()">
-            <div  layout="row"  ng-repeat="label in getlabels">
-                <md-icon>
-                    <img src="images/labe.svg"/></md-icon>
 
-                 <input  type="text" style="border:none;outline: none;" data-ng-model="label.name" />
+            <div layout="row" ng-repeat="label in getlabels">
+              <md-icon ng-click="deleteLabel(label)"> <img src="images/baseline-delete-24px.svg"/>
+                  <img src="images/labe.svg"/ >
+                </md-icon>
 
-                <md-button   class="chip" ng-click="updateLabel(label)" class="md-icon-button md-icon md-icon-right">
-                    <md-icon><i class="material-icons"></i>
-                    <md-tooltip>Rename label</md-tooltip></md-icon>
-                </md-button>
+                 <div contenteditable data-ng-model="label.name"> </div>
 
+
+               <md-button class="chip" ng-click="updateLabel(label)"><img src="images/pen.svg" style="margin-top:5px;"/>
+                  <md-tooltip>Rename label</md-tooltip></md-button>
             </div>
-            <div layout="row" layout-align="end end">
-                <md-button class="label-btn" ng-click="cancel();addLabel(label);">
-                    <strong>Done</strong>
+
+            <span layout="row" layout-align="end end">
+                <md-button class="label-btn" ng-click="cancel();open()">
+                    <strong >Done</strong>
                 </md-button>
-            </div>
-        </div>
+            </span>
+
     </md-dialog-content>
 </md-dialog>

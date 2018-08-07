@@ -10,12 +10,11 @@
 
   <div layout="row" layout-align="center center">
     <md-card ng-show="showWhenClicked" class="notecard">
-      <div layout="row" >
+
         <div contenteditable class="intial-text"  data-placeholder="Title" ng-model="title" id="notecard1" ng-bind-html></div>
-        <md-button class="md-icon-button" id="right"><img src="images/pin0.svg" >
+      <div layout="row" layout-align="end end" >  <md-button class="md-icon-button"><img src="images/pin0.svg" >
           <md-tooltip>pin</md-tooltip></md-button>
     </div>
-
       <div contenteditable class="intial-text" data-placeholder="Take a note..." ng-model="description" id="notecard1"></div>
       <div><icon> </icon></div>
       <div><md-button ng-click="showWhenClicked=false;noteModel()" id="close-btn">CLOSE</md-button></div>
@@ -24,18 +23,18 @@
 
 
       <md-subheader  id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader>
-      <div layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()" layout-align="center center">
-        <md-card class="dashboard"  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
+      <div layout="row"  layout-align="center center" layout-wrap  data-ng-init="getAllNote()" layout-align="center center">
+        <md-card class="dashboard"  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:300px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
                     <md-card-title ng-click="showAdvanced($event,note)">
                         <md-card-title-text>
                           <div contenteditable class="contentsize"><strong ng-bind-html="note.title"> </strong>
                         </md-card-title-text>
                           </md-card-title>
-                          <md-button class="md-icon-button" ng-click="updatePin(note)" id="pinondashboard">
+                          <span ng-click="updatePin(note)" id="pinondashboard">
                             <img ng-if="note.pin === true" src="images/bluepin.svg">
                             <img ng-if="note.pin === false" src="images/pin0.svg">
                               <md-tooltip>Pin Note</md-tooltip>
-                          </md-button>
+                          </span>
                           </div>
                     <md-card-content class="center" class="placesize">
                       <div  contenteditable ng-bind-html="note.description"> </div>
@@ -43,7 +42,7 @@
                     <div  layout="row" >
                         <md-chips ng-if="note.reminderDate"  ng-mouseover="enableEdit(note)"  ng-mouseleave="disableEdit(note)">
                             <md-chip class="chip"><span class="chipstyle">{{note.reminderDate | date : 'MMM dd,HH:00 a'}}</span>
-                              <md-button   class="md-icon-button" ng-click="removeReminder(note)" class="chip"><md-icon><i class="material-icons">close</i></md-icon></md-button ></md-chip>
+                              <span ng-click="removeReminder(note)" class="chip"><md-icon><i class="material-icons">close</i></md-icon></span ></md-chip>
                         </md-chips>
                       </div>
                       <div layout="row" ng-if="note.listOfLabels" layout-wrap layout-align="start space-around">
@@ -58,8 +57,8 @@
 
 
     <md-subheader  id="header-btn" class="pinother"><strong>Others</strong> </md-subheader>
-    <div layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
-      <md-card ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
+    <div  layout="row"  layout-align="center center"layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
+      <md-card flex="30" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
         <md-card-title ng-click="showAdvanced($event,note)">
         <md-card-title-text>
           <div contenteditable ><strong ng-bind-html="note.title"> </strong>
@@ -68,8 +67,9 @@
                <md-button class="md-icon-button" ng-click="updatePin(note)" id="otherDash">
                  <img ng-if="note.pin === true"  src="images/bluepin.svg">
                    <img ng-if="note.pin=== false"  src="images/pin0.svg">
+                    <md-tooltip>Pin Note</md-tooltip>
                </md-button>
-               <md-tooltip>Pin Note</md-tooltip>
+
                </div>
 
                   <md-card-content class="center">

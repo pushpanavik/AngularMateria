@@ -1,4 +1,4 @@
-<div layout="row" flex="20">
+<div layout="row" flex="20"  ng-init="getAllLabels()">
   <md-sidenav class="md-sidenav-left" md-component-id="left" md-disable-backdrop md-whiteframe="4" style="margin-top:4.0em; z-index:1;" style="position:fixed;">
     <md-button ng-click="toggleLeft()" class="md-accent"></md-button>
 
@@ -12,15 +12,14 @@
       <p id="sidebar">Reminders</p>
     </md-list-item>
 
-    <md-list-item><span>Labels</span><md-button id="cl" ng-click="createlabelDialog($event,label)">Edit</md-button></md-list-item>
-    <div ng-init="getAllLabel()" >
-      <md-list-item ng-repeat="label in getlabels ">
-      <md-icon> <img src="images/labe.svg" /></md-icon>
-    {{labelpopup.name}}
-        </md-list-item>
-              </div>
+    <md-list-item ><span>Labels</span><md-button id="cl" ng-click="createlabelDialog($event,label)">Edit</md-button></md-list-item>
+    <div layout="column"  layout-align="space-between start" >
+      <span ng-repeat="label in retireveLabels ">
+      <div><md-button ng-click=""> <img src="images/labe.svg" /></md-button>{{label.name}}</div>
+</span>
+      </div>
 
-    <md-list-item>
+    <md-list-item ng-click="createlabelDialog($event,label)">
       <md-icon> <img src="images/ceateLabel.svg" /></md-icon>
       <p id="sidebar">Create new label</p>
     </md-list-item>

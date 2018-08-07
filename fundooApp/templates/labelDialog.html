@@ -1,7 +1,7 @@
 <md-dialog aria-label="Label" class="label-dialog">
     <md-dialog-content>
         <div class="md-dialog-content">
-            <md-subheader class="label-header" style="margin-left:-28px;">Label notes</md-subheader>
+            <md-subheader class="label-header" style="margin-left:-28px;">Label note</md-subheader>
             <div layout="row" layout-align="start space-between">
                 <input type="text" class="labeldialog" placeholder="Enter label name"  style="margin-left:-25px;" ng-maxlength=25 >
                <md-button class="md-icon-button md-icon-right" class="chip">
@@ -12,7 +12,7 @@
             <div ng-init="getAllLabels()">
               <div layout="row" layout-align="start" ng-repeat="label in getlabels">
                 <md-checkbox ng-checked="exists(label,selected);" ng-click="toggle(label,selected);addlabelNote(label)">
-                  {{labelpopup.name}}
+                {{label.name}}
                 </md-checkbox>
               </div>
             </div>
