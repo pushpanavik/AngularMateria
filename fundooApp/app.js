@@ -1,4 +1,4 @@
-var app=angular.module('fundooApp',['ui.router','ngMaterial','content-editable','ngSanitize']);
+var app=angular.module('fundooApp',['ui.router','ngMaterial','ngSanitize']);
 app.config(function($stateProvider,$urlRouterProvider)
 {
   $stateProvider

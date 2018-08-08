@@ -2,19 +2,20 @@
     <md-dialog-content>
         <div class="md-dialog-content">
             <md-subheader class="label-header" style="margin-left:-28px;">Label note</md-subheader>
-            <div layout="row" layout-align="start space-between">
-                <input type="text" class="labeldialog" placeholder="Enter label name"  style="margin-left:-25px;" ng-maxlength=25 >
+            <div layout="row">
+                <input type="text" class="labeldialog" placeholder="Enter label name" style="margin-left:-25px;" ng-maxlength=25 >
                <md-button class="md-icon-button md-icon-right" class="chip">
                     <md-icon><i class="material-icons" style="margin-left:-14px;">search</i></md-icon>
                 </md-button>
             </div>
-<span style="text-align: center;color: red;margin-left: 15px;">{{error}} </span>
+
             <div ng-init="getAllLabels()">
-              <div layout="row" layout-align="start" ng-repeat="label in getlabels">
+              <div layout="row" ng-repeat="label in retireveLabels">
                 <md-checkbox ng-checked="exists(label,selected);" ng-click="toggle(label,selected);addlabelNote(label)">
                 {{label.name}}
                 </md-checkbox>
               </div>
             </div>
+            <!-- <md-button  ng-click="addLabelNote(label)"  ><img src="images/ceateLabel.svg" /></md-button> -->
     </md-dialog-content>
 </md-dialog>

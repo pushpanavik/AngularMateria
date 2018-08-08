@@ -84,6 +84,8 @@ console.log("comes under showAdvance from archive call");
             },
   })
     };
+
+
     function DialogController($scope,mydata){
       $scope.mydata= mydata;
       console.log('in dialog controller in mydata',mydata);
@@ -93,9 +95,9 @@ console.log("comes under showAdvance from archive call");
     }
 
     $scope.createlabelDialog = function(ev,label) {
-console.log("comes under showAdvance from archive call");
-        $mdDialog.show({
 
+console.log('label insde create label',label);
+        $mdDialog.show({
           controller: DialogController2,
           templateUrl: 'templates/createLabel.html',
           parent: angular.element(document.body),
@@ -103,7 +105,7 @@ console.log("comes under showAdvance from archive call");
           clickOutsideToClose:true,
           fullscreen : $scope.customFullscreen,
           locals:{
-              labelpopup : label
+              labelpopup : $scope.getlabels
             },
   })
     };
@@ -119,6 +121,11 @@ console.log("comes under showAdvance from archive call");
 
               name:$scope.name
         };
+
+        $scope.value=false;
+        if(label.name===$scope.name && label.name===undefined){
+          $scope.value=true;
+        }else if(label.name!=$scope.name &&label.name!=undefined){
         console.log("label info",label);
 
         var url=baseUrl+"/user/addLabel";
@@ -137,7 +144,7 @@ console.log("comes under showAdvance from archive call");
 
           });
         }
-
+}
       }
       $scope.deleteLabel=function(label){
         console.log("label info inside delete function",label)
@@ -192,11 +199,41 @@ console.log("comes under showAdvance from archive call");
          $scope.getAllLabel();
     }
 
+function dialogControl($scope,$mdDialog){
+  $scope.cancel=function(){
+    $mdDialog.cancel();
+  };
+}
 
-    function dialogControl($scope,$mdDialog){
-      $scope.cancel=function(){
-        $mdDialog.cancel();
-      };
+var noteobj=[];
+$scope.showlabelDialog=function(event,note){
+  console.log("inside showlabeldialog:  ",note);
+
+  noteobj=note;
+console.log('display label',$scope.retireveLabels);
+  $mdDialog.show({
+    locals:{mydata1 :note,
+    mydata3:$scope.retireveLabels},
+    controller: DialogController3,
+    templateUrl :'templates/labelDialog.html',
+    parent: angular.element(document.body),
+    targetEvent:event,
+    clickOutsideToClose:true
+
+  })
+
+}
+
+$scope.open=false;
+$scope.showHide=function(){
+  $scope.open=$scope.open=true;
+}
+
+    function DialogController3($scope,mydata1,mydata3){
+      $scope.mydata1=mydata1;
+      $scope.mydata3=mydata3;
+console.log('mydata3333',$scope.mydata3);
+console.log("in dilogcontroller 333333");
 
       $scope.removeLabelOnNote=function(label,note){
         console.log("label in dashboard ", label);
@@ -236,26 +273,26 @@ console.log("comes under showAdvance from archive call");
              noteservice.putService(url, note)
                .then(function successCallback(response) {
                  console.log("relation on label and note is updated",response);
-                $scope.getAllLabels();
+
                }, function errorCallback(response) {
                  console.log("cannot update note", response);
                });
       }
 
       $scope.getLabelNote=[];
-      $scope.getLabelOnNote=function(){
-        console.log("label id in getLabelOnNote", label.id);
+      $scope.getLabelOnNote=function(Label){
 
-        var url=baseUrl +"user/labelNote/" +label.id;
+        console.log("label id in getLabelOnNote");
+
+        var url=baseUrl +"user/displayLabel"+label.id;
         noteservice.getService(url)
         .then(function successCallback(response) {
         console.log(response);
-        $scope.getAllLabels();
+      $scope.getLabelNote=response.data;
       }, function errorCallback(response) {
         console.log("error" + response);
       });
       }
-
     }
 
     $scope.noteModel = function() {
@@ -320,6 +357,7 @@ console.log("comes under showAdvance from archive call");
 
         });
     };
+
     $scope.retireveLabels=[];
       $scope.getAllLabels=function(){
 
@@ -327,7 +365,7 @@ console.log("comes under showAdvance from archive call");
         noteservice.getService(url)
         .then(function successCallback(response) {
         $scope.retireveLabels=response.data;
-        console.log(response);
+        console.log('response', $scope.retireveLabels);
 
       }, function errorCallback(response) {
         console.log("error" + response);
@@ -561,7 +599,9 @@ $scope.mList = [{
 
   $scope.today = new Date();
   $scope.todayReminder = function(note) {
-       note.reminderDate="Today,8:00 PM";
+      $scope.today.setHours('20');
+     $scope.today.setMinutes('00');
+     note.reminderDate=$scope.today;
         $scope.UpdateReminderDate(note);
         console.log('pushpa note info',note);
     }
@@ -570,7 +610,11 @@ $scope.mList = [{
 
 
   $scope.tomorrowReminder = function(note) {
-     note.reminderDate="Tomorrow,8:00 AM";
+    $scope.Tommorrow=new Date();
+  //  $scope.Tommorrow.setDate()$scope.nextWeek.getDate()+1);
+    $scope.Tommorrow.setHours('20');
+   $scope.Tommorrow.setMinutes('00');
+     note.reminderDate=$scope.Tommorrow;
     $scope.UpdateReminderDate(note);
   }
 
@@ -584,7 +628,6 @@ $scope.mList = [{
     console.log('note.reminderDate',note);
     $scope.UpdateReminderDate(note);
       }
-
 
 
 
@@ -653,8 +696,44 @@ $scope.mList = [{
    //      note.editable=$scope.isReminderVisible;
    //      //=$scope.isReminderVisible;
    //  };
+//    $scope.showCollaborator = function(ev) {
+// console.log("comes under showAdvance from archive call");
+//        $mdDialog.show({
+//
+//          controller: DialogCollaboratorController,
+//          templateUrl: 'templates/collaboratorDialog.html',
+//          parent: angular.element(document.body),
+//          targetEvent: ev,
+//          clickOutsideToClose:true,
+//          fullscreen : $scope.customFullscreen,
+//           })
+//    };
+//
+// function DialogCollaboratorController{
+//
+// }
 
 
+   // $scope.imageSelect=function(files)
+   //    {
+   //        if(event!=undefined)
+   //        {
+   //            event.stopPropagation();
+   //        }
+   //
+   //        var form = new FormData();
+   //        form.append("file", files[0]);
+   //
+   //
+   //        console.log("form",form);
+   //        var url=baseUrl+"uploadFile";
+   //        console.log("url",url);
+   //        noteservice.postService(url,form).then(function successCallback(response) {
+   //           console.log("Update Successfully in home controller",response);
+   //        }, function errorCallback(response) {
+   //            console.log(" Update failed",response);
+   //        });
+   //    };
     $scope.Time=[
         {'name':'Morning   ','value':'8:00 AM'},
        {'name':'Afternoon ','value':'1:00 PM'},
@@ -662,7 +741,7 @@ $scope.mList = [{
        {'name':'Night    ','value':'8:00 PM'},
        {'name':'custom','value':''}
 
-    ]
+    ];
 
 
  var deleteNoteforever = function(note) {
@@ -727,7 +806,7 @@ $scope.mList = [{
           $scope.showOtherNote=true;
       }
 
-     updatePin(note);
+     $scope.updatePin(note);
   };
     $scope.updatePin = function(note) {
  if (note.pin === false) {
@@ -785,22 +864,6 @@ $scope.close = false;
     }
 
 
-var noteobj=[];
-$scope.showlabeldialog=function(event,note,noteservice){
-  console.log("inside showlabeldialog:  ",note);
-  noteobj=note;
-
-  $mdDialog.show({
-    locals:{mydata1 :note},
-    controller: dialogControl,
-    templateUrl :'templates/labelDialog.html',
-    parent: angular.element(document.body),
-    targetEvent:event,
-    clickOutsideToClose:true
-
-  })
-  console.log('dialog event mydata1..........',mydata1);
-}
 
 
 

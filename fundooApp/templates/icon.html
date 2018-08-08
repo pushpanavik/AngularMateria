@@ -52,7 +52,7 @@
 
 <div  ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:31px;">
   <span>
-    <md-icon><img src="images/baseline-person_add-24px.svg" /></md-icon>
+    <md-icon ng-click="showCollaborator($event)"><img src="images/baseline-person_add-24px.svg"/></md-icon>
     <md-tooltip>Collabarator</md-tooltip>
 </span>
 
@@ -67,7 +67,7 @@
  </md-menu-content>
  </md-menu>
 
-<span style="padding-left:10px;" >
+<span  ng-click="imageSelect($event,note)">
   <md-icon><i class="material-icons" >photo</i></md-icon>
   <md-tooltip>Add image</md-tooltip>
 </span>
@@ -84,7 +84,7 @@
     </span>
         <md-menu-content>
           <md-menu-item><md-button ng-click="isTrash(note)">Delete note</md-button></md-menu-item>
-          <md-menu-item><md-button ng-click="showlabelDialog($event,label)">Add Label</md-button>
+          <md-menu-item><md-button ng-click="showlabelDialog($event,note)">Add Label</md-button>
           </md-menu-item>
         </md-menu-content>
 

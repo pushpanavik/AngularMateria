@@ -15,16 +15,12 @@
 
 
             <div layout="row" ng-repeat="label in getlabels">
-              <md-icon ng-click="deleteLabel(label)"> <img src="images/baseline-delete-24px.svg"/>
-                  <img src="images/labe.svg"/ >
-                </md-icon>
-
-                 <div contenteditable data-ng-model="label.name"> </div>
-
-
-               <md-button class="chip" ng-click="updateLabel(label)"><img src="images/pen.svg" style="margin-top:5px;"/>
-                  <md-tooltip>Rename label</md-tooltip></md-button>
-            </div>
+              <span ng-click="deleteLabel(label)" > <img src="images/baseline-delete-24px.svg"/></span>
+              <span><img src="images/labe.svg"/></span>
+                <input type="text" ng-model="label.name">
+                <span class="chip" ng-click="updateLabel(label)"><img src="images/pen.svg"/>
+                   <md-tooltip>Rename label</md-tooltip></span>
+                </div>
 
             <span layout="row" layout-align="end end">
                 <md-button class="label-btn" ng-click="cancel();open()">
