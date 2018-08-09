@@ -23,21 +23,20 @@
   </div>
 
 
-
-
 <md-subheader  id="header-btn" class="pinother"><strong>Fired</strong> </md-subheader>
 <div layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
-  <md-card ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
+  <md-card ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText" >
     <md-card-title ng-click="showAdvanced($event,note)">
     <md-card-title-text>
-      <div contenteditable ><strong ng-bind-html="note.title"> </strong>
+      <div contenteditable ><strong>{{note.title}} </strong>
     </md-card-title-text>
   </md-card-title>
            <md-button class="md-icon-button" ng-click="updatePin(note)" id="otherDash">
-             <img ng-if="note.pin === true"  src="images/bluepin.svg">
+             <img ng-if="note.pin === true" src="images/bluepin.svg">
                <img ng-if="note.pin=== false"  src="images/pin0.svg">
+               <md-tooltip>Pin Note</md-tooltip>
            </md-button>
-           <md-tooltip>Pin Note</md-tooltip>
+
            </div>
                 <md-card-content class="center" class="placesize">
                   <div  contenteditable ng-bind-html="note.description"> </div>
@@ -53,6 +52,7 @@
                         <md-chip  class="chip"><button ng-click="removeLabelOnNote(label,note)" style="border:none;outline:none;border-radius: 50px;margin-left: 5px;">{{label.name}}</button><md-button ng-show="label.editable" class="md-icon-button" ng-click="removeLabel(label,note,$event)"  class="chip"><md-icon><i class="material-icons">close</i></md-icon></md-button></md-chip>
                     </md-chips>
                  </div>
+
   <md-button class="md-icon-button"  >
     <md-icon><img src="images/baseline-done-24px.svg" /></md-icon>
     <md-tooltip>Mark</md-tooltip>

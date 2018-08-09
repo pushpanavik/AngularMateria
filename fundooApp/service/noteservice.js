@@ -46,10 +46,25 @@ serviceobj.getDeleteService=function(data,url){
   data: data
 
 })
-
 }
 
-
+serviceobj.postImageService = function(data,url) {
+  console.log(data);
+  return $http({
+    method : "POST",
+    url : url,
+    data:angular.toJson(data)
+  })
+}
+serviceobj.getService=function(url){
+  return $http({
+    method : "GET",
+    url : url,
+    headers:{
+      'token': localStorage.getItem('token')
+     }
+   })
+}
 
 
 return serviceobj;

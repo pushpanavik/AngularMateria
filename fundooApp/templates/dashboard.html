@@ -24,7 +24,7 @@
 
       <md-subheader  id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader>
       <div layout="row"  layout-align="center center" layout-wrap  data-ng-init="getAllNote()" layout-align="center center">
-        <md-card class="dashboard"  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:300px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
+        <md-card flex="30"class="dashboard"  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:300px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
                     <md-card-title ng-click="showAdvanced($event,note)">
                         <md-card-title-text>
                           <div contenteditable class="contentsize"><strong ng-bind-html="note.title"> </strong>
@@ -58,7 +58,7 @@
 
     <md-subheader  id="header-btn" class="pinother"><strong>Others</strong> </md-subheader>
     <div  layout="row"  layout-align="center center"layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
-      <md-card flex="30" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
+      <md-card class="dashboard"flex="30" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
         <md-card-title ng-click="showAdvanced($event,note)">
         <md-card-title-text>
           <div contenteditable ><strong ng-bind-html="note.title"> </strong>
