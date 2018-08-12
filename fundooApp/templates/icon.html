@@ -24,7 +24,7 @@
               <md-button ng-click="$mdMenu.open()"><img src="images/clock.svg" class="reminderimg"/>  <label>Pick date & time</label></md-button>
               <md-menu-content style="width:350px;">
                 <md-menu-item><md-button ng-click="" style="width:3px;"><img src="images/arrowbavk.svg"/></md-button>Pick date & time</md-menu-item>
-                <md-menu-item><input type="date" min="{{ today | date: 'MMMM d,y' }}" ng-model="note.reminderDat"/></md-menu-item>
+                <md-menu-item><input type="date" min="{{ today | dateformat }}" ng-model="note.reminderDat"/></md-menu-item>
                 <md-menu-item ng-model="note.reminderTime ">
                   <select class="form-control">
                   <option value="Morning">8.00 AM</option>
@@ -61,35 +61,15 @@
    <md-icon><img src="images/baseline-color_lens-24px.svg"/></md-icon><md-tooltip>Change color</md-tooltip>
  </span>
  <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
-   <md-menu-item ng-repeat="x in customerData">
-     <div class="colorBox" ng-repeat="t1 in x" ng-style="{'background-color':t1.name};" ng-click="updateColor(note,t1.name)"></div>
+   <md-menu-item ng-repeat="color in customerData">
+     <div class="colorBox" ng-repeat="colorvalue in color" ng-style="{'background-color':colorvalue.name};" ng-click="updateColor(note,colorvalue.name)"></div>
    </md-menu-item>
  </md-menu-content>
  </md-menu>
 
-<!-- <md-icon ngf-select ng-model="file"
-             accept="image/*" ngf-max-size="2MB" required
-             ngf-model-invalid="errorFile" ><i class="material-icons">photo</i>
+  <span ng-click="imageSelect($event,note)" ><i class="material-icons" >photo</i>
+  <md-tooltip>Add image</md-tooltip></span>
 
-      <i ng-show="myForm.file.$error.required">*required</i><br>
-      <i ng-show="myForm.file.$error.maxSize">File too large
-          {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
-      <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb"> <button ng-click="picFile = null" ng-show="picFile">Remove</button>
-      <br>
-      <button ng-disabled="!myForm.$valid"
-              ng-click="uploadPic(picFile)">
-      <span class="progress" ng-show="picFile.progress >= 0">
-        <div style="width:{{picFile.progress}}%"
-            ng-bind="picFile.progress + '%'"></div>
-      </span>
-      <span ng-show="picFile.result">Upload Successful</span>
-      <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-</md-icon> -->
-
-<span  ng-click="imageSelect($event,note)">
-  <md-icon><i class="material-icons" >photo</i></md-icon>
-  <md-tooltip>Add image</md-tooltip>
-</span>
 
   <span style="padding-left:10px;">
     <md-icon ng-click="isArchive(note);" > <img src="images/archive.svg" /></p></md-icon>

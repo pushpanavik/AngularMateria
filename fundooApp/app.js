@@ -65,8 +65,8 @@ params: {
      controller: 'noteCtrl'
    })
    .state('home.label', {
-        url: '/label',
-        templateUrl: 'templates/label.html',
+         url: '/label/:name',
+        templateUrl:'templates/label.html',
         controller: 'noteCtrl'
       })
 // $locationProvider.html5Mode(true);

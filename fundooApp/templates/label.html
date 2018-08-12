@@ -1,3 +1,49 @@
+<md-dialog>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <md-subheader class="label-header">Edit labels</md-subheader>
+      <div layout="row" layout-align="start center">
+        <md-button style="margin: 0 auto;padding: 0px;" class="md-icon-button md-icon-left" ng-click="changeIcon()" ng-show="close">
+          <md-icon><i class="material-icons">close</i></md-icon>
+        </md-button>
+        <md-button style="margin: 0 auto;padding: 0px;" class="md-icon-button md-icon-left" ng-click="changeIcon()" ng-show="add">
+          <md-icon><i class="material-icons">add</i></md-icon>
+        </md-button>
+        <input type="text" style="border:none;outline: none;" ng-model="label" placeholder="Create new label"
+        ng-click="changeIcon()" />
+        <md-button class="md-icon-button md-icon-right" ng-click="addLabel(label)" style="margin: 0 auto;padding: 0px;" ng-show="done">
+          <md-icon><i class="material-icons">done</i></md-icon>
+        </md-button>
+      </div>
+
+      <div layout="row" layout-align="start" ng-repeat="label in getlabels" ng-mouseover="enableEdit(label)" ng-mouseout="disableEdit(label)">
+        <md-button style="margin: 0px auto;padding: 0px" class="md-icon-button md-icon md-icon-left" ng-show="label.showDelete">
+          <md-icon ng-click="deleteLabel(label)"><i class="material-icons" >delete</i></md-icon>
+        </md-button>
+        <md-button style="margin: 0px auto;padding: 0px 0px" class="md-icon-button md-icon md-icon-left" ng-show="label.showLabel" >
+          <md-icon><i class="material-icons">label</i></md-icon>
+        </md-button>
+        <input  type="text" style="border:none;outline: none;" ng-model="label.name"  />
+        <md-button style="margin: 0px auto;padding: 0px;" class="md-icon-button md-icon md-icon-right" ng-show="showCreate">
+          <md-icon><i class="material-icons" ng-click="enableEdit(label);updateLabel(label);" >create</i></md-icon>
+        </md-button>
+        <!-- <md-button class="md-icon-button md-icon-right"  style="margin: 0 auto;padding: 0px;" ng-show="label.showDone">
+          <md-icon><i class="material-icons" >done</i></md-icon>
+        </md-button>
+      </div>
+      <div layout="row" layout-align="end end">
+        <md-button ng-click="hideDialogueBox()">
+          <strong>Done</strong>
+        </md-button>
+      </div>
+    </div>
+  </md-dialog-content>
+</md-dialog> -->
+
+
+
+
+
 <div id="sidenavId" layout-align="center center">
 
   <div class="take_note">
@@ -25,7 +71,7 @@
 
 <md-subheader  id="header-btn" class="pinother"><strong>Fired</strong> </md-subheader>
 <div layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
-  <md-card ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText" >
+  <md-card  style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText" >
     <md-card-title >
     <md-card-title-text ng-click="showAdvanced($event,note)">
       <div contenteditable>{{note.title}} </div>
@@ -100,10 +146,10 @@
 
 </div>
 </div>
-
+<div data-ng-init="getAllNote()" layout-wrap layout-align="center center">
 <md-subheader  id="header-btn" class="pinother"><strong>Upcoming</strong> </md-subheader>
-<div layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
-  <md-card  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText" >
+<div layout="row"  layout-align="center end"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText"  >
+  <md-card ng-repeat="label in note.listOfLabels"  ng-if="label.name==paramvalue" style="background-color:{{note.color}};"  >
     <md-card-title>
     <md-card-title-text  ng-click="showAdvanced($event,note)">
       <div contenteditable>{{note.title}} </div>
@@ -175,7 +221,7 @@
 
         </md-menu>
 
-
+</div>
 </div>
 </div>
 

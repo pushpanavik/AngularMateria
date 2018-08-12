@@ -12,10 +12,10 @@
       <p id="sidebar">Reminders</p>
     </md-list-item>
 
-    <md-list-item ><span>Labels</span><md-button id="cl" ng-click="createlabelDialog($event,label)">Edit</md-button></md-list-item>
+    <md-list-item><span>Labels</span><md-button id="cl" ng-click="createlabelDialog($event,label)">Edit</md-button></md-list-item>
     <div layout="column"  layout-align="space-between start" >
-      <span ng-repeat="label in retireveLabels ">
-      <div><md-button ng-click=""> <img src="images/labe.svg" /></md-button>{{label.name}}</div>
+      <span ng-repeat="label in retireveLabels">
+      <div><md-button ng-click="goToLabel(label)"> <img src="images/labe.svg" /></md-button>{{label.name}}</div>
 </span>
       </div>
 
