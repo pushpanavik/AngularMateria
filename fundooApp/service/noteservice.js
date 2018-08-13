@@ -53,7 +53,8 @@ serviceobj.postImageService = function(data,url) {
   return $http({
     method : "POST",
     url : url,
-    data:angular.toJson(data)
+    data:data,
+		headers:{'Content-Type':undefined}
   })
 }
 serviceobj.getService=function(url){

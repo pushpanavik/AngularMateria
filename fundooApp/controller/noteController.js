@@ -109,15 +109,7 @@ console.log("url paramvalue",$scope.paramvalue);
 
   }
 
-  $scope.exists = function(item, note) {
-    for (var i = 0; i < note.listOfLabels.length; i++) {
-      if (note.listOfLabels[i].labelName === item.labelName) {
-        return true;
-      }
-    }
-    return false;
 
-  };
 
 
   $scope.createlabelDialog = function(ev, label) {
@@ -272,6 +264,7 @@ console.log("url paramvalue",$scope.paramvalue);
     console.log('mydata3333', $scope.mydata3);
     console.log("in dilogcontroller 333333");
 
+
     $scope.addlabelNote = function(label) {
       if (label.name != $scope.name) {
         console.log("label in dashboard ", label);
@@ -311,6 +304,21 @@ console.log("url paramvalue",$scope.paramvalue);
         });
     }
   }
+  $scope.selected=[];
+  $scope.toggle = function (item, list) {
+          var i = list.indexOf(item);
+          if (i > -1) {
+            list.splice(i, 1);
+          }
+          else {
+            list.push(item);
+          }
+        };
+
+$scope.exists=function(item,list){
+  console.log("list in exist",list);
+  return list.indexof(item)> -1;
+};
 
   $scope.removeLabelOnNote = function(label, note) {
     console.log("label in dashboard ", label);
@@ -320,8 +328,8 @@ console.log("url paramvalue",$scope.paramvalue);
     var url = baseUrl + "user/deleteLabel/" + note.id + "/" + label.labelId;
     noteservice.getDeleteService(note, url)
       .then(function successCallback(response) {
-        console.log(response);
-        $scope.getAllLabels();
+              $scope.getAllLabels();
+
       }, function errorCallback(response) {
         console.log("error" + response);
       })
@@ -594,6 +602,12 @@ console.log("url paramvalue",$scope.paramvalue);
     note.reminderTime = null;
     $scope.UpdateReminderDate(note);
   }
+  $scope.addTime = [{'name': 'Morning   8:00 AM','value': '8:00 AM'},
+                    {'name': 'Afternoon 1:00 PM','value': '1:00 PM'},
+                    {'name': 'Evening   6:00 PM','value': '6:00 PM'},
+                    {'name': 'Night     8:00 PM','value': '8:00 PM'},
+                    {'name': 'custom','value': ''}];
+
 
   $scope.ReminderDate = function(note) {
     console.log("reminderTime", note);
@@ -724,28 +738,8 @@ console.log("url paramvalue",$scope.paramvalue);
     }
 
   }
-  //
-  // $scope.uploadFiles = function (files,evt) {
-  //      $scope.files = files;
-  //
-  //        var url= baseUrl+"uploadFile";
-  //      if (files && files.length) {
-  //          Upload.upload({
-  //              url: url,
-  //              data: {
-  //                  files: files,
-  //                  method: "POST"
-  //              }
-  //          }).then(function (response) {
-  //              $timeout(function () {
-  //                  $scope.result = response.data;
-  //              });
-  //      });
-  //    }
-  //  };
 
-
-
+var getImageUrl='';
   $scope.imageSelect = function(event, note) {
     console.log('goes under imge', event);
     if (event!= undefined) {
@@ -757,18 +751,32 @@ console.log("url paramvalue",$scope.paramvalue);
       console.log("form", event.target.files[0]);
 
       form.append("file", event.target.files[0]);
-      console.log("form", event.target.files[0]);
+      console.log("form after appending", event.target.files[0]);
           var url = baseUrl + "uploadFile";
       console.log("url", url);
       noteservice.postImageService(form, url).then(function successCallback(response) {
         console.log("Upload Successfully done", response);
-        note.image = response.data;
+     note.image= response.data.msg;
+     console.log('getImageUrl', note.image);
+         updateImage(note);
       }, function errorCallback(response) {
         console.log(" Upload failed", response);
       });
     });
   };
 
+  function updateImage(note) {
+      console.log("In update image...............");
+
+      var url = baseUrl + 'user/updateNote';
+      console.log('url inside update image',url);
+      noteservice.putService(url,note).then(function successCallback(response) {
+
+        console.log(response);
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+    }
   $scope.removeImage = function(note) {
 
     console.log("image link", note.image);
@@ -776,28 +784,6 @@ console.log("url paramvalue",$scope.paramvalue);
     $scope.updateNote(note);
 
   };
-  $scope.Time = [{
-      'name': 'Morning   ',
-      'value': '8:00 AM'
-    },
-    {
-      'name': 'Afternoon ',
-      'value': '1:00 PM'
-    },
-    {
-      'name': 'Evening  ',
-      'value': '6:00 PM'
-    },
-    {
-      'name': 'Night    ',
-      'value': '8:00 PM'
-    },
-    {
-      'name': 'custom',
-      'value': ''
-    }
-
-  ];
 
   $scope.notes = [];
   $scope.getAllNote = function() {
@@ -819,22 +805,123 @@ console.log("url paramvalue",$scope.paramvalue);
   };
 
 
-  //    $scope.showCollaborator = function(ev) {
-  // console.log("comes under showAdvance from archive call");
-  //        $mdDialog.show({
-  //
-  //          controller: DialogCollaboratorController,
-  //          templateUrl: 'templates/collaboratorDialog.html',
-  //          parent: angular.element(document.body),
-  //          targetEvent: ev,
-  //          clickOutsideToClose:true,
-  //          fullscreen : $scope.customFullscreen,
-  //           })
-  //    };
-  //
-  // function DialogCollaboratorController{
-  //
-  // }
+     $scope.showCollaborator = function(ev) {
+  console.log("comes under showAdvance from archive call");
+         $mdDialog.show({
+
+           controller: dialogCollaboratorController,
+           templateUrl: 'templates/collaborator.html',
+           parent: angular.element(document.body),
+           targetEvent: ev,
+           clickOutsideToClose:true,
+           fullscreen : $scope.customFullscreen,
+            })
+     };
+     function dialogCollaboratorController($scope,$mdDialog) {
+     	  $scope.cancel = function() {
+     	      $mdDialog.cancel();
+
+     	    };
+     	    var commonUrl = "http://localhost:9090/fundoo/";
+     		$scope.createCollaborator = function() {
+     			console.log("cvcxvxcvashds");
+     			var collaborator = {
+     					email : $scope.email,
+
+     			};
+     	         console.log("collaborator:",collaborator);
+     			var url = commonUrl + "addCollaborator";
+     			if(collaborator.email!=null){
+     				console.log("inside if...", collaborator.email)
+
+     			noteservice.postService(collaborator, url).then(
+     					function successCallback(response) {
+
+     						console.log("success", response.data);
+     						$scope.getallCollaborators();
+     						return response.data;
+
+     					}, function errorCallback(response) {
+     						console.log("Error occur", response);
+     						return response;
+
+     					});
+     		}
+     		}
+
+     		$scope.getallCollaborators =function() {
+
+     		    var url = commonUrl + "getallCollaborators";
+
+     			noteservice.getService(url).then(
+     					function successCallback(response) {
+
+     						$scope.getCollaborators=response.data;
+     						console.log('Collaborators: ', $scope.getCollaborators)
+     						//console.log("success", response.data);
+     						return response.data;
+
+     					}, function errorCallback(response) {
+     						console.log("Error occur", response);
+     						return response;
+
+     					});
+     		}
+
+     		$scope.deleteCollaborator =function(collaborator){
+
+     			 console.log("collaborator:"+collaborator);
+     			 var collaboratorid=collaborator.id;
+     			 console.log("collaboratorid:"+collaboratorid)
+
+
+     			 var url = commonUrl + "deleteCollaborator/"+collaborator.id;
+
+
+     			userservice.notepostmethod(url).then(
+     					function successCallback(response) {
+
+     						console.log("success", response.data);
+     						return response.data;
+
+     					}, function errorCallback(response) {
+     						console.log("Error occur", response);
+     						return response;
+
+     					});
+     		}
+
+
+       $scope.addCollaboratorOnNote=function(collaborator){
+     	  console.log("collaborator:"+collaborator);
+     		 var collaboratorid=collaborator.id;
+     		 console.log("collaboratorid:"+collaboratorid)
+     		console.log("noteid  in dashboard:",noteobject);
+     	  var index=noteobject.listofCollaborator.findIndex(x => x.email===collaborator.email);
+     	 if (index > -1) {
+      	  noteobject.listofCollaborator.splice(index, 1);
+        }
+        else {
+      	  noteobject.listofCollaborator.push(collaborator);
+        }
+     		 var url = commonUrl + "noteandcollaborator/"+noteobject.id+"/"+collaborator.id;
+     		 console.log(url);
+     		labelservice.labelputmethod(url).then(
+     				function successCallback(response) {
+
+     					console.log("success", response);
+     					return response;
+
+     				}, function errorCallback(response) {
+     					console.log("Error occur", response);
+     					return response;
+
+     				});
+     	}
+       }
+
+
+
 
   $scope.changeColor = function() {
     if ($state.is('home.dashboard')) {

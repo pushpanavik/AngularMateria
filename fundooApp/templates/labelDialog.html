@@ -9,13 +9,15 @@
                 </md-button>
             </div>
 
+
             <div ng-init="getAllLabels()">
-              <div layout="row" ng-repeat="label in retireveLabels">
-                <md-checkbox ng-checked="exists(label,selected);" ng-click="toggle(label,selected);addlabelNote(label)">
-                {{label.name}}
+              <div layout="row" ng-repeat="label in retireveLabels" >
+                <md-checkbox ng-checked="exists(label,selected);" ng-click="addlabelNote(label)">
+                {{label.name}}<span ng-if="exists(label, selected)"></span>
                 </md-checkbox>
               </div>
             </div>
+
             <!-- <md-button  ng-click="addLabelNote(label)"  ><img src="images/ceateLabel.svg" /></md-button> -->
     </md-dialog-content>
 </md-dialog>

@@ -7,16 +7,38 @@ label{
   box-sizing: border-box;
   font-size: 14px;
 }
-
+.tit1{
+padding-left: 10;
+}
+.bluepin{
+/* width: 18px;height: 18px; */
+  
+}
+.reminder{
+  margin-left: 8px;margin-top: 9px;margin-bottom: -25px;
+}
   input{
     font-family: "comic sans",sans-serif;
     border: 0;
     padding: 15px;
     font-size: 14px;
   }
-
+  .coll44fhf12{
+    display: flex; padding: 5px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .coll44fhf{
+    opacity: 0.5;background-size: 28px 24px;width: 100%;
+  }
+  .collaborator1{
+    height: 35px;width: 35px;border: 1px solid rgba(0, 0, 0, 0.87);border-radius: 50%
+  }
+  .image-size{
+    margin: 0px;
+  }
   .hide-file {
-      /* position: absolute;
+      position: absolute;
       z-index: 1000;
       opacity: 0;
       cursor: pointer;
@@ -24,7 +46,7 @@ label{
       top: 0;
       height: 50%;
       font-size: 24px;
-      width: 50%; */
+      width: 50%;
   }
 /* textarea {width:620px;}
 
@@ -84,7 +106,8 @@ overflow: hidden;
       margin-top: -63px;
 }
 .placesize{
-  width:400px;
+    padding-left: 10px;
+
 }
 .profile
 {

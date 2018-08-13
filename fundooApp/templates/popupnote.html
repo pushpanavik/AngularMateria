@@ -1,7 +1,9 @@
 <div ng-init="getAllNotes()">
 <md-dialog  style="width: 600px;height: 182px;">
-    <div newcontenteditable contenteditable="true" >{{mydata.title}} </div>
-    <md-icon><img src="images/pin0.svg" style="margin-top: -43px;margin-left: 200px;"/ >
+
+     <img  ng-src="{{mydata.image}}" />
+    <div newcontenteditable contenteditable="true" style="margin-top: 10px" >{{mydata.title}} </div>
+    <md-icon><img src="images/pin0.svg" style="margin-top:-184px;margin-left: 219px;"/ >
     </md-icon>
 
     <div newcontenteditable contenteditable="true" >{{mydata.description}}
