@@ -22,8 +22,8 @@
   </div>
 
 
-    <div>  <md-subheader style="margin-left:270px;" id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader></div>
-      <div layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()" style="margin-top:10px;">
+    <div>  <md-subheader style="margin-left:295px;" id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader></div>
+      <div layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()">
           <md-card class="dashboard"  style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
 
            <div ng-click="updatePin(note);" ng-if="note.image!==null" style="margin-left: 227px;">
@@ -31,7 +31,7 @@
              <img ng-if="note.pin === false" src="images/pin0.svg"/>
                <md-tooltip>Pin Note</md-tooltip></div>
                <img ng-if="note.image" ng-click="showAdvanced($event,note);" ng-src="{{note.image}}">
-            <div class="tit1">{{note.title}}</div>
+            <div class="tit1"><strong>{{note.title}}</strong></div>
                     <md-card-content class="center" class="placesize" ng-click="showAdvanced($event,note)">
                     <div newcontenteditable contenteditable="true" ng-bind-html="note.description"></div>
                     </md-card-content>
@@ -51,22 +51,22 @@
                 </md-card>
 
 
-<div><md-subheader style="margin-left:270px;" id="header-btn" class="pinother"><strong>Others</strong> </md-subheader></div>
-  <div  layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()">
+<div><md-subheader style="margin-left:295px;" id="header-btn" class="pinother" ><strong>Others</strong> </md-subheader></div>
+  <div  layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" class="paddingclas">
         <md-card  class="dashboard"  style="background-color:{{note.color}};width:250px;margin-top: 50px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
           <span ng-click="updatePin(note)" >
             <img ng-if="note.image!==null && note.pin === true"  src="images/bluepin.svg"  >
-              <img ng-if="note.image!==null && note.pin=== false"  src="images/pin0.svg" style="padding-left:220px;">
+              <img ng-if="note.image!==null && note.pin=== false" src="images/pin0.svg" style="padding-left:220px;">
                <md-tooltip>Pin Note</md-tooltip>
              </span>
              <img  ng-src="{{note.image}}" />
 
         <span ng-click="showAdvanced($event,note)">
-          <div  newcontenteditable contenteditable="true" style="margin-top:-13px;padding-left: 10px;;">{{note.title}}</div>
+          <div  newcontenteditable contenteditable="true" class="dashOthr1"><strong>{{note.title}}</strong></div>
         </span
 
                   <md-card-content ng-click="showAdvanced($event,note)">
-                     <div newcontenteditable contenteditabl"true" style="margin-top:27px;padding-left:10px;">{{note.description}}</div>
+                     <div newcontenteditable contenteditabl"true" class="dashOthr2">{{note.description}}</div>
                   </md-card-content>
                   <div  layout="row" >
                       <md-chips ng-if="note.reminderDate">

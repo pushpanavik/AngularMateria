@@ -1,9 +1,9 @@
-<md-dialog aria-label="Label" class="label-dialog" style="width:46%;min-height: 245px;">
+<md-dialog aria-label="Label" class="label-dialog" style="width:60%;min-height: 245px;">
    <md-dialog-content>
-
+<md-input-container md-no-float class="md-block">
    <div class="collaborator" >Collaborators</div>
-   <md-divider></md-divider>
-   <div class="colla">
+ </md-input-container>
+
    <div style="align-items: center;display: flex;padding: 5px;">
 
  <div class="mycollaborator">
@@ -12,9 +12,9 @@
 </div>
 <div style="display: flex; padding: 5px;">
 <div style="font-size: 13px;">
-<span style="font-weight: 700;">Pushpa Navik</span>
+<span style="font-weight: 700;">{{userDetails.iss}}</span>
 <span style="font-style: italic;margin-left: 5px;">(Owner)</span>
-<div style="color: rgba(0,0,0,.54);">pushpanavik17@gmail.com</div>
+<div style="color: rgba(0,0,0,.54);">{{userDetails.sub}}</div>
 </div>
 </div>
 </div>
@@ -22,7 +22,7 @@
  <div ng-init="getallCollaborators()" class="anotherdiv" layout="column" layout-align="space-around center">
  <div ng-repeat="collaborators in getCollaborators" layout="row" style="margin: 0px 0px 0px 170px;">
 
- <div class="div3"  >
+ <div class="div3">
 <div>
 <img style="opacity: 0.5;background-size: 28px 24px;width: 100%;" src="images/baseline-person_add-24px.svg" />
 </div>
@@ -32,7 +32,7 @@
 </div>
 <md-button class="button" ng-click="deleteCollaborator(collaborators)">
 <img src="images/baseline-close-24px.svg"/>
-<md-tooltip>Delete</md-tooltip>
+<md-tooltip>CANCEL</md-tooltip>
 </md-button>
 
 </div>

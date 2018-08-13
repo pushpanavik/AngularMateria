@@ -25,7 +25,7 @@
 
 <md-subheader style="margin-left:270px;" id="header-btn" class="pinother"><strong>Fired</strong> </md-subheader>
 <div layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
-  <md-card ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText" >
+  <md-card style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText" >
 
 
     <md-button class="md-icon-button" ng-click="updatePin(note)" id="otherDash" style="margin-top:-10px;">

@@ -1,187 +1,159 @@
-
-
-
-
-<div id="sidenavId" layout-align="center center">
+<div id="sidenavId" data-ng-init="getAllNote()">
 
   <div class="take_note">
     <md-card class="notecard" ng-show="!showWhenClicked">
       <div layout="row" class="take-note-input">
-        <input type="text" placeholder="Take a note" class="placesize"  ng-click="showWhenClicked=true" />
+        <input type="text" placeholder="Take a note" class="placesize" ng-click="showWhenClicked=true" />
       </div>
     </md-card>
   </div>
 
   <div layout="row" layout-align="center center">
     <md-card ng-show="showWhenClicked" class="notecard">
-      <div layout="row" >
-        <div contenteditable class="intial-text"  data-placeholder="Title" ng-model="title" id="notecard1" ng-bind-html></div>
-        <md-button class="md-icon-button" id="right"><img src="images/pin0.svg" >
-          <md-tooltip>pin</md-tooltip></md-button>
-    </div>
+      <div layout="row">
+        <div newcontenteditable contenteditable="true" class="intial-text" data-placeholder="Title" ng-model="title" id="notecard1" ng-bind-html></div>
+        <md-button class="md-icon-button" id="right"><img src="images/pin0.svg">
+          <md-tooltip>pin</md-tooltip>
+        </md-button>
+      </div>
 
       <div contenteditable class="intial-text" data-placeholder="Take a note..." ng-model="description" id="notecard1"></div>
-      <div><icon> </icon></div>
-      <div><md-button ng-click="showWhenClicked=false;noteModel()" id="close-btn">CLOSE</md-button></div>
+      <div>
+        <icon> </icon>
+      </div>
+      <div>
+        <md-button ng-click="showWhenClicked=false;noteModel()" id="close-btn">CLOSE</md-button>
+      </div>
     </md-card>
   </div>
 
 
-<md-subheader  id="header-btn" class="pinother" style="margin-left:270px;"><strong>Pinned</strong> </md-subheader>
-<div layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" layout-align="center center" >
-  <md-card  style="background-color:{{note.color}};width:400px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText">
-    <md-card-title ng-if="label.name===paramvalue" >
-    <md-card-title-text ng-click="showAdvanced($event,note)" >
-      <div contenteditable>{{note.title}} </div>
-    </md-card-title-text>
-  </md-card-title>
-           <md-button class="md-icon-button" ng-click="updatePin(note)" id="otherDash">
-             <img ng-if="note.pin === true" src="images/bluepin.svg">
-               <img ng-if="note.pin=== false"  src="images/pin0.svg">
-               <md-tooltip>Pin Note</md-tooltip>
-           </md-button>
+  <md-subheader id="header-btn" class="pinother" style="margin-left:295px;"><strong>Pinned</strong> </md-subheader>
+  <div layout="row" layout-align="center end" layout-wrap ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText" >
+    <md-card style="background-color:{{note.color}};width:250px;" ng-if="label.name===paramvalue" ng-repeat="label in note.listOfLabels" >
+      <md-button class="md-icon-button" ng-click="updatePin(note)" id="otherDash" style="margin-top:-10px;">
+        <img ng-if="note.pin=== true" src="images/bluepin.svg" style="margin-top: 10px;">
+        <img ng-if="note.pin=== false" src="images/pin0.svg">
+        <md-tooltip>Pin Note</md-tooltip>
+      </md-button>
+      <img  ng-src="{{note.image}}" />
+      <md-card-title >
+        <md-card-title-text ng-click="showAdvanced($event,note)">
+          <div contenteditable style="margin-top:-37px;">{{note.title}} </div>
+        </md-card-title-text>
+      </md-card-title>
 
+      <md-card-content class="center" class="placesize">
+        <div  style="margin-top:-15px;" newcontenteditable contenteditable="true" ng-bind-html="note.description"> </div>
+      </md-card-content>
+      <div layout="row">
+        <md-chips ng-if="note.reminderDate" ng-mouseover="enableEdit(note)" ng-mouseleave="disableEdit(note)">
+          <md-chip class="chip"><span class="chipstyle">{{note.reminderDate |dateformat}}</span>
+            <md-button class="md-icon-button" ng-click="removeReminder(note)" class="chip">
+              <md-icon><i class="material-icons">close</i></md-icon>
+            </md-button>
+          </md-chip>
+        </md-chips>
+      </div>
+      <div layout="row" ng-if="note.listOfLabels" layout-wrap layout-align="start space-around">
+        <md-chips ng-mouseover="enableEdit(label)" ng-mouseleave="disableEdit(label)" ng-repeat="label in note.listOfLabels">
+          <md-chip class="chip"><span class="chip" ng-show="label.edit">{{label.name}}</span>
+            <md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon>
+          </md-chip>
+        </md-chips>
+      </div>
+      <div><icon> </icon></div>
 
-                <md-card-content class="center" class="placesize">
-                  <div  contenteditable ng-bind-html="note.description"> </div>
-                </md-card-content>
-                <div  layout="row" >
-                    <md-chips ng-if="note.reminderDate"  ng-mouseover="enableEdit(note)"  ng-mouseleave="disableEdit(note)">
-                        <md-chip class="chip"><span class="chipstyle">{{note.reminderDate | date : 'MMM dd,HH:00 a'}}</span>
-                          <md-button   class="md-icon-button" ng-click="removeReminder(note)" class="chip"><md-icon><i class="material-icons">close</i></md-icon></md-button ></md-chip>
-                    </md-chips>
-                  </div>
-                  <div layout="row" ng-if="note.listOfLabels" layout-wrap layout-align="start space-around">
-                    <md-chips ng-mouseover="enableEdit(label)"  ng-mouseleave="disableEdit(label)" ng-repeat="label in note.listOfLabels">
-                        <md-chip  class="chip"><span class="chip" ng-show="label.edit" >{{label.name}}</span><md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon></md-chip>
-                    </md-chips>
-                 </div>
+      <!-- <span class="md-icon-button" ng-click="removeReminder(note)">
+                   <md-icon><img src="images/reminders.svg" /></md-icon>
+                   <md-tooltip>Reminder</md-tooltip>
+                 </span>
 
-  <md-button class="md-icon-button" ng-click="removeReminder(note)" >
-    <md-icon><img src="images/baseline-done-24px.svg" /></md-icon>
-    <md-tooltip>Mark</md-tooltip>
-  </md-button>
+      <div ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:42px;margin-top:-33px;">
+        <span class="md-icon-button">
+                     <md-icon><img src="images/baseline-person_add-24px.svg" /></md-icon>
+                     <md-tooltip>Collabarator</md-tooltip>
+                   </span>
 
-  <div  ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:71px;margin-top:-39px;">
-    <md-button class="md-icon-button"  >
-      <md-icon><img src="images/baseline-person_add-24px.svg" /></md-icon>
-      <md-tooltip>Collabarator</md-tooltip>
-    </md-button>
+        <md-menu>
+          <md-button class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-mouseenter="$mdMenu.open()">
+            <md-icon><img src="images/baseline-color_lens-24px.svg" /></md-icon>
+            <md-tooltip>Change color</md-tooltip>
+          </md-button>
+          <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
+            <md-menu-item ng-repeat="x in customerData">
+              <div class="colorBox" ng-repeat="t1 in x" ng-style="{'background-color':t1.name};" ng-click="updateColor(note,t1.name)"></div>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
 
-    <md-menu>
-   <md-button class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-mouseenter="$mdMenu.open()"  >
-     <md-icon><img src="images/baseline-color_lens-24px.svg"/></md-icon><md-tooltip>Change color</md-tooltip>
-   </md-button>
-   <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
-     <md-menu-item ng-repeat="colorvalue in customerData">
-       <div class="colorBox" ng-repeat="t1 in colorvalue" ng-style="{'background-color':t1.name};" ng-click="updateColor(note,t1.name)"></div>
-     </md-menu-item>
-   </md-menu-content>
-   </md-menu>
+        <span class="md-icon-button">
+                   <md-icon><i class="material-icons" >photo</i></md-icon>
+                   <md-tooltip>Add image</md-tooltip>
+                 </span>
 
-  <md-button class="md-icon-button"  >
-    <md-icon><i class="material-icons" >photo</i></md-icon>
-    <md-tooltip>Add image</md-tooltip>
-  </md-button>
+        <span class="md-icon-button" ng-click="isArchive(note);">
+                     <md-icon > <img src="images/archive.svg" /></p></md-icon>
+                     <md-tooltip>Archive</md-tooltip>
+                   </span>
 
-    <md-button class="md-icon-button"  ng-click="isArchive(note);" >
-      <md-icon > <img src="images/archive.svg" /></p></md-icon>
-      <md-tooltip>Archive</md-tooltip>
-    </md-button>
-
-      <md-menu>
-        <md-button class="md-icon-button" class="chip" ng-click="$mdMenu.open($event)" >
-        <md-icon><i class="material-icons">more_vert</i></md-icon>
-        </md-button>
+        <md-menu>
+          <span class="md-icon-button" class="chip" ng-click="$mdMenu.open($event)">
+                       <md-icon><i class="material-icons">more_vert</i></md-icon>
+                       </span>
           <md-menu-content>
-            <md-menu-item><md-button ng-click="isTrash(note)">Delete note</md-button></md-menu-item>
-            <md-menu-item><md-button ng-click="showlabelDialog($event,note)">Add Label</md-button>
+            <md-menu-item>
+              <md-button ng-click="isTrash(note)">Delete note</md-button>
+            </md-menu-item>
+            <md-menu-item>
+              <md-button ng-click="showlabelDialog($event,note)">Add Label</md-button>
             </md-menu-item>
           </md-menu-content>
 
-        </md-menu>
+        </md-menu> -->
 
 
-</div>
-</div>
-<div data-ng-init="getAllNote()" layout-wrap layout-align="center center">
-<md-subheader  id="header-btn" class="pinother"><strong>Others</strong> </md-subheader>
-<div layout="row"  layout-align="center end"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText"  >
-  <md-card ng-repeat="label in note.listOfLabels" style="background-color:{{note.color}};"  >
-    <md-card-title>
-    <md-card-title-text  ng-click="showAdvanced($event,note)">
-      <div contenteditable>{{note.title}} </div>
-    </md-card-title-text>
-  </md-card-title>
-           <md-button class="md-icon-button" ng-click="updatePin(note)" id="otherDash">
-             <img ng-if="note.pin === true" src="images/bluepin.svg">
-               <img ng-if="note.pin=== false"  src="images/pin0.svg">
-               <md-tooltip>Pin Note</md-tooltip>
-           </md-button>
+
+      </div>
+  </div>
 
 
-                <md-card-content class="center" class="placesize">
-                  <div  contenteditable ng-bind-html="note.description"> </div>
-                </md-card-content>
-                <div  layout="row" >
-                    <md-chips ng-if="note.reminderDate"  ng-mouseover="enableEdit(note)"  ng-mouseleave="disableEdit(note)">
-                        <md-chip class="chip"><span class="chipstyle">{{note.reminderDate | date : 'MMM dd,HH:00 a'}}</span>
-                          <md-button   class="md-icon-button" ng-click="removeReminder(note)" class="chip"><md-icon><i class="material-icons">close</i></md-icon></md-button ></md-chip>
-                    </md-chips>
-                  </div>
-                  <div layout="row" ng-if="note.listOfLabels" layout-wrap layout-align="start space-around">
-                    <md-chips ng-mouseover="enableEdit(label)"  ng-mouseleave="disableEdit(label)" ng-repeat="label in note.listOfLabels">
-                        <md-chip  class="chip"><span class="chip" ng-show="label.edit" >{{label.name}}</span><md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon></md-chip>
-                    </md-chips>
-                 </div>
 
-  <md-button class="md-icon-button"  ng-click="removeReminder(note)" >
-    <md-icon><img src="images/baseline-done-24px.svg" /></md-icon>
-    <md-tooltip>Mark</md-tooltip>
-  </md-button>
 
-  <div  ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:71px;margin-top:-39px;">
-    <md-button class="md-icon-button"  >
-      <md-icon><img src="images/baseline-person_add-24px.svg" /></md-icon>
-      <md-tooltip>Collabarator</md-tooltip>
-    </md-button>
-
-    <md-menu>
-   <md-button class="md-icon-button" style="margin: 0 auto;padding: 0px" ng-mouseenter="$mdMenu.open()"  >
-     <md-icon><img src="images/baseline-color_lens-24px.svg"/></md-icon><md-tooltip>Change color</md-tooltip>
-   </md-button>
-   <md-menu-content width="2" ng-mouseleave="$mdMenu.close()">
-     <md-menu-item ng-repeat="colorvalue in customerData">
-       <div class="colorBox" ng-repeat="t1 in colorvalue" ng-style="{'background-color':t1.name};" ng-click="updateColor(note,t1.name)"></div>
-     </md-menu-item>
-   </md-menu-content>
-   </md-menu>
-
-  <md-button class="md-icon-button"  >
-    <md-icon><i class="material-icons" >photo</i></md-icon>
-    <md-tooltip>Add image</md-tooltip>
-  </md-button>
-
-    <md-button class="md-icon-button"  ng-click="isArchive(note);" >
-      <md-icon > <img src="images/archive.svg" /></p></md-icon>
-      <md-tooltip>Archive</md-tooltip>
-    </md-button>
-
-      <md-menu>
-        <md-button class="md-icon-button" class="chip" ng-click="$mdMenu.open($event)" >
-        <md-icon><i class="material-icons">more_vert</i></md-icon>
+    <md-subheader id="header-btn" class="pinother" style="margin-left:295px;"><strong>Others</strong> </md-subheader>
+    <div layout="row" layout-align="center end" layout-wrap ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false,reminderDate:''} |orderBy: '-notes':true |filter: searchText">
+      <md-card  ng-if="label.name===paramvalue" ng-repeat="label in note.listOfLabels" style="background-color:{{note.color}};">
+        <md-button class="md-icon-button" ng-click="updatePin(note)" id="otherDash">
+          <img ng-if="note.pin === true" src="images/bluepin.svg">
+          <img ng-if="note.pin=== false" src="images/pin0.svg">
+          <md-tooltip>Pin Note</md-tooltip>
         </md-button>
-          <md-menu-content>
-            <md-menu-item><md-button ng-click="isTrash(note)">Delete note</md-button></md-menu-item>
-            <md-menu-item><md-button ng-click="showlabelDialog($event,note)">Add Label</md-button>
-            </md-menu-item>
-          </md-menu-content>
-
-        </md-menu>
-
-</div>
-</div>
-</div>
-
-
+        <img  ng-src="{{note.image}}" />
+        <md-card-title>
+          <md-card-title-text ng-click="showAdvanced($event,note)">
+          <strong>  <div newcontenteditable contenteditable="true" style="margin-top:-21px;" ng-bind-html="note.title"></div></strong>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content class="center" class="placesize">
+          <div newcontenteditable  contenteditable="true" ng-bind-html="note.description" style="margin-top:-13px;"> </div>
+        </md-card-content>
+        <div layout="row">
+          <md-chips ng-if="note.reminderDate" ng-mouseover="enableEdit(note)" ng-mouseleave="disableEdit(note)">
+            <md-chip class="chip"><span class="chipstyle">{{note.reminderDate | date : 'MMM dd,HH:00 a'}}</span>
+              <md-button class="md-icon-button" ng-click="removeReminder(note)" class="chip">
+                <md-icon><i class="material-icons">close</i></md-icon>
+              </md-button>
+            </md-chip>
+          </md-chips>
+        </div>
+        <div layout="row" ng-if="note.listOfLabels" layout-wrap layout-align="start space-around">
+          <md-chips ng-mouseover="enableEdit(label)" ng-mouseleave="disableEdit(label)" ng-repeat="label in note.listOfLabels">
+            <md-chip class="chip"><span class="chip" ng-show="label.edit">{{label.name}}</span>
+              <md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon>
+            </md-chip>
+          </md-chips>
+        </div>
+        <div> <icon> </icon> </div>
+        </div>
     </div>
+  </div>

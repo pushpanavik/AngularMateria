@@ -26,7 +26,7 @@
                 <md-menu-item><md-button ng-click="" style="width:3px;"><img src="images/arrowbavk.svg"/></md-button>Pick date & time</md-menu-item>
                 <md-menu-item><input type="date" min="{{ today | date: 'MMMM d,y' }}" ng-model="note.reminderDat"/></md-menu-item>
                 <md-menu-item>
-
+              <div>
               <label style="font-size: small">Enter Time</label>
               <input list="timelist" ng-model="note.reminderTime" />
               <datalist id="timelist">
@@ -38,6 +38,7 @@
                                   <input type="button"  value="Save"  ng-click="ReminderDate(note)">
                                 </div>
                            </md-menu-item>
+                         </div>
               </md-menu-content>
             </md-menu>
               </md-menu-item>
@@ -49,9 +50,9 @@
 </div>
 
 
-<div  ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:47px;">
-  <span>
-    <md-icon ng-click="showCollaborator($event)"><img src="images/baseline-person_add-24px.svg"/></md-icon>
+<div ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:47px;">
+  <span ng-click="showCollaborator($event)">
+    <md-icon ><img src="images/baseline-person_add-24px.svg"/></md-icon>
     <md-tooltip>Collabarator</md-tooltip>
 </span>
 

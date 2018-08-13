@@ -47,18 +47,15 @@
           <md-card  class="profile-card">
               <md-content>
                   <md-list>
-                      <md-list-item>
-                          <img src="images/baby.jpg"  class="profile-card-img" alt="profile" />
+                      <md-list-item ng-click="showProfilePic($event,note)">
+                        <img src="images/baby.jpg"  class="profile-card-img" alt="profile" />
                           <div class="md-list-item-text" style="text-align: justify-all" layout="column" layout-align="space-around end">
                               <div layout="row" class="profile-name">{{userDetails.iss}}</div>
                               <div layout="row" class="profile-email">{{userDetails.sub}}</div>
                               <div layout="row">
-
-                                  <a href="https://policies.google.com/privacy?hl=en"  class="google" target="_blank">Privacy</a>
+                                  <a href="https://policies.google.com/privacy?hl=en" class="google" target="_blank">Privacy</a>
                               </div>
-
                               <div><button  onclick="window.location.href='https://www.google.com/'"class="profile-button" style="margin-left:58px">FundooApp Account</button></div>
-
                           </div>
                       </md-list-item>
                       <br>

@@ -354,17 +354,16 @@ $scope.exists=function(item,list){
   }
   $scope.isVisible = false;
   $scope.clickProfile = function() {
-    console.log('inside profile');
-
+    console.log('inside profile',false);
     if ($scope.isVisible === false) {
       $scope.isVisible = true;
+      console.log('true...........')
       var tokenL = localStorage.getItem('token');
       console.log('token inside getUser from token', tokenL);
       var user = {};
       if (tokenL !== undefined) {
         var encode = tokenL.split('.')[1];
         userDetail = JSON.parse(tokenDecode(encode));
-
         console.log('hjdfsdhfsdf', userDetail.iss);
         $scope.userDetails = userDetail;
         console.log($scope.userDetails);
@@ -778,11 +777,11 @@ var getImageUrl='';
       })
     }
   $scope.removeImage = function(note) {
-
+console.log("note info ", note);
     console.log("image link", note.image);
     note.image = null;
-    $scope.updateNote(note);
-
+    updateImage(note);
+    $scope.getAllNote();
   };
 
   $scope.notes = [];
@@ -957,12 +956,65 @@ var getImageUrl='';
     }
   };
 
+
+  $scope.showProfilePic=function(event,note){
+  $mdDialog.show({
+    controller: profileUplodController,
+    templateUrl: 'templates/profileDialog.html',
+    parent: angular.element(document.body),
+    targetEvent: event,
+    clickOutsideToClose: true,
+    fullscreen: $scope.customFullscreen,
+  });
+}
+var image='';
+function profileUplodController($scope) {
+   $scope.takeImage = '';
+   $scope.CroppedImage = '';
+   $scope.filename = "";
+
+   $scope.profilePic=function(event){
+   if (event!= undefined) {
+     event.stopPropagation();
+   }
+   document.addEventListener("change", function(event) {
+     console.log('inside document');
+     var form = new FormData();
+     console.log("form", event.target.files[0]);
+
+     form.append("file", event.target.files[0]);
+     console.log("form after appending", event.target.files[0]);
+         var url = baseUrl + "uploadFile";
+     console.log("url", url);
+     noteservice.postImageService(form, url).then(function successCallback(response) {
+       console.log("Upload Successfully done", response);
+    image= response.data.msg;
+    console.log('getImageUrl', image);
+        updateImage(image);
+     }, function errorCallback(response) {
+       console.log(" Upload failed", response);
+     });
+   });
+}
+function updateImage(image) {
+    console.log("In update image...............");
+
+    var url = baseUrl + 'user/updateUserDetail';
+    console.log('url inside update image',url);
+    noteservice.putService(url,image).then(function successCallback(response) {
+      console.log(response);
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+  }
+}
+
+
 });
 
 app.filter('dateformat', function ($filter) {
 
 	   return function (reminderDate) {
-
 		   if( !reminderDate )
 		   {
 			   	return;
