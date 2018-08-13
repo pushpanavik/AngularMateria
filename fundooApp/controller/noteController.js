@@ -963,14 +963,12 @@ app.filter('dateformat', function ($filter) {
 
 	   return function (reminderDate) {
 
-		   console.log("inside filter", reminderDate);
 		   if( !reminderDate )
 		   {
 			   	return;
 		   }
 
 		   reminderDate = new Date( reminderDate );
-
 		   var dt = "";
 		   var todatedate = new Date();
 		   console.log(todatedate.getMonth(), todatedate.getDate() );

@@ -26,13 +26,13 @@
                 <md-menu-item><md-button ng-click="" style="width:3px;"><img src="images/arrowbavk.svg"/></md-button>Pick date & time</md-menu-item>
                 <md-menu-item><input type="date" min="{{ today | date: 'MMMM d,y' }}" ng-model="note.reminderDat"/></md-menu-item>
                 <md-menu-item>
-              <md-input-container>
+
               <label style="font-size: small">Enter Time</label>
-              <input list="timelist" ng-model="notes.reminderTime" />
+              <input list="timelist" ng-model="note.reminderTime" />
               <datalist id="timelist">
                              <option ng-repeat="time in addTime" value="{{time.value}}">{{time.name}}</option>
                            </datalist>
-            </md-input-container></md-menu-item>
+                         </md-menu-item>
                   <md-menu-item>
                                 <div layout="row" layout-align="end end">
                                   <input type="button"  value="Save"  ng-click="ReminderDate(note)">

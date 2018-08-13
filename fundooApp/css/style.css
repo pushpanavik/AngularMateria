@@ -12,7 +12,7 @@ padding-left: 10;
 }
 .bluepin{
 /* width: 18px;height: 18px; */
-  
+
 }
 .reminder{
   margin-left: 8px;margin-top: 9px;margin-bottom: -25px;
@@ -99,8 +99,7 @@ overflow: hidden;
   padding-left:130px;
 }
 #otherDash{
-  float:right;
-  margin-top: -14px;
+    margin-left: 213px;
 }
 .contentsize{
       margin-top: -63px;

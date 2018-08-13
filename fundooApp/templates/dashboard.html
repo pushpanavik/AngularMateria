@@ -23,10 +23,10 @@
 
 
     <div>  <md-subheader style="margin-left:270px;" id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader></div>
-      <div layout="row" data-ng-init="getAllNote()" layout-align="center center" style="margin-top:10px;">
-          <md-card layout="column" flex="30" class="dashboard"  style="background-color:{{note.color}};"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
+      <div layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()" style="margin-top:10px;">
+          <md-card class="dashboard"  style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
 
-           <div ng-click="updatePin(note);" ng-if="note.image!==null" style="margin-left: 366px;">
+           <div ng-click="updatePin(note);" ng-if="note.image!==null" style="margin-left: 227px;">
              <img ng-if="note.pin === true" src="images/bluepin.svg" class="bluepin">
              <img ng-if="note.pin === false" src="images/pin0.svg"/>
                <md-tooltip>Pin Note</md-tooltip></div>
@@ -51,12 +51,12 @@
                 </md-card>
 
 
-<md-subheader style="margin-left:270px;" id="header-btn" class="pinother"><strong>Others</strong> </md-subheader>
-                <div   flex="50" layout="row" layout-align="center" data-ng-init="getAllNote()">
-              <md-card flex="50" class="dashboard"  style="background-color:{{note.color}};margin-top: 50px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
+<div><md-subheader style="margin-left:270px;" id="header-btn" class="pinother"><strong>Others</strong> </md-subheader></div>
+  <div  layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()">
+        <md-card  class="dashboard"  style="background-color:{{note.color}};width:250px;margin-top: 50px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
           <span ng-click="updatePin(note)" >
             <img ng-if="note.image!==null && note.pin === true"  src="images/bluepin.svg"  >
-              <img ng-if="note.image!==null && note.pin=== false"  src="images/pin0.svg" style="padding-left:275px;">
+              <img ng-if="note.image!==null && note.pin=== false"  src="images/pin0.svg" style="padding-left:220px;">
                <md-tooltip>Pin Note</md-tooltip>
              </span>
              <img  ng-src="{{note.image}}" />
