@@ -26,7 +26,7 @@
       <div layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()">
           <md-card class="dashboard"  style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
 
-           <div ng-click="updatePin(note);" ng-if="note.image!==null" style="margin-left: 227px;">
+           <div ng-click="updatePin(note);" note.image!==null style="margin-left: 227px;">
              <img ng-if="note.pin === true" src="images/bluepin.svg" class="bluepin">
              <img ng-if="note.pin === false" src="images/pin0.svg"/>
                <md-tooltip>Pin Note</md-tooltip></div>

@@ -1,4 +1,4 @@
-var app=angular.module('fundooApp',['ui.router','ngMaterial','ngSanitize','ngFileUpload']);
+var app=angular.module('fundooApp',['ui.router','ngMaterial','ngSanitize','ngFileUpload','ngImgCrop']);
 app.config(function($stateProvider,$urlRouterProvider)
 {
   $stateProvider

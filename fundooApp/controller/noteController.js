@@ -352,29 +352,29 @@ $scope.exists=function(item,list){
     var output = str.replace('-', '+').replace('_', '/');
     return window.atob(output);
   }
-  $scope.isVisible = false;
-  $scope.clickProfile = function() {
-    console.log('inside profile',false);
-    if ($scope.isVisible === false) {
-      $scope.isVisible = true;
-      console.log('true...........')
-      var tokenL = localStorage.getItem('token');
-      console.log('token inside getUser from token', tokenL);
-      var user = {};
-      if (tokenL !== undefined) {
-        var encode = tokenL.split('.')[1];
-        userDetail = JSON.parse(tokenDecode(encode));
-        console.log('hjdfsdhfsdf', userDetail.iss);
-        $scope.userDetails = userDetail;
-        console.log($scope.userDetails);
-      } else {
-        $location.path('Login');
-      }
 
-    } else {
-      $scope.isVisible = false;
+    $scope.clickProfile = function() {
+      console.log('inside profile',false);
+      if ($scope.isVisible === false) {
+        $scope.isVisible = true;
+        console.log('true...........')
+        var tokenL = localStorage.getItem('token');
+        console.log('token inside getUser from token', tokenL);
+        var user = {};
+        if (tokenL !== undefined) {
+          var encode = tokenL.split('.')[1];
+          userDetail = JSON.parse(tokenDecode(encode));
+          console.log('hjdfsdhfsdf', userDetail.iss);
+          $scope.userDetails = userDetail;
+          console.log($scope.userDetails);
+        } else {
+          $location.path('Login');
+        }
+
+      } else {
+        $scope.isVisible = false;
+      }
     }
-  }
 
 
   $scope.changeView = false;
@@ -739,8 +739,9 @@ $scope.exists=function(item,list){
   }
 
 var getImageUrl='';
-  $scope.imageSelect = function(event, note) {
+  $scope.imageSelect = function(event,note) {
     console.log('goes under imge', event);
+    console.log('note info',note);
     if (event!= undefined) {
       event.stopPropagation();
     }
@@ -957,7 +958,8 @@ console.log("note info ", note);
   };
 
 
-  $scope.showProfilePic=function(event,note){
+  $scope.showProfilePic=function(event){
+
   $mdDialog.show({
     controller: profileUplodController,
     templateUrl: 'templates/profileDialog.html',
@@ -965,49 +967,55 @@ console.log("note info ", note);
     targetEvent: event,
     clickOutsideToClose: true,
     fullscreen: $scope.customFullscreen,
-  });
+    });
+  }
+
+  function profileUplodController($scope,$timeout) {
+    $scope.myImage = '';
+     $scope.myCroppedImage = '';
+     $scope.filename = "";
+     var handleFileSelect = function(evt) {
+       var file = evt.target.files[0];
+       $scope.filename = evt.target.files[0].name;
+       console.log($scope.filename);
+       var reader = new FileReader();
+       reader.onload = function(evt) {
+         console.log(evt);
+         $scope.$apply(function($scope) {
+           $scope.myImage = evt.target.result;
+           console.log("my image is" +$scope.myImage);
+         });
+       };
+       reader.readAsDataURL(file);
+     };
+     $timeout(function() {
+       angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
+     }, 3000, false);
 }
-var image='';
-function profileUplodController($scope) {
-   $scope.takeImage = '';
-   $scope.CroppedImage = '';
-   $scope.filename = "";
 
-   $scope.profilePic=function(event){
-   if (event!= undefined) {
-     event.stopPropagation();
-   }
-   document.addEventListener("change", function(event) {
-     console.log('inside document');
-     var form = new FormData();
-     console.log("form", event.target.files[0]);
 
-     form.append("file", event.target.files[0]);
-     console.log("form after appending", event.target.files[0]);
-         var url = baseUrl + "uploadFile";
-     console.log("url", url);
-     noteservice.postImageService(form, url).then(function successCallback(response) {
-       console.log("Upload Successfully done", response);
-    image= response.data.msg;
-    console.log('getImageUrl', image);
-        updateImage(image);
-     }, function errorCallback(response) {
-       console.log(" Upload failed", response);
-     });
-   });
-}
-function updateImage(image) {
-    console.log("In update image...............");
+  $scope.hideDialogue = function() {
+        $mdDialog.hide();
+      }
 
-    var url = baseUrl + 'user/updateUserDetail';
+
+
+  function updateImage(note) {
+    console.log("In update image user...............",note);
+
+    var url = baseUrl + 'user/updateNote';
     console.log('url inside update image',url);
-    noteservice.putService(url,image).then(function successCallback(response) {
+    noteservice.putService(url,userInfo).then(function successCallback(response) {
       console.log(response);
     }, function errorCallback(response) {
       console.log("error" + response.data);
     })
   }
-}
+
+
+
+
+
 
 
 });

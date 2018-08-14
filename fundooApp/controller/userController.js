@@ -9,7 +9,8 @@ app
 		    emailId: $scope.emailId,
 		    password: $scope.password,
 		    address: $scope.address,
-		    phoneNumber:$scope.phoneNumber
+		    phoneNumber:$scope.phoneNumber,
+				profilepicImage:''
 		  };
 			console.log(user);
       // localStorage.register="registerModel";
@@ -86,5 +87,18 @@ app
 		});
 		console.log($scope.newpassword);
 	}
+
+
+function getAllUser(){
+	var url=baseUrl +"getAllUser";
+	userservice.getService(url)
+	.then (function successCallback(response){
+		console.log(response.data);
+		$scope.userInfo=response.data;
+	},function errorCallback(response){
+		console.log(response.data)
+		console.log("cannot display user details");
+	});
+}
 
 	});

@@ -39,15 +39,16 @@
      <md-tooltip>Notification</md-tooltip>
    </md-button>
 
-   <md-button class="md-icon-button" ng-click="clickProfile()" >
+   <md-button class="md-icon-button" ng-click="showHide(); clickProfile();" >
    <img src="images/baby.jpg" style="width:30px;height:28px; border-radius: 76px;"/><md-tooltip>account circle</md-tooltip>
  </md-button>
- </md-toolbar>
-      <div layout="row"  ng-show="isVisible" layout-align="center end" >
+  </md-toolbar>
+
+      <div layout="row" ng-show="IsVisible" style="position: absolute;z-index:0;" layout-align="center end" >
           <md-card  class="profile-card">
               <md-content>
-                  <md-list>
-                      <md-list-item ng-click="showProfilePic($event,note)">
+
+                      <md-list-item ng-click="showProfilePic($event)">
                         <img src="images/baby.jpg"  class="profile-card-img" alt="profile" />
                           <div class="md-list-item-text" style="text-align: justify-all" layout="column" layout-align="space-around end">
                               <div layout="row" class="profile-name">{{userDetails.iss}}</div>
@@ -65,7 +66,7 @@
                           <span flex></span>
                           <md-button ng-click="goToLogin()" class="sign-out-btn" >Sign out</md-button>
                       </div>
-                  </md-list>
+
               </md-content>
           </md-card>
       </div>
