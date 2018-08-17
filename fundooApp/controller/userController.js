@@ -10,12 +10,11 @@ app
 		    password: $scope.password,
 		    address: $scope.address,
 		    phoneNumber:$scope.phoneNumber,
-				profilepicImage:''
+				profilepicImage:""
 		  };
 			console.log(user);
-      // localStorage.register="registerModel";
 
-      // console.log(localStorage.register);
+
       localStorage.setItem("emailId",$scope.emailId)
       localStorage.setItem("password",$scope.password)
 			var url=baseUrl + "user/registerUser";
@@ -23,6 +22,7 @@ app
 			.then(function successCallback(response) {
 				console.log(response);
 						$state.go('home.dashboard');
+
 				// $window.alert("Check your mail to activate your account ");
 			}, function errorCallback(response) {
 				console.log(response);
@@ -31,16 +31,16 @@ app
 
 	$scope.loginModel=function(){
 
-		var user={
+		var login={
 				emailId: $scope.emailId,
 				password: $scope.password
 		};
 				var url=baseUrl +"user/login";
-		userservice.postService(user,url)
+		userservice.postService(login,url)
 		.then (function successCallback(response){
-		 var  checktoken=response.data.msg;
+		 var  checktoken=response;
 			$state.go('home.dashboard');
-			console.log("response data is",response.data.msg);
+			console.log("response data is",response);
 		localStorage.setItem("token",response.data.msg)
 			console.log("successfully login")
 
@@ -88,17 +88,22 @@ app
 		console.log($scope.newpassword);
 	}
 
+	$scope.getUser=[];
+	$scope.getallUser=function(){
 
-function getAllUser(){
-	var url=baseUrl +"getAllUser";
-	userservice.getService(url)
-	.then (function successCallback(response){
-		console.log(response.data);
-		$scope.userInfo=response.data;
-	},function errorCallback(response){
-		console.log(response.data)
-		console.log("cannot display user details");
-	});
-}
+		var url = baseUrl + "getAllUser";
+		console.log("URL:",url);
+		userservice.getService(url).then(
+				function successCallback(response) {
 
-	});
+					$scope.getUser=response.data;
+					console.log('getUsers: ', $scope.getUser);
+					return response.data;
+				}, function errorCallback(response) {
+					console.log("Error occur", response);
+					return response;
+
+				});
+	}
+
+});

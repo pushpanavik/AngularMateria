@@ -7,7 +7,9 @@ label{
   box-sizing: border-box;
   font-size: 14px;
 }
-
+#profi{
+  position:fixed;z-index:3;
+}
 .cropArea {
   background: #E4E4E4;
   overflow: hidden;
@@ -31,8 +33,7 @@ background: transparent;
 padding-left: 10;
 }
 .bluepin{
-/* width: 18px;height: 18px; */
-
+margin-top:220px;
 }
 .reminder{
   margin-left: 8px;margin-top: 9px;margin-bottom: -25px;
@@ -136,7 +137,7 @@ overflow: hidden;
 }
 
 .paddingclas{
-  padding-left: 223px;padding-right: 255px;
+  padding-left: 218px;padding-right: 255px;
 }
 .profile
 {

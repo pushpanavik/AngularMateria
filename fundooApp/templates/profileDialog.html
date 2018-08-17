@@ -1,6 +1,4 @@
 <md-dialog style="width: 600px;height: 800px">
-
-
   <strong><label >Select Profile Photo</label></strong>
 
 <!-- <div layout="row" layout-align="center center" style="padding-top: 163px;">  <input type="file" style="border:1px solid red;"  ng-click="profilePic($event)"></div> -->
@@ -8,9 +6,8 @@
 <div class="cropArea">
   <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
 </div>
-<div>Cropped Image:</div>
-<div><img ng-src="{{myCroppedImage}}" /></div>
-      <md-button ng-click="handleFileSelect($event);" >Save</md-button></div>
 
+<md-button ng-click="uploadProfilePic(myCroppedImage)">Save</md-button>
+<md-button ng-click="hideDialogue()">Cancel</md-button>
 
 </md-dialog>

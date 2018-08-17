@@ -3,7 +3,7 @@ var baseUrl="http://localhost:9090/fundoo/";
 	var serviceobj =[];
 
 serviceobj.postService = function(data,url) {
-  console.log(data);
+
   return $http({
     method : "POST",
     headers:{

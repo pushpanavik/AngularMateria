@@ -352,28 +352,27 @@ $scope.exists=function(item,list){
     var output = str.replace('-', '+').replace('_', '/');
     return window.atob(output);
   }
+  $scope.myVar=false;
+$scope.showProfileCard=function () {
+  console.log($scope.myVar);
+  $scope.myVar=$scope.myVar ? false:true;
+  console.log($scope.myVar);
+
+}
+console.log($scope.myVar);
 
     $scope.clickProfile = function() {
-      console.log('inside profile',false);
-      if ($scope.isVisible === false) {
-        $scope.isVisible = true;
-        console.log('true...........')
-        var tokenL = localStorage.getItem('token');
-        console.log('token inside getUser from token', tokenL);
+            var tokenL = localStorage.getItem('token');
         var user = {};
         if (tokenL !== undefined) {
           var encode = tokenL.split('.')[1];
           userDetail = JSON.parse(tokenDecode(encode));
-          console.log('hjdfsdhfsdf', userDetail.iss);
           $scope.userDetails = userDetail;
-          console.log($scope.userDetails);
+
         } else {
           $location.path('Login');
         }
 
-      } else {
-        $scope.isVisible = false;
-      }
     }
 
 
@@ -737,7 +736,18 @@ $scope.exists=function(item,list){
     }
 
   }
+  $scope.zoom = function() {
+      var imageId = document.getElementById('zoomView');
+      console.log(imageId);
+      if(imageId.style.width == "400px"){
+      imageId.style.width = "300px";
+      imageId.style.height = "300px";
 
+     }else{
+      imageId.style.width = "400px";
+     imageId.style.height = "400px";
+   }
+     }
 var getImageUrl='';
   $scope.imageSelect = function(event,note) {
     console.log('goes under imge', event);
@@ -781,8 +791,9 @@ var getImageUrl='';
 console.log("note info ", note);
     console.log("image link", note.image);
     note.image = null;
-    updateImage(note);
     $scope.getAllNote();
+    updateImage(note);
+
   };
 
   $scope.notes = [];
@@ -959,62 +970,126 @@ console.log("note info ", note);
 
 
   $scope.showProfilePic=function(event){
-
-  $mdDialog.show({
-    controller: profileUplodController,
-    templateUrl: 'templates/profileDialog.html',
-    parent: angular.element(document.body),
-    targetEvent: event,
-    clickOutsideToClose: true,
-    fullscreen: $scope.customFullscreen,
-    });
-  }
+console.log('inside profile');
+$mdDialog.show({
+ controller: profileUplodController,
+ templateUrl: 'templates/profileDialog.html',
+ parent: angular.element(document.body),
+ targetEvent: event,
+ clickOutsideToClose: true,
+ fullscreen: $scope.customFullscreen,
+ });
+}
 
   function profileUplodController($scope,$timeout) {
     $scope.myImage = '';
      $scope.myCroppedImage = '';
      $scope.filename = "";
-     var handleFileSelect = function(evt) {
+     var handleFileSelect=function(evt) {
        var file = evt.target.files[0];
-       $scope.filename = evt.target.files[0].name;
-       console.log($scope.filename);
-       var reader = new FileReader();
-       reader.onload = function(evt) {
+         $scope.filename = evt.target.files[0].name;
          console.log(evt);
-         $scope.$apply(function($scope) {
-           $scope.myImage = evt.target.result;
-           console.log("my image is" +$scope.myImage);
-         });
+         var reader = new FileReader();
+         reader.onload = function(evt) {
+           console.log(evt);
+           $scope.$apply(function($scope) {
+             $scope.myImage = evt.target.result;
+           });
+         };
+         reader.readAsDataURL(file);
        };
-       reader.readAsDataURL(file);
-     };
      $timeout(function() {
-       angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
-     }, 3000, false);
+      angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
+    }, 3000, false);
+
+    const dataURLtoFile = (dataurl, filename) => {
+          const arr = dataurl.split(',')
+          const mime = arr[0].match(/:(.*?);/)[1]
+          const bstr = atob(arr[1])
+          let n = bstr.length
+          const u8arr = new Uint8Array(n)
+          while (n) {
+            u8arr[n - 1] = bstr.charCodeAt(n - 1)
+            n -= 1 // to make eslint happy
+          }
+          return new File([u8arr], filename, {
+            type: mime
+          });
+        }
+
+$scope.uploadProfilePic = function functionName(myCroppedImage) {
+
+      const file = dataURLtoFile(myCroppedImage,$scope.filename);
+      console.log('file value in const',file);
+      var form1 = new FormData();
+      console.log('form1',form1);
+      form1.append("file",file);
+      console.log(form1.append("file",file));
+      var url = baseUrl + 'uploadFile';
+      noteservice.postImageService(form1, url).then(function successCallback(response) {
+        console.log(response);
+        var image = response.data.msg;
+        console.log('image in controller===========>' +image);
+          updateUserProfile(image);
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      });
+    }
+
+getUser();
+
+    function updateUserProfile(image) {
+      console.log('image info'+image);
+         var user=getUser();
+          console.log('user is', user);
+          user.profilepicImage = image;
+            console.log(user.profilepicImage);
+            var url = baseUrl + 'updateUser';
+          noteservice.putService(url,user).then(function successCallback(response) {
+            console.log(response);
+            console.log("user profile successfully updated");
+            getUser();
+          }, function errorCallback(response) {
+            console.log("error" + response.data);
+          })
+
+        }
+        $scope.hideDialogue = function() {
+          $mdDialog.hide();
+        }
 }
 
-
-  $scope.hideDialogue = function() {
-        $mdDialog.hide();
-      }
-
-
-
-  function updateImage(note) {
-    console.log("In update image user...............",note);
-
-    var url = baseUrl + 'user/updateNote';
-    console.log('url inside update image',url);
-    noteservice.putService(url,userInfo).then(function successCallback(response) {
-      console.log(response);
+getUser();
+var userInfo="";
+$scope.userInfo='';
+function getUser(){
+  console.log('in get user');
+  var url=baseUrl +"getUser";
+  noteservice.getService(url)
+    .then(function successCallback(response) {
+          $scope.userInfo=response.data;
+          userInfo=$scope.userInfo;
+    console.log('user info details',$scope.userInfo);
+    console.log('user info',$scope.userInfo.profilepicImage);
     }, function errorCallback(response) {
-      console.log("error" + response.data);
-    })
-  }
+      console.log(response, "user details cannot be displayed");
 
+    });
+    return userInfo;
+    }
 
-
-
+  //
+  // function updateImage(note) {
+  //   console.log("In update image user...............",note);
+  //
+  //   var url = baseUrl + 'user/updateNote';
+  //   console.log('url inside update image',url);
+  //   noteservice.putService(url,note).then(function successCallback(response) {
+  //     console.log(response);
+  //   }, function errorCallback(response) {
+  //     console.log("error" + response.data);
+  //   })
+//  }
 
 
 

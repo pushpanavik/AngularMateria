@@ -24,7 +24,15 @@ var baseUrl="http://localhost:9090/fundoo/";
 			 }
 		})
 	}
-
+	serviceobj.getService=function(url){
+	  return $http({
+	    method : "GET",
+	    url : url,
+	    headers:{
+	      'token': localStorage.getItem('token')
+	     }
+	   })
+	}
 
 				 return serviceobj;
 		})

@@ -1,4 +1,4 @@
-<div >
+<div ng-init="getUser()">
 <md-toolbar  class="md-toolbar-tools"  style="background-color:#fb0; position:fixed;">
 
   <md-button class="md-icon-button"  ng-click="toggleLeft()" >
@@ -39,35 +39,35 @@
      <md-tooltip>Notification</md-tooltip>
    </md-button>
 
-   <md-button class="md-icon-button" ng-click="showHide(); clickProfile();" >
-   <img src="images/baby.jpg" style="width:30px;height:28px; border-radius: 76px;"/><md-tooltip>account circle</md-tooltip>
- </md-button>
+<div ng-click="showProfileCard();">
+   <img src="{{userInfo.profilepicImage}}" style="width:30px;height:28px; border-radius: 76px;"/><md-tooltip>userInfo.emailId</md-tooltip>
+</div>
   </md-toolbar>
+</div>
 
-      <div layout="row" ng-show="IsVisible" style="position: absolute;z-index:0;" layout-align="center end" >
-          <md-card  class="profile-card">
+      <div ng-show="myVar">
+                <md-card class="profile-card" id="profi">
+                    <div layout="row">
               <md-content>
-
                       <md-list-item ng-click="showProfilePic($event)">
-                        <img src="images/baby.jpg"  class="profile-card-img" alt="profile" />
-                          <div class="md-list-item-text" style="text-align: justify-all" layout="column" layout-align="space-around end">
-                              <div layout="row" class="profile-name">{{userDetails.iss}}</div>
-                              <div layout="row" class="profile-email">{{userDetails.sub}}</div>
+                        <img src="{{userInfo.profilepicImage}}" class="profile-card-img" alt="profile" />
+                          <div  style="text-align:justify-all" layout="column" layout-align="space-around end">
+                              <div layout="row" class="profile-name">{{userInfo.firstname}}</div>
+                              <div layout="row" class="profile-email">{{userInfo.emailId}}</div>
                               <div layout="row">
                                   <a href="https://policies.google.com/privacy?hl=en" class="google" target="_blank">Privacy</a>
                               </div>
-                              <div><button  onclick="window.location.href='https://www.google.com/'"class="profile-button" style="margin-left:58px">FundooApp Account</button></div>
+                              <div onclick="window.location.href='https://www.google.com/'"class="profile-button" style="margin-left:58px">FundooApp Account</div>
                           </div>
                       </md-list-item>
                       <br>
-                      <md-divider ></md-divider>
+                      <md-divider></md-divider>
                       <div layout="row"  layout-xs="row">
                           <md-button ng-click="goToLogin()" class="sign-out-btn">Add account</md-button>
                           <span flex></span>
                           <md-button ng-click="goToLogin()" class="sign-out-btn" >Sign out</md-button>
                       </div>
-
               </md-content>
+          </div>
           </md-card>
       </div>
-</div>
