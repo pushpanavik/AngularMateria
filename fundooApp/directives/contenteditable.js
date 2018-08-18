@@ -39,7 +39,7 @@ app.directive('newcontenteditable', function() {
         if(ngModel!=null){
           element.bind('blur', function() {
               scope.$apply(function() {
-                  ctrl.$setViewValue(element.html());
+               ctrl.$setViewValue(element.html());
               });
           });
           ctrl.$render = function() {

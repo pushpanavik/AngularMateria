@@ -1,4 +1,4 @@
-app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $timeout, Upload, $window, $mdDialog, $mdSidenav, $rootScope) {
+app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $timeout, Upload, $window, $mdPanel,$mdDialog, $mdSidenav, $rootScope) {
   var baseUrl = "http://localhost:9090/fundoo/";
   $scope.gotoTrashPage = function() {
     $state.go("home.trash");
@@ -134,19 +134,19 @@ console.log("url paramvalue",$scope.paramvalue);
     });
   }
 
-  function DialogController2($scope, labelpopup) {
+  function DialogController2($scope,labelpopup) {
     $scope.labelpopup = labelpopup;
     console.log('in dialog controller in labelpopup', labelpopup);
 
     $scope.addLabel = function() {
       console.log('inside add label');
-
       var label = {
-        name: $scope.name
+        name:$scope.name
       };
-      console.log("name of label", $scope.name);
-      if (label.name != name) {
-
+      if (label.name === $scope.name) {
+console.log("duplicate label cannot be added");
+        }
+      else if(label.name!=$scope.name){
         var url = baseUrl + "/user/addLabel";
         console.log("label info", label);
 
@@ -242,23 +242,33 @@ console.log("url paramvalue",$scope.paramvalue);
   var noteobj = [];
   $scope.showlabelDialog = function(event, note) {
     console.log("inside showlabeldialog:  ", note);
+    var position = $mdPanel.newPanelPosition()
+      .relativeTo(event.target)
+      .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
 
-    noteobj = note;
-    console.log('display label', $scope.retireveLabels);
-    $mdDialog.show({
-      locals: {
-        mydata1: note,
-        mydata3: $scope.retireveLabels
-      },
-      controller: DialogController3,
-      templateUrl: 'templates/labelDialog.html',
-      parent: angular.element(document.body),
-      targetEvent: event,
-      clickOutsideToClose: true
-    })
-  }
+  var config = {
+    attachTo: angular.element(document.body),
+    controller: PanelMenuCtrl,
+    templateUrl: 'templates/labelDialog.html',
+    parent: angular.element(document.body),
+    clickOutsideToClose: true,
+    position: position,
+    openFrom: event,
+    escapeToClose: true,
+    focusOnOpen: false,
+    zIndex: 2,
+    locals: {
+       mydata1: note,
+      mydata3: $scope.retireveLabels
+    }
 
-  function DialogController3($scope, mydata1, mydata3) {
+  };
+
+  $mdPanel.open(config);
+};
+
+function PanelMenuCtrl($scope, mydata1, mydata3) {
+
     $scope.mydata1 = mydata1;
     $scope.mydata3 = mydata3;
     console.log('mydata3333', $scope.mydata3);
@@ -303,7 +313,69 @@ console.log("url paramvalue",$scope.paramvalue);
           console.log("error" + response);
         });
     }
-  }
+}
+  //
+  //   noteobj = note;
+  //   console.log('display label', $scope.retireveLabels);
+  //   $mdDialog.show({
+  //     locals: {
+  //       mydata1: note,
+  //       mydata3: $scope.retireveLabels
+  //     },
+  //     controller: DialogController3,
+  //     templateUrl: 'templates/labelDialog.html',
+  //     parent: angular.element(document.body),
+  //     targetEvent: event,
+  //     clickOutsideToClose: true
+  //   })
+  // }
+  //
+  // function DialogController3($scope, mydata1, mydata3) {
+  //   $scope.mydata1 = mydata1;
+  //   $scope.mydata3 = mydata3;
+  //   console.log('mydata3333', $scope.mydata3);
+  //   console.log("in dilogcontroller 333333");
+  //
+  //
+  //   $scope.addlabelNote = function(label) {
+  //     if (label.name != $scope.name) {
+  //       console.log("label in dashboard ", label);
+  //       console.log("note in dashboard:", noteobj);
+  //       console.log('noteid in dashboard', noteobj.id);
+  //       console.log('note obj of list of labels', noteobj.listOfLabels);
+  //
+  //       var idx = noteobj.listOfLabels.findIndex(x => x.labelname === label.name);
+  //       if (idx > -1) {
+  //         noteobj.listOfLabels.splice(idx, 1);
+  //       } else {
+  //         noteobj.listOfLabels.push(label);
+  //       }
+  //
+  //       var url = baseUrl + "user/updateNoteLabel/" + noteobj.id + " /" + label.labelId;
+  //       console.log('url under allLabelNote', url);
+  //       noteservice.putService(url, label)
+  //         .then(function successCallback(response) {
+  //           console.log("relation on label and note is updated", response);
+  //
+  //         }, function errorCallback(response) {
+  //           console.log("cannot update note", response);
+  //         });
+  //     }
+  //   }
+  //   $scope.retireveLabels = [];
+  //   $scope.getAllLabels = function() {
+  //
+  //     var url = baseUrl + "user/displayLabel";
+  //     noteservice.getService(url)
+  //       .then(function successCallback(response) {
+  //         $scope.retireveLabels = response.data;
+  //         console.log('response', $scope.retireveLabels);
+  //
+  //       }, function errorCallback(response) {
+  //         console.log("error" + response);
+  //       });
+  //   }
+  // }
   $scope.selected=[];
   $scope.toggle = function (item, list) {
           var i = list.indexOf(item);
@@ -354,10 +426,7 @@ $scope.exists=function(item,list){
   }
   $scope.myVar=false;
 $scope.showProfileCard=function () {
-  console.log($scope.myVar);
   $scope.myVar=$scope.myVar ? false:true;
-  console.log($scope.myVar);
-
 }
 console.log($scope.myVar);
 
@@ -476,6 +545,39 @@ console.log($scope.myVar);
 
   }
 
+  // $scope.checkIfUrl = function(){
+  //   console.log('in check url');
+  //       $scope.isPresent = false;
+  //       console.log($scope.isPresent);
+  //       if ($scope.description != undefined && $scope.description != null) {
+  //         console.log('comes under description ');
+  //         var url = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+  //         var Link = $scope.description;
+  //         console.log('link is ',Link);
+  //         if (Link != "" && Link != undefined && url.test(Link)) {
+  //
+  //           var first_part = Link.substring(0, 7);
+  //           console.log("firstpat" +first_part);
+  //           if(Link.indexOf("http") != 0 && first_part ==='http://'){
+  //             console.log("not adding https")
+  //             Link =Link;
+  //           }else if (Link.indexOf("http") != 0) {
+  //             console.log("adding https");
+  //             Link = "http://" + Link;
+  //             console.log("url for link is",Link);
+  //           }
+  //           $scope.isPresent = true;
+  //         }
+  //       }
+  //
+  //     };
+  //
+  //     $scope.hyperlinkClick= function(){
+  //       var Link = "http://" + $scope.description;
+  //       console.log(Link );
+  //       window.open(Link);
+  //
+  //     };
   $scope.updateNoteTitleDescripn = function(note) {
     var url = baseUrl + "user/updateNote";
     console.log('inside update method of title and description', note);

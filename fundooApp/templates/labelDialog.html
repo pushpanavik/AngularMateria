@@ -1,5 +1,5 @@
-<md-dialog aria-label="Label" class="label-dialog">
-    <md-dialog-content>
+
+
         <div class="md-dialog-content">
             <md-subheader class="label-header" style="margin-left:-28px;">Label note</md-subheader>
             <div layout="row">
@@ -9,7 +9,6 @@
                 </md-button>
             </div>
 
-
             <div ng-init="getAllLabels()">
               <div layout="row" ng-repeat="label in retireveLabels" >
                 <md-checkbox ng-checked="exists(label,selected);" ng-click="addlabelNote(label)">
@@ -17,7 +16,3 @@
                 </md-checkbox>
               </div>
             </div>
-
-            <!-- <md-button  ng-click="addLabelNote(label)"  ><img src="images/ceateLabel.svg" /></md-button> -->
-    </md-dialog-content>
-</md-dialog>

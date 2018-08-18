@@ -1,17 +1,18 @@
-<div ng-init="getAllNotes()">
+<div ng-init="getAllNote()">
 <md-dialog  style="width: 600px;height: 182px;">
 
      <img  ng-src="{{mydata.image}}" />
      <div style="margin-left: 442px;margin-top: -27px;" ng-click="removeImage(mydata);"> <img src="images/baseline-delete-24px.svg"/></div>
-    <div newcontenteditable contenteditable="true" style="margin-top: 10px" ><strong>{{mydata.title}}</strong> </div>
+    <div contenteditable="true" style="margin-top: 10px;" ng-model="mydata.title"> </div>
     <md-icon><img src="images/pin0.svg" style="margin-top:-184px;margin-left: 219px;"/ >
     </md-icon>
-
-    <div newcontenteditable contenteditable="true" >{{mydata.description}}
+    
+    <div contenteditable="true" ng-model="mydata.description">
+      <md-button ng-click="sendtoLink()">Go to link</md-button>
     </div>
 <div class="dialog">  <icon></icon></div>
         <div >
-       <md-button  ng-click="cancel();updateNoteTitleDescripn(mydata)"class="popup">CLOSE</md-button>
+       <md-button ng-click="cancel();updateNoteTitleDescripn(mydata)"class="popup">CLOSE</md-button>
      </div>
 </md-dialog>
 </div>
