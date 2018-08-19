@@ -15,7 +15,7 @@
     </div>
       <input type="text" placeholder="Title" ng-model="title" id="notecard1" style="margin-top:-38px;"/ >
 
-        <input type="text" class="intial-text" placeholder="Take a note..." ng-model="description" id="notecard1" />
+        <div contenteditable="true" data-placeholder="Take a note..." ng-model="description" id="notecard1" ng-bind-html="description"></div>
       <div><icon> </icon></div>
       <div><md-button ng-click="showWhenClicked=false;noteModel()" id="close-btn">CLOSE</md-button></div>
     </md-card>
@@ -33,7 +33,7 @@
 
             <div class="tit1"><strong>{{note.title}}</strong></div>
                     <md-card-content class="center" class="placesize" ng-click="showAdvanced($event,note)">
-                    <div newcontenteditable contenteditable="true" ng-bind-html="note.description"></div>
+                    <div contenteditable="true" ng-bind-html="note.description"></div>
                     </md-card-content>
                     <div  layout="row">
                         <md-chips ng-if="note.reminderDate"  ng-mouseover="enableEdit(note)"  ng-mouseleave="disableEdit(note)">
@@ -47,6 +47,7 @@
                         </md-chips>
                      </div>
                         <icon></icon>
+                        <urlimage></urlimage>
                       </div>
                 </md-card>
 
@@ -62,11 +63,11 @@
              </span>
   <img  id="zoomView" ng-src="{{note.image}}"/>
         <span ng-click="showAdvanced($event,note)">
-          <div  newcontenteditable contenteditable="true" class="dashOthr1"><strong>{{note.title}}</strong></div>
+          <div contenteditable="true" class="dashOthr1"><strong>{{note.title}}</strong></div>
         </span
 
                   <md-card-content ng-click="showAdvanced($event,note)">
-                     <div newcontenteditable contenteditabl"true" class="dashOthr2">{{note.description}}</div>
+                     <div  contenteditable="true" class="dashOthr2">{{note.description}}</div>
                   </md-card-content>
                   <div  layout="row" >
                       <md-chips ng-if="note.reminderDate">
@@ -80,6 +81,7 @@
                       </md-chips>
                    </div>
                       <icon></icon>
+                      <urlimage></urlimage>
 
               </md-card>
     </div>

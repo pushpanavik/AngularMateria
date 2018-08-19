@@ -68,6 +68,18 @@ serviceobj.getService=function(url){
      }
    })
 }
+serviceobj.getUrlData=function(urlToSend){
+	  var url=baseUrl +"getUrlData";
+	console.log("inside get url data");
+  return $http({
+    method : "POST",
+    url : url,
+    headers:{
+			url:urlToSend,
+      'token': localStorage.getItem('token')
+     }
+   })
+}
 
 
 return serviceobj;

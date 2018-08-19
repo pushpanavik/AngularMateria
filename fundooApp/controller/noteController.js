@@ -1,4 +1,4 @@
-app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $timeout, Upload, $window, $mdPanel,$mdDialog, $mdSidenav, $rootScope) {
+app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $timeout, Upload, $window, $mdPanel, $mdDialog, $mdSidenav, $rootScope) {
   var baseUrl = "http://localhost:9090/fundoo/";
   $scope.gotoTrashPage = function() {
     $state.go("home.trash");
@@ -19,10 +19,10 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     $state.go("home.reminder");
   }
 
-var path=$location.path();
-console.log("path is ",path);
-$scope.paramvalue=path.split('/')[3];
-console.log("url paramvalue",$scope.paramvalue);
+  var path = $location.path();
+  console.log("path is ", path);
+  $scope.paramvalue = path.split('/')[3];
+  console.log("url paramvalue", $scope.paramvalue);
 
 
   $scope.cancel = function() {
@@ -53,7 +53,6 @@ console.log("url paramvalue",$scope.paramvalue);
   if (localStorage.getItem('token') === null) {
     $state.go('Login');
   }
-
   $scope.toggleLeft = buildToggler('left');
 
   function buildToggler(componentId) {
@@ -134,19 +133,18 @@ console.log("url paramvalue",$scope.paramvalue);
     });
   }
 
-  function DialogController2($scope,labelpopup) {
+  function DialogController2($scope, labelpopup) {
     $scope.labelpopup = labelpopup;
     console.log('in dialog controller in labelpopup', labelpopup);
 
     $scope.addLabel = function() {
       console.log('inside add label');
       var label = {
-        name:$scope.name
+        name: $scope.name
       };
       if (label.name === $scope.name) {
-console.log("duplicate label cannot be added");
-        }
-      else if(label.name!=$scope.name){
+        console.log("duplicate label cannot be added");
+      } else if (label.name != $scope.name) {
         var url = baseUrl + "/user/addLabel";
         console.log("label info", label);
 
@@ -242,38 +240,50 @@ console.log("duplicate label cannot be added");
   var noteobj = [];
   $scope.showlabelDialog = function(event, note) {
     console.log("inside showlabeldialog:  ", note);
+    noteobj = note;
+
     var position = $mdPanel.newPanelPosition()
       .relativeTo(event.target)
       .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
 
-  var config = {
-    attachTo: angular.element(document.body),
-    controller: PanelMenuCtrl,
-    templateUrl: 'templates/labelDialog.html',
-    parent: angular.element(document.body),
-    clickOutsideToClose: true,
-    position: position,
-    openFrom: event,
-    escapeToClose: true,
-    focusOnOpen: false,
-    zIndex: 2,
-    locals: {
-       mydata1: note,
-      mydata3: $scope.retireveLabels
-    }
-
+    var config = {
+      attachTo: angular.element(document.body),
+      controller: PanelMenuCtrl,
+      templateUrl: 'templates/labelDialog.html',
+      parent: angular.element(document.body),
+      clickOutsideToClose: true,
+      position: position,
+      openFrom: event,
+      escapeToClose: true,
+      focusOnOpen: false,
+      zIndex: 2,
+      locals: {
+        mydata1: note,
+        mydata3: $scope.retireveLabels
+      }
+    };
+    $mdPanel.open(config);
   };
 
-  $mdPanel.open(config);
-};
-
-function PanelMenuCtrl($scope, mydata1, mydata3) {
+  function PanelMenuCtrl($scope, mydata1, mydata3) {
 
     $scope.mydata1 = mydata1;
     $scope.mydata3 = mydata3;
-    console.log('mydata3333', $scope.mydata3);
-    console.log("in dilogcontroller 333333");
 
+    $scope.items = noteobj.listOfLabels;
+    $scope.selected = [];
+    $scope.exists = function(item, list) {
+      return list.indexOf(item) > -1;
+    };
+    $scope.toggle = function(item, list) {
+      var i = list.indexOf(item);
+      if (i > -1) {
+        list.splice(i, 1);
+      } else {
+        list.push(item);
+      }
+    };
+    console.log("in dilogcontroller 333333");
 
     $scope.addlabelNote = function(label) {
       if (label.name != $scope.name) {
@@ -282,18 +292,12 @@ function PanelMenuCtrl($scope, mydata1, mydata3) {
         console.log('noteid in dashboard', noteobj.id);
         console.log('note obj of list of labels', noteobj.listOfLabels);
 
-        var idx = noteobj.listOfLabels.findIndex(x => x.labelname === label.name);
-        if (idx > -1) {
-          noteobj.listOfLabels.splice(idx, 1);
-        } else {
-          noteobj.listOfLabels.push(label);
-        }
-
         var url = baseUrl + "user/updateNoteLabel/" + noteobj.id + " /" + label.labelId;
         console.log('url under allLabelNote', url);
         noteservice.putService(url, label)
           .then(function successCallback(response) {
             console.log("relation on label and note is updated", response);
+            $scope.getAllLabels();
 
           }, function errorCallback(response) {
             console.log("cannot update note", response);
@@ -313,84 +317,7 @@ function PanelMenuCtrl($scope, mydata1, mydata3) {
           console.log("error" + response);
         });
     }
-}
-  //
-  //   noteobj = note;
-  //   console.log('display label', $scope.retireveLabels);
-  //   $mdDialog.show({
-  //     locals: {
-  //       mydata1: note,
-  //       mydata3: $scope.retireveLabels
-  //     },
-  //     controller: DialogController3,
-  //     templateUrl: 'templates/labelDialog.html',
-  //     parent: angular.element(document.body),
-  //     targetEvent: event,
-  //     clickOutsideToClose: true
-  //   })
-  // }
-  //
-  // function DialogController3($scope, mydata1, mydata3) {
-  //   $scope.mydata1 = mydata1;
-  //   $scope.mydata3 = mydata3;
-  //   console.log('mydata3333', $scope.mydata3);
-  //   console.log("in dilogcontroller 333333");
-  //
-  //
-  //   $scope.addlabelNote = function(label) {
-  //     if (label.name != $scope.name) {
-  //       console.log("label in dashboard ", label);
-  //       console.log("note in dashboard:", noteobj);
-  //       console.log('noteid in dashboard', noteobj.id);
-  //       console.log('note obj of list of labels', noteobj.listOfLabels);
-  //
-  //       var idx = noteobj.listOfLabels.findIndex(x => x.labelname === label.name);
-  //       if (idx > -1) {
-  //         noteobj.listOfLabels.splice(idx, 1);
-  //       } else {
-  //         noteobj.listOfLabels.push(label);
-  //       }
-  //
-  //       var url = baseUrl + "user/updateNoteLabel/" + noteobj.id + " /" + label.labelId;
-  //       console.log('url under allLabelNote', url);
-  //       noteservice.putService(url, label)
-  //         .then(function successCallback(response) {
-  //           console.log("relation on label and note is updated", response);
-  //
-  //         }, function errorCallback(response) {
-  //           console.log("cannot update note", response);
-  //         });
-  //     }
-  //   }
-  //   $scope.retireveLabels = [];
-  //   $scope.getAllLabels = function() {
-  //
-  //     var url = baseUrl + "user/displayLabel";
-  //     noteservice.getService(url)
-  //       .then(function successCallback(response) {
-  //         $scope.retireveLabels = response.data;
-  //         console.log('response', $scope.retireveLabels);
-  //
-  //       }, function errorCallback(response) {
-  //         console.log("error" + response);
-  //       });
-  //   }
-  // }
-  $scope.selected=[];
-  $scope.toggle = function (item, list) {
-          var i = list.indexOf(item);
-          if (i > -1) {
-            list.splice(i, 1);
-          }
-          else {
-            list.push(item);
-          }
-        };
-
-$scope.exists=function(item,list){
-  console.log("list in exist",list);
-  return list.indexof(item)> -1;
-};
+  }
 
   $scope.removeLabelOnNote = function(label, note) {
     console.log("label in dashboard ", label);
@@ -400,7 +327,7 @@ $scope.exists=function(item,list){
     var url = baseUrl + "user/deleteLabel/" + note.id + "/" + label.labelId;
     noteservice.getDeleteService(note, url)
       .then(function successCallback(response) {
-              $scope.getAllLabels();
+        $scope.getAllLabels();
 
       }, function errorCallback(response) {
         console.log("error" + response);
@@ -424,25 +351,25 @@ $scope.exists=function(item,list){
     var output = str.replace('-', '+').replace('_', '/');
     return window.atob(output);
   }
-  $scope.myVar=false;
-$scope.showProfileCard=function () {
-  $scope.myVar=$scope.myVar ? false:true;
-}
-console.log($scope.myVar);
+  $scope.myVar = false;
+  $scope.showProfileCard = function() {
+    $scope.myVar = $scope.myVar ? false : true;
+  }
+  console.log($scope.myVar);
 
-    $scope.clickProfile = function() {
-            var tokenL = localStorage.getItem('token');
-        var user = {};
-        if (tokenL !== undefined) {
-          var encode = tokenL.split('.')[1];
-          userDetail = JSON.parse(tokenDecode(encode));
-          $scope.userDetails = userDetail;
+  $scope.clickProfile = function() {
+    var tokenL = localStorage.getItem('token');
+    var user = {};
+    if (tokenL !== undefined) {
+      var encode = tokenL.split('.')[1];
+      userDetail = JSON.parse(tokenDecode(encode));
+      $scope.userDetails = userDetail;
 
-        } else {
-          $location.path('Login');
-        }
-
+    } else {
+      $location.path('Login');
     }
+
+  }
 
 
   $scope.changeView = false;
@@ -483,8 +410,8 @@ console.log($scope.myVar);
       console.log('condition check');
       noteservice.postService(note, url)
         .then(function successCallback(response) {
-          console.log("successfully note added", response);
-          console.log("title for note is", response);
+          var responseData = response.data;
+          console.log(responseData);
           $scope.getAllNote();
         }, function errorCallback(response) {
           console.log("note cannot be  added", response);
@@ -493,6 +420,44 @@ console.log($scope.myVar);
     }
   }
 
+  var urls = [];
+  $scope.checkUrl = function(note) {
+    var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+    var url = note.description.match(urlPattern);
+    var link = [];
+
+    if (note.size == undefined) {
+      note.size = 0;
+      note.url = [];
+      note.link = [];
+    }
+
+    if ((url != null || url != undefined) && note.size < url.length) {
+      for (var i = 0; i < url.length; i++) {
+
+        note.url[i] = url[i];
+        noteservice.getUrlData(url[i])
+    .then(function successCallback(response) {
+          var responseData = response.data;
+          if (responseData.title.length > 25) {
+            responseData.title = responseData.title.substr(0, 20) + '..';
+          }
+          link[note.size] = {
+            title: responseData.title,
+            url: note.url[note.size],
+            imageUrl: responseData.imageUrl,
+            domain: responseData.domain
+          }
+
+          note.link[note.size] = link[note.size];
+          note.size = note.size + 1;
+
+        }, function errorCallback(response) {
+          console.log("data cannot come");
+        });
+      }
+    }
+  }
 
   $scope.customerData = [
     [{
@@ -660,41 +625,41 @@ console.log($scope.myVar);
 
   $scope.today = new Date();
   $scope.todayReminder = function(note) {
-   if ($scope.today.getHours() > 20 && $scope.today.getHours() < 8) {
-     $scope.today.setHours(08);
-     $scope.today.setMinutes(00);
-   } else if ($scope.today.getHours() < 20 && $scope.today.getHours() > 8) {
-     $scope.today.setHours(20);
-     $scope.today.setMinutes(00);
-   }
-   note.reminderDate = $scope.today;
-     $scope.UpdateReminderDate(note);
-   }
+    if ($scope.today.getHours() > 20 && $scope.today.getHours() < 8) {
+      $scope.today.setHours(08);
+      $scope.today.setMinutes(00);
+    } else if ($scope.today.getHours() < 20 && $scope.today.getHours() > 8) {
+      $scope.today.setHours(20);
+      $scope.today.setMinutes(00);
+    }
+    note.reminderDate = $scope.today;
+    $scope.UpdateReminderDate(note);
+  }
 
-   $scope.tomorrowReminder = function(note) {
-     var tomorrow = new Date();
-     tomorrow.setDate(tomorrow.getDate() + 1);
-     tomorrow.setHours(8);
-     tomorrow.setMinutes(00);
-     note.reminderDate = tomorrow;
-     $scope.UpdateReminderDate(note);
-     $scope.getAllNote();
+  $scope.tomorrowReminder = function(note) {
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(8);
+    tomorrow.setMinutes(00);
+    note.reminderDate = tomorrow;
+    $scope.UpdateReminderDate(note);
+    $scope.getAllNote();
 
-   }
+  }
 
-   $scope.nextWeekReminder= function(note) {
-     var nextWeek = new Date();
-     var day=nextWeek.getDay();
-     var numberofdays=7-day+1;
-     nextWeek.setDate(nextWeek.getDate() + numberofdays);
-     nextWeek.setHours(8);
-     nextWeek.setMinutes(00);
-     note.reminderDate = nextWeek;
+  $scope.nextWeekReminder = function(note) {
+    var nextWeek = new Date();
+    var day = nextWeek.getDay();
+    var numberofdays = 7 - day + 1;
+    nextWeek.setDate(nextWeek.getDate() + numberofdays);
+    nextWeek.setHours(8);
+    nextWeek.setMinutes(00);
+    note.reminderDate = nextWeek;
 
-         $scope.UpdateReminderDate(note);
-         $scope.getAllNote();
+    $scope.UpdateReminderDate(note);
+    $scope.getAllNote();
 
-   }
+  }
 
   $scope.removeReminder = function(note) {
     console.log("inside remove reminder method...");
@@ -702,11 +667,27 @@ console.log($scope.myVar);
     note.reminderTime = null;
     $scope.UpdateReminderDate(note);
   }
-  $scope.addTime = [{'name': 'Morning   8:00 AM','value': '8:00 AM'},
-                    {'name': 'Afternoon 1:00 PM','value': '1:00 PM'},
-                    {'name': 'Evening   6:00 PM','value': '6:00 PM'},
-                    {'name': 'Night     8:00 PM','value': '8:00 PM'},
-                    {'name': 'custom','value': ''}];
+  $scope.addTime = [{
+      'name': 'Morning   8:00 AM',
+      'value': '8:00 AM'
+    },
+    {
+      'name': 'Afternoon 1:00 PM',
+      'value': '1:00 PM'
+    },
+    {
+      'name': 'Evening   6:00 PM',
+      'value': '6:00 PM'
+    },
+    {
+      'name': 'Night     8:00 PM',
+      'value': '8:00 PM'
+    },
+    {
+      'name': 'custom',
+      'value': ''
+    }
+  ];
 
 
   $scope.ReminderDate = function(note) {
@@ -715,8 +696,7 @@ console.log($scope.myVar);
     var myDate = new Date(note.reminderDat);
     console.log('mydate', myDate);
 
-    if (note.reminderTime.split(':')[1].split(' ')[1] === 'PM')
-    {
+    if (note.reminderTime.split(':')[1].split(' ')[1] === 'PM') {
       var a = note.reminderTime.split(':')[0];
       console.log('a', a);
       var b = 12;
@@ -839,22 +819,22 @@ console.log($scope.myVar);
 
   }
   $scope.zoom = function() {
-      var imageId = document.getElementById('zoomView');
-      console.log(imageId);
-      if(imageId.style.width == "400px"){
+    var imageId = document.getElementById('zoomView');
+    console.log(imageId);
+    if (imageId.style.width == "400px") {
       imageId.style.width = "300px";
       imageId.style.height = "300px";
 
-     }else{
+    } else {
       imageId.style.width = "400px";
-     imageId.style.height = "400px";
-   }
-     }
-var getImageUrl='';
-  $scope.imageSelect = function(event,note) {
+      imageId.style.height = "400px";
+    }
+  }
+  var getImageUrl = '';
+  $scope.imageSelect = function(event, note) {
     console.log('goes under imge', event);
-    console.log('note info',note);
-    if (event!= undefined) {
+    console.log('note info', note);
+    if (event != undefined) {
       event.stopPropagation();
     }
     document.addEventListener("change", function(event) {
@@ -864,13 +844,13 @@ var getImageUrl='';
 
       form.append("file", event.target.files[0]);
       console.log("form after appending", event.target.files[0]);
-          var url = baseUrl + "uploadFile";
+      var url = baseUrl + "uploadFile";
       console.log("url", url);
       noteservice.postImageService(form, url).then(function successCallback(response) {
         console.log("Upload Successfully done", response);
-     note.image= response.data.msg;
-     console.log('getImageUrl', note.image);
-         updateImage(note);
+        note.image = response.data.msg;
+        console.log('getImageUrl', note.image);
+        updateImage(note);
       }, function errorCallback(response) {
         console.log(" Upload failed", response);
       });
@@ -878,19 +858,19 @@ var getImageUrl='';
   };
 
   function updateImage(note) {
-      console.log("In update image...............");
+    console.log("In update image...............");
 
-      var url = baseUrl + 'user/updateNote';
-      console.log('url inside update image',url);
-      noteservice.putService(url,note).then(function successCallback(response) {
+    var url = baseUrl + 'user/updateNote';
+    console.log('url inside update image', url);
+    noteservice.putService(url, note).then(function successCallback(response) {
 
-        console.log(response);
-      }, function errorCallback(response) {
-        console.log("error" + response.data);
-      })
-    }
+      console.log(response);
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+  }
   $scope.removeImage = function(note) {
-console.log("note info ", note);
+    console.log("note info ", note);
     console.log("image link", note.image);
     note.image = null;
     $scope.getAllNote();
@@ -918,120 +898,124 @@ console.log("note info ", note);
   };
 
 
-     $scope.showCollaborator = function(ev) {
-  console.log("comes under showAdvance from archive call");
-         $mdDialog.show({
+  $scope.showCollaborator = function(ev) {
+    console.log("comes under showAdvance from archive call");
+    $mdDialog.show({
 
-           controller: dialogCollaboratorController,
-           templateUrl: 'templates/collaborator.html',
-           parent: angular.element(document.body),
-           targetEvent: ev,
-           clickOutsideToClose:true,
-           fullscreen : $scope.customFullscreen,
-            })
-     };
-     function dialogCollaboratorController($scope,$mdDialog) {
-     	  $scope.cancel = function() {
-     	      $mdDialog.cancel();
+      controller: dialogCollaboratorController,
+      templateUrl: 'templates/collaborator.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: true,
+      fullscreen: $scope.customFullscreen,
+    })
+  };
 
-     	    };
-     	    var commonUrl = "http://localhost:9090/fundoo/";
-     		$scope.createCollaborator = function() {
-     			console.log("cvcxvxcvashds");
-     			var collaborator = {
-     					email : $scope.email,
+  function dialogCollaboratorController($scope, $mdDialog) {
+    $scope.cancel = function() {
+      $mdDialog.cancel();
 
-     			};
-     	         console.log("collaborator:",collaborator);
-     			var url = commonUrl + "addCollaborator";
-     			if(collaborator.email!=null){
-     				console.log("inside if...", collaborator.email)
+    };
+    var commonUrl = "http://localhost:9090/fundoo/";
+    $scope.createCollaborator = function() {
+      console.log("cvcxvxcvashds");
+      var collaborator = {
+        email: $scope.email,
 
-     			noteservice.postService(collaborator, url).then(
-     					function successCallback(response) {
+      };
+      console.log("collaborator:", collaborator);
+      var url = commonUrl + "addCollaborator";
+      if (collaborator.email != null) {
+        console.log("inside if...", collaborator.email)
 
-     						console.log("success", response.data);
-     						$scope.getallCollaborators();
-     						return response.data;
+        noteservice.postService(collaborator, url).then(
+          function successCallback(response) {
 
-     					}, function errorCallback(response) {
-     						console.log("Error occur", response);
-     						return response;
+            console.log("success", response.data);
+            $scope.getallCollaborators();
+            return response.data;
 
-     					});
-     		}
-     		}
+          },
+          function errorCallback(response) {
+            console.log("Error occur", response);
+            return response;
 
-     		$scope.getallCollaborators =function() {
+          });
+      }
+    }
 
-     		    var url = commonUrl + "getallCollaborators";
+    $scope.getallCollaborators = function() {
 
-     			noteservice.getService(url).then(
-     					function successCallback(response) {
+      var url = commonUrl + "getallCollaborators";
 
-     						$scope.getCollaborators=response.data;
-     						console.log('Collaborators: ', $scope.getCollaborators)
-     						//console.log("success", response.data);
-     						return response.data;
+      noteservice.getService(url).then(
+        function successCallback(response) {
 
-     					}, function errorCallback(response) {
-     						console.log("Error occur", response);
-     						return response;
+          $scope.getCollaborators = response.data;
+          console.log('Collaborators: ', $scope.getCollaborators)
+          //console.log("success", response.data);
+          return response.data;
 
-     					});
-     		}
+        },
+        function errorCallback(response) {
+          console.log("Error occur", response);
+          return response;
 
-     		$scope.deleteCollaborator =function(collaborator){
+        });
+    }
 
-     			 console.log("collaborator:"+collaborator);
-     			 var collaboratorid=collaborator.id;
-     			 console.log("collaboratorid:"+collaboratorid)
+    $scope.deleteCollaborator = function(collaborator) {
 
-
-     			 var url = commonUrl + "deleteCollaborator/"+collaborator.id;
-
-
-     			userservice.notepostmethod(url).then(
-     					function successCallback(response) {
-
-     						console.log("success", response.data);
-     						return response.data;
-
-     					}, function errorCallback(response) {
-     						console.log("Error occur", response);
-     						return response;
-
-     					});
-     		}
+      console.log("collaborator:" + collaborator);
+      var collaboratorid = collaborator.id;
+      console.log("collaboratorid:" + collaboratorid)
 
 
-       $scope.addCollaboratorOnNote=function(collaborator){
-     	  console.log("collaborator:"+collaborator);
-     		 var collaboratorid=collaborator.id;
-     		 console.log("collaboratorid:"+collaboratorid)
-     		console.log("noteid  in dashboard:",noteobject);
-     	  var index=noteobject.listofCollaborator.findIndex(x => x.email===collaborator.email);
-     	 if (index > -1) {
-      	  noteobject.listofCollaborator.splice(index, 1);
-        }
-        else {
-      	  noteobject.listofCollaborator.push(collaborator);
-        }
-     		 var url = commonUrl + "noteandcollaborator/"+noteobject.id+"/"+collaborator.id;
-     		 console.log(url);
-     		labelservice.labelputmethod(url).then(
-     				function successCallback(response) {
+      var url = commonUrl + "deleteCollaborator/" + collaborator.id;
 
-     					console.log("success", response);
-     					return response;
 
-     				}, function errorCallback(response) {
-     					console.log("Error occur", response);
-     					return response;
+      userservice.notepostmethod(url).then(
+        function successCallback(response) {
 
-     				});
-     	}
-       }
+          console.log("success", response.data);
+          return response.data;
+
+        },
+        function errorCallback(response) {
+          console.log("Error occur", response);
+          return response;
+
+        });
+    }
+
+
+    $scope.addCollaboratorOnNote = function(collaborator) {
+      console.log("collaborator:" + collaborator);
+      var collaboratorid = collaborator.id;
+      console.log("collaboratorid:" + collaboratorid)
+      console.log("noteid  in dashboard:", noteobject);
+      var index = noteobject.listofCollaborator.findIndex(x => x.email === collaborator.email);
+      if (index > -1) {
+        noteobject.listofCollaborator.splice(index, 1);
+      } else {
+        noteobject.listofCollaborator.push(collaborator);
+      }
+      var url = commonUrl + "noteandcollaborator/" + noteobject.id + "/" + collaborator.id;
+      console.log(url);
+      labelservice.labelputmethod(url).then(
+        function successCallback(response) {
+
+          console.log("success", response);
+          return response;
+
+        },
+        function errorCallback(response) {
+          console.log("Error occur", response);
+          return response;
+
+        });
+    }
+  }
 
 
 
@@ -1071,114 +1055,115 @@ console.log("note info ", note);
   };
 
 
-  $scope.showProfilePic=function(event){
-console.log('inside profile');
-$mdDialog.show({
- controller: profileUplodController,
- templateUrl: 'templates/profileDialog.html',
- parent: angular.element(document.body),
- targetEvent: event,
- clickOutsideToClose: true,
- fullscreen: $scope.customFullscreen,
- });
-}
+  $scope.showProfilePic = function(event) {
+    console.log('inside profile');
+    $mdDialog.show({
+      controller: profileUplodController,
+      templateUrl: 'templates/profileDialog.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+      fullscreen: $scope.customFullscreen,
+    });
+  }
 
-  function profileUplodController($scope,$timeout) {
+  function profileUplodController($scope, $timeout) {
     $scope.myImage = '';
-     $scope.myCroppedImage = '';
-     $scope.filename = "";
-     var handleFileSelect=function(evt) {
-       var file = evt.target.files[0];
-         $scope.filename = evt.target.files[0].name;
-         console.log(evt);
-         var reader = new FileReader();
-         reader.onload = function(evt) {
-           console.log(evt);
-           $scope.$apply(function($scope) {
-             $scope.myImage = evt.target.result;
-           });
-         };
-         reader.readAsDataURL(file);
-       };
-     $timeout(function() {
+    $scope.myCroppedImage = '';
+    $scope.filename = "";
+    var handleFileSelect = function(evt) {
+      var file = evt.target.files[0];
+      $scope.filename = evt.target.files[0].name;
+      console.log(evt);
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        console.log(evt);
+        $scope.$apply(function($scope) {
+          $scope.myImage = evt.target.result;
+        });
+      };
+      reader.readAsDataURL(file);
+    };
+    $timeout(function() {
       angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
     }, 3000, false);
 
     const dataURLtoFile = (dataurl, filename) => {
-          const arr = dataurl.split(',')
-          const mime = arr[0].match(/:(.*?);/)[1]
-          const bstr = atob(arr[1])
-          let n = bstr.length
-          const u8arr = new Uint8Array(n)
-          while (n) {
-            u8arr[n - 1] = bstr.charCodeAt(n - 1)
-            n -= 1 // to make eslint happy
-          }
-          return new File([u8arr], filename, {
-            type: mime
-          });
-        }
+      const arr = dataurl.split(',')
+      const mime = arr[0].match(/:(.*?);/)[1]
+      const bstr = atob(arr[1])
+      let n = bstr.length
+      const u8arr = new Uint8Array(n)
+      while (n) {
+        u8arr[n - 1] = bstr.charCodeAt(n - 1)
+        n -= 1 // to make eslint happy
+      }
+      return new File([u8arr], filename, {
+        type: mime
+      });
+    }
 
-$scope.uploadProfilePic = function functionName(myCroppedImage) {
+    $scope.uploadProfilePic = function functionName(myCroppedImage) {
 
-      const file = dataURLtoFile(myCroppedImage,$scope.filename);
-      console.log('file value in const',file);
+      const file = dataURLtoFile(myCroppedImage, $scope.filename);
+      console.log('file value in const', file);
       var form1 = new FormData();
-      console.log('form1',form1);
-      form1.append("file",file);
-      console.log(form1.append("file",file));
+      console.log('form1', form1);
+      form1.append("file", file);
+      console.log(form1.append("file", file));
       var url = baseUrl + 'uploadFile';
       noteservice.postImageService(form1, url).then(function successCallback(response) {
         console.log(response);
         var image = response.data.msg;
-        console.log('image in controller===========>' +image);
-          updateUserProfile(image);
+        console.log('image in controller===========>' + image);
+        updateUserProfile(image);
       }, function errorCallback(response) {
         console.log("error" + response.data);
       });
     }
 
-getUser();
+    getUser();
 
     function updateUserProfile(image) {
-      console.log('image info'+image);
-         var user=getUser();
-          console.log('user is', user);
-          user.profilepicImage = image;
-            console.log(user.profilepicImage);
-            var url = baseUrl + 'updateUser';
-          noteservice.putService(url,user).then(function successCallback(response) {
-            console.log(response);
-            console.log("user profile successfully updated");
-            getUser();
-          }, function errorCallback(response) {
-            console.log("error" + response.data);
-          })
+      console.log('image info' + image);
+      var user = getUser();
+      console.log('user is', user);
+      user.profilepicImage = image;
+      console.log(user.profilepicImage);
+      var url = baseUrl + 'updateUser';
+      noteservice.putService(url, user).then(function successCallback(response) {
+        console.log(response);
+        console.log("user profile successfully updated");
+        getUser();
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
 
-        }
-        $scope.hideDialogue = function() {
-          $mdDialog.hide();
-        }
-}
-
-getUser();
-var userInfo="";
-$scope.userInfo='';
-function getUser(){
-  console.log('in get user');
-  var url=baseUrl +"getUser";
-  noteservice.getService(url)
-    .then(function successCallback(response) {
-          $scope.userInfo=response.data;
-          userInfo=$scope.userInfo;
-    console.log('user info details',$scope.userInfo);
-    console.log('user info',$scope.userInfo.profilepicImage);
-    }, function errorCallback(response) {
-      console.log(response, "user details cannot be displayed");
-
-    });
-    return userInfo;
     }
+    $scope.hideDialogue = function() {
+      $mdDialog.hide();
+    }
+  }
+
+  getUser();
+  var userInfo = "";
+  $scope.userInfo = '';
+
+  function getUser() {
+    console.log('in get user');
+    var url = baseUrl + "getUser";
+    noteservice.getService(url)
+      .then(function successCallback(response) {
+        $scope.userInfo = response.data;
+        userInfo = $scope.userInfo;
+        console.log('user info details', $scope.userInfo);
+        console.log('user info', $scope.userInfo.profilepicImage);
+      }, function errorCallback(response) {
+        console.log(response, "user details cannot be displayed");
+
+      });
+    return userInfo;
+  }
 
   //
   // function updateImage(note) {
@@ -1191,52 +1176,57 @@ function getUser(){
   //   }, function errorCallback(response) {
   //     console.log("error" + response.data);
   //   })
-//  }
+  //  }
 
 
 
 });
 
-app.filter('dateformat', function ($filter) {
+app.filter('dateformat', function($filter) {
 
-	   return function (reminderDate) {
-		   if( !reminderDate )
-		   {
-			   	return;
-		   }
+  return function(reminderDate) {
+    if (!reminderDate) {
+      return;
+    }
 
-		   reminderDate = new Date( reminderDate );
-		   var dt = "";
-		   var todatedate = new Date();
-		   console.log(todatedate.getMonth(), todatedate.getDate() );
-		   var ltempToday = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate() );
+    reminderDate = new Date(reminderDate);
+    var dt = "";
+    var todatedate = new Date();
+    console.log(todatedate.getMonth(), todatedate.getDate());
+    var ltempToday = new Date(todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate());
 
-		   var ltempTom = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate()+1 );
-		   var ltempYes = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate()-1 );
+    var ltempTom = new Date(todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate() + 1);
+    var ltempYes = new Date(todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate() - 1);
 
-		   var ltempRD = new Date( reminderDate.getFullYear(), reminderDate.getMonth(), reminderDate.getDate() );
+    var ltempRD = new Date(reminderDate.getFullYear(), reminderDate.getMonth(), reminderDate.getDate());
 
-		   console.log(ltempRD);
-		   console.log(ltempTom);
+    console.log(ltempRD);
+    console.log(ltempTom);
 
-		   if( (ltempToday - ltempRD) == 0  )
-		   {
-			   dt += "Today";
-		   }
-		   else if( (ltempTom - ltempRD) == 0  ) {
-			   dt += "Tomorrow";
-		   }
-		   else if( (ltempYes - ltempRD) == 0  ) {
-			   dt += "Yesterday";
-		   }
-		   else
-		   {
-			   dt = $filter('date')(reminderDate, 'MMM dd, yyyy');
-			   dt = dt.replace(", "+todatedate.getFullYear(),'');
-		   }
-		   // append time
-		   var time = $filter('date')(reminderDate, 'hh:mm a');
-		   dt += ", "+ time;
-		   return dt;
-	   };
-	});
+    if ((ltempToday - ltempRD) == 0) {
+      dt += "Today";
+    } else if ((ltempTom - ltempRD) == 0) {
+      dt += "Tomorrow";
+    } else if ((ltempYes - ltempRD) == 0) {
+      dt += "Yesterday";
+    } else {
+      dt = $filter('date')(reminderDate, 'MMM dd, yyyy');
+      dt = dt.replace(", " + todatedate.getFullYear(), '');
+    }
+    // append time
+    var time = $filter('date')(reminderDate, 'hh:mm a');
+    dt += ", " + time;
+    return dt;
+  };
+});
+
+app.filter('parseUrlFilter', function() {
+
+  var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+
+  return function(text, target) {
+
+    return text.replace(urlPattern, '<a target="' + target + '" href="$&">$&</a>');
+  };
+
+});

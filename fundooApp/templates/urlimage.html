@@ -1,0 +1,26 @@
+<span ng-init="checkUrl(note)">
+	<div ng-repeat="urlData in note.link">
+
+		<div ng-if="urlData.title">
+			<a ng-href="{{urlData.url}}" target="_blank">
+
+				<div class="row"
+					style="margin-right: 0px; margin-left: 0px; border: 1px solid grey">
+          <div><img src"images/gotoLink.png" style="height:15px;width:15px;margin-left:232px;"/><md-tooltip>Go to link</md-tooltip></div>
+					<div class="col-sm-4 col-md-4 col-xs-4" style="padding: 0px">
+						<img ng-src="{{urlData.imageUrl}}" style="height:50px;width:80px;">
+					</div>
+          <div></div>
+
+
+
+						<div ng-bind="urlData.title"
+							style="font-size: 14px; color:black;padding-left: 88px;margin-top:-48px;"></div>
+						<div ng-bind="urlData.domain"
+							style="font-size: 15px;color:grey;padding-left: 90px;margin-top:15px; "></div>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+</span>
