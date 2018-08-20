@@ -69,6 +69,7 @@ serviceobj.getService=function(url){
    })
 }
 serviceobj.getUrlData=function(urlToSend){
+	console.log('list of url',urlToSend);
 	  var url=baseUrl +"getUrlData";
 	console.log("inside get url data");
   return $http({

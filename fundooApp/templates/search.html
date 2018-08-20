@@ -1,27 +1,5 @@
 <div id="sidenavId" layout-align="center center">
 
-  <div class="take_note">
-    <md-card class="notecard" ng-show="!showWhenClicked">
-      <div layout="row" class="take-note-input">
-        <input type="text" placeholder="Take a note" class="placesize"  ng-click="showWhenClicked=true" />
-      </div>
-    </md-card>
-  </div>
-
-  <div layout="row" layout-align="center center">
-    <md-card ng-show="showWhenClicked" class="notecard">
-
-        <div contenteditable class="intial-text"  data-placeholder="Title" ng-model="title" id="notecard1" ng-bind-html></div>
-      <div layout="row" layout-align="end end" >  <md-button class="md-icon-button" ><img src="images/pin0.svg" >
-          <md-tooltip>pin</md-tooltip></md-button>
-    </div>
-      <div contenteditable class="intial-text" data-placeholder="Take a note..." ng-model="description" id="notecard1"></div>
-      <div><icon> </icon></div>
-      <div><md-button ng-click="showWhenClicked=false;noteModel()" id="close-btn">CLOSE</md-button></div>
-    </md-card>
-  </div>
-
-
       <md-subheader  id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader>
       <div layout="row"  layout-align="center center" layout-wrap  data-ng-init="getAllNote()" layout-align="center center">
         <md-card class="dashboard"  ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" style="background-color:{{note.color}};width:300px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >

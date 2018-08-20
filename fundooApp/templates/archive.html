@@ -2,12 +2,12 @@
 <div ng-init="getAllNote()">
  <div layout="row" layout-align="center center"  layout-wrap layout-fill >
 
-<md-card  class="mycard" ng-repeat="note in notes | filter:{pin:false,archive:true,trash:false}" style="background-color:{{x.color}};width:400px;" >
+<md-card  class="mycard" ng-repeat="note in notes | filter:{pin:false,archive:true,trash:false}" style="background-color:{{note.color}};width:400px;" >
   <md-card-title ng-click="showAdvanced($event,note)">
-      <div class="intial-text" contenteditable>{{note.title}}</div>
+      <div class="intial-text" contenteditable="true">{{note.title}}</div>
          </md-card-title>
         <md-button ng-click="updatePin(note)" class="md-icon-button" id="archive-btn">
-         <img src="images/pin0.svg"   />
+         <img src="images/pin0.svg" />
             <md-tooltip>pin note</md-tooltip>
   </md-button>
 
@@ -16,8 +16,24 @@
         <md-card-content class="center" ng-click="showAdvanced($event,note)">
              <div class="initial-text" contentediable>{{note.description}}</div>
          </md-card-content>
-      <unarchivicon><unarchivicon>
-         </div>
+      <unarchivicon></unarchivicon>
+
+      <span ng-init="checkUrl(mydata)">
+      	<div ng-repeat="urlData in mydata.link">
+      		<div ng-if="urlData.title">
+      			<a ng-href="{{urlData.url}}" target="_blank">
+      				<div layout="column" style="border: 1px solid grey">
+                <div><a ng-href="{{urlData.url}}" target="_blank">Go to link</a></div>
+      					<div style="padding: 0px">
+      						<img ng-src="{{urlData.imageUrl}}" style="height:50px;width:80px;">
+      					</div>
+      						<div ng-bind="urlData.title" style="font-size: 14px; color:black;"></div>
+      						<div ng-bind="urlData.domain" style="font-size: 15px;color:grey;"></div>
+                </a>
+      					</div>
+              </div>
+            </div>
+      </span>
 
 </md-card>
 </div>

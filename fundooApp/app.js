@@ -2,13 +2,13 @@ var app=angular.module('fundooApp',['ui.router','ngMaterial','ngSanitize','ngFil
 app.config(function($stateProvider,$urlRouterProvider)
 {
   $stateProvider
-  .state('Register',
+  .state('register',
   {
-    url:'/Register',
+    url:'/register',
     templateUrl:'templates/register.html',
     controller:'userCtrl'
   })
-  .state('Login',
+  .state('login',
 {
   url:'/login',
   templateUrl:'templates/login.html',
@@ -71,5 +71,5 @@ params: {
       })
 // $locationProvider.html5Mode(true);
 
-  $urlRouterProvider.otherwise("/Register")
+  $urlRouterProvider.otherwise("/register")
 });

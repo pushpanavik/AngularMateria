@@ -51,7 +51,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     item.showLabel = true;
   };
   if (localStorage.getItem('token') === null) {
-    $state.go('Login');
+    $state.go('login');
   }
   $scope.toggleLeft = buildToggler('left');
 
@@ -270,21 +270,24 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     $scope.mydata1 = mydata1;
     $scope.mydata3 = mydata3;
 
-    $scope.items = noteobj.listOfLabels;
-    $scope.selected = [];
+    $scope.selected=noteobj.listOfLabels;
     $scope.exists = function(item, list) {
-      return list.indexOf(item) > -1;
+    for(var i=0;i<list.length;i++){
+      var selectobj=list[i];
+      if(selectobj.name==item.name){
+        return true;
+      }
+    }
+    return false;
     };
     $scope.toggle = function(item, list) {
       var i = list.indexOf(item);
-      if (i > -1) {
-        list.splice(i, 1);
+      if (i> -1) {
+        list.splice(i,1);
       } else {
         list.push(item);
       }
     };
-    console.log("in dilogcontroller 333333");
-
     $scope.addlabelNote = function(label) {
       if (label.name != $scope.name) {
         console.log("label in dashboard ", label);
@@ -296,8 +299,9 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         console.log('url under allLabelNote', url);
         noteservice.putService(url, label)
           .then(function successCallback(response) {
-            console.log("relation on label and note is updated", response);
-            $scope.getAllLabels();
+            console.log("relation on label and note is updated",response);
+            $scope.selected=response;
+            console.log($scope.selected);
 
           }, function errorCallback(response) {
             console.log("cannot update note", response);
@@ -318,7 +322,6 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         });
     }
   }
-
   $scope.removeLabelOnNote = function(label, note) {
     console.log("label in dashboard ", label);
     console.log("note in dashboard:", note);
@@ -327,6 +330,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     var url = baseUrl + "user/deleteLabel/" + note.id + "/" + label.labelId;
     noteservice.getDeleteService(note, url)
       .then(function successCallback(response) {
+        return response.data;
         $scope.getAllLabels();
 
       }, function errorCallback(response) {
@@ -422,6 +426,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
 
   var urls = [];
   $scope.checkUrl = function(note) {
+    console.log("notr info",note);
     var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
     var url = note.description.match(urlPattern);
     var link = [];
@@ -438,6 +443,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         note.url[i] = url[i];
         noteservice.getUrlData(url[i])
     .then(function successCallback(response) {
+      console.log('response under url' ,response);
           var responseData = response.data;
           if (responseData.title.length > 25) {
             responseData.title = responseData.title.substr(0, 20) + '..';
@@ -509,40 +515,6 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     }
 
   }
-
-  // $scope.checkIfUrl = function(){
-  //   console.log('in check url');
-  //       $scope.isPresent = false;
-  //       console.log($scope.isPresent);
-  //       if ($scope.description != undefined && $scope.description != null) {
-  //         console.log('comes under description ');
-  //         var url = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-  //         var Link = $scope.description;
-  //         console.log('link is ',Link);
-  //         if (Link != "" && Link != undefined && url.test(Link)) {
-  //
-  //           var first_part = Link.substring(0, 7);
-  //           console.log("firstpat" +first_part);
-  //           if(Link.indexOf("http") != 0 && first_part ==='http://'){
-  //             console.log("not adding https")
-  //             Link =Link;
-  //           }else if (Link.indexOf("http") != 0) {
-  //             console.log("adding https");
-  //             Link = "http://" + Link;
-  //             console.log("url for link is",Link);
-  //           }
-  //           $scope.isPresent = true;
-  //         }
-  //       }
-  //
-  //     };
-  //
-  //     $scope.hyperlinkClick= function(){
-  //       var Link = "http://" + $scope.description;
-  //       console.log(Link );
-  //       window.open(Link);
-  //
-  //     };
   $scope.updateNoteTitleDescripn = function(note) {
     var url = baseUrl + "user/updateNote";
     console.log('inside update method of title and description', note);
@@ -563,10 +535,6 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     }
   ];
 
-
-  var isMark = function() {
-
-  }
   $scope.isTrash = function(note) {
     var url = baseUrl + "user/updateNote";
     console.log("before method call inside trash", note.trash);
@@ -898,7 +866,8 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
   };
 
 
-  $scope.showCollaborator = function(ev) {
+  $scope.showCollaborator = function(ev,note) {
+    var noteoj=note;
     console.log("comes under showAdvance from archive call");
     $mdDialog.show({
 
@@ -914,93 +883,22 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
   function dialogCollaboratorController($scope, $mdDialog) {
     $scope.cancel = function() {
       $mdDialog.cancel();
-
     };
     var commonUrl = "http://localhost:9090/fundoo/";
-    $scope.createCollaborator = function() {
-      console.log("cvcxvxcvashds");
-      var collaborator = {
-        email: $scope.email,
-
-      };
-      console.log("collaborator:", collaborator);
-      var url = commonUrl + "addCollaborator";
-      if (collaborator.email != null) {
-        console.log("inside if...", collaborator.email)
-
-        noteservice.postService(collaborator, url).then(
-          function successCallback(response) {
-
-            console.log("success", response.data);
-            $scope.getallCollaborators();
-            return response.data;
-
-          },
-          function errorCallback(response) {
-            console.log("Error occur", response);
-            return response;
-
-          });
-      }
-    }
-
-    $scope.getallCollaborators = function() {
-
-      var url = commonUrl + "getallCollaborators";
-
-      noteservice.getService(url).then(
-        function successCallback(response) {
-
-          $scope.getCollaborators = response.data;
-          console.log('Collaborators: ', $scope.getCollaborators)
-          //console.log("success", response.data);
-          return response.data;
-
-        },
-        function errorCallback(response) {
-          console.log("Error occur", response);
-          return response;
-
-        });
-    }
-
-    $scope.deleteCollaborator = function(collaborator) {
-
-      console.log("collaborator:" + collaborator);
-      var collaboratorid = collaborator.id;
-      console.log("collaboratorid:" + collaboratorid)
-
-
-      var url = commonUrl + "deleteCollaborator/" + collaborator.id;
-
-
-      userservice.notepostmethod(url).then(
-        function successCallback(response) {
-
-          console.log("success", response.data);
-          return response.data;
-
-        },
-        function errorCallback(response) {
-          console.log("Error occur", response);
-          return response;
-
-        });
-    }
 
 
     $scope.addCollaboratorOnNote = function(collaborator) {
       console.log("collaborator:" + collaborator);
       var collaboratorid = collaborator.id;
       console.log("collaboratorid:" + collaboratorid)
-      console.log("noteid  in dashboard:", noteobject);
-      var index = noteobject.listofCollaborator.findIndex(x => x.email === collaborator.email);
+      console.log("noteid  in dashboard:", noteoj);
+      var index = noteoj.listofCollaborator.findIndex(x => x.email === collaborator.email);
       if (index > -1) {
-        noteobject.listofCollaborator.splice(index, 1);
+        noteoj.listofCollaborator.splice(index, 1);
       } else {
-        noteobject.listofCollaborator.push(collaborator);
+        noteoj.listofCollaborator.push(collaborator);
       }
-      var url = commonUrl + "noteandcollaborator/" + noteobject.id + "/" + collaborator.id;
+      var url = commonUrl + "noteandcollaborator/" + noteoj.id + "/" + collaborator.id;
       console.log(url);
       labelservice.labelputmethod(url).then(
         function successCallback(response) {
@@ -1015,8 +913,68 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
 
         });
     }
-  }
 
+    $scope.removeCollaboratoronNote=function(user){
+		console.log("User:",user.UserId);
+		console.log("note  in dashboard:",note);
+		console.log("noteid  in dashboard:",note.id);
+	 	 var url = commonUrl + "removeCollaboratorOnNote/"+user.userId+"/"+note.id;
+		 console.log(url);
+		noteservice.postService(url).then(
+				function successCallback(response) {
+					console.log("success", response);
+					return response;
+				}, function errorCallback(response) {
+					console.log("Error occur", response);
+					return response;
+
+				});
+	}
+
+
+
+$scope.getUserInfo=[];
+    $scope.getallUsers=function(){
+	 var commonUrl = "http://localhost:9090/fundoo/";
+	var url = commonUrl + "getAllUsers";
+	console.log("URL:",url);
+	noteservice.getService(url).then(
+			function successCallback(response) {
+
+				$scope.getUserInfo=response.data;
+				console.log('getUsers: ', $scope.getUserInfo);
+				//console.log("success", response.data);
+				return response.data;
+
+			}, function errorCallback(response) {
+				console.log("Error occur", response);
+				return response;
+
+			});
+
+}
+  }
+  $scope.getCollaborators=[];
+    $scope.getAllCollaborators =function() {
+
+  	  var commonUrl = "http://localhost:9090/fundoo/";
+  	    var url = commonUrl + "getAllCollaboratedNotes";
+  		console.log("URL:",url);
+  		noteservice.getService(url).then(
+  				function successCallback(response) {
+
+  					$scope.getCollaborators=response.data;
+  					console.log('Collaborators: ', $scope.getCollaborators)
+  					//console.log("success", response.data);
+  					return response.data;
+
+  				}, function errorCallback(response) {
+  					console.log("Error occur", response);
+  					return response;
+
+  				});
+  	}
+    $scope.getAllCollaborators();
 
 
 
@@ -1123,7 +1081,6 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     }
 
     getUser();
-
     function updateUserProfile(image) {
       console.log('image info' + image);
       var user = getUser();
@@ -1164,7 +1121,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       });
     return userInfo;
   }
-
+getUser();
   //
   // function updateImage(note) {
   //   console.log("In update image user...............",note);

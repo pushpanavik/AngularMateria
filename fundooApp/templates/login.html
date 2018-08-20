@@ -14,11 +14,13 @@
       <input type="password" name="password" ng-model="password" minlength="6" maxlength="10" required/>
       <span class="errors" ng-show="(myform.$submitted || myform.password.$touched) && myform.password.$error.required && !focused">
       please fill password</span>
+        </md-input-container>
         <div layout-align="center center">
           <md-button ng-click="loginModel()" class="md-raised" id="button" style="margin:auto;display:block">Login</md-button>
-          <p class="message"> Forgot Password? <a href="#!/forgotPassword"> Signin </a></p>
+          <p class="message"> Forgot Password? <a href="#!/forgotPassword"> forgot </a></p>
+          <p class="message">Register <a href="#!/Register"> Register</a></p>
         </div>
-      </md-input-container>
+
       </form>
       </md-card>
 s

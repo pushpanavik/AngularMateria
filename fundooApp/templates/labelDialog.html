@@ -12,7 +12,7 @@
             <div ng-init="getAllLabels()">
               <div layout="row" ng-repeat="label in retireveLabels" >
                 <md-checkbox ng-checked="exists(label,selected);" ng-click="addlabelNote(label);toggle(label, selected);">
-                {{label.name}}<span ng-if="exists(label, selected)"></span>
+                {{label.name}}
                 </md-checkbox>
               </div>
             </div>

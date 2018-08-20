@@ -23,7 +23,7 @@
 
 
     <div>  <md-subheader style="margin-left:295px;" id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader></div>
-      <div layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()">
+      <div layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()" class="pinclass">
           <md-card class="dashboard"  style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
 
            <div ng-click="updatePin(note);"style="margin-left: 227px;">
@@ -53,7 +53,7 @@
 
 
 <div><md-subheader style="margin-left:295px;" id="header-btn" class="pinother" ><strong>Others</strong> </md-subheader></div>
-  <div  layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" class="paddingclas">
+  <div  layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" style="padding-left: 211px;padding-right: 200px;">
         <md-card  class="dashboard"  style="background-color:{{note.color}};width:250px;margin-top: 50px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
 
           <span ng-click="updatePin(note)" >

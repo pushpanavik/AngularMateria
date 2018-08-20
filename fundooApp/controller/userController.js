@@ -47,7 +47,7 @@ app
 
 
 		},function errorCallback(response){
-			$state.go('Login');
+			$state.go('login');
 			console.log('login failure');
 		});
 

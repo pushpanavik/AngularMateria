@@ -1,18 +1,47 @@
-<div ng-init="getAllNote()">
-<md-dialog  style="width: 600px;height: 182px;">
 
+<md-dialog  style="width: 600px;height: 182px;">
+<div ng-init="getAllNote();">
      <img  ng-src="{{mydata.image}}" />
      <div style="margin-left: 442px;margin-top: -27px;" ng-click="removeImage(mydata);"> <img src="images/baseline-delete-24px.svg"/></div>
     <div contenteditable="true" style="margin-top: 10px;" ng-model="mydata.title"> </div>
-    <md-icon><img src="images/pin0.svg" style="margin-top:-184px;margin-left: 219px;"/ >
+    <md-icon style="float: right;margin-top:-25px;"><img src="images/pin0.svg" / >
     </md-icon>
 
-    <div contenteditable="true" ng-model="mydata.description">
-      <md-button ng-click="sendtoLink()">Go to link</md-button>
-    </div>
-<div class="dialog">  <icon></icon></div>
-        <div >
-       <md-button ng-click="cancel();updateNoteTitleDescripn(mydata)"class="popup">CLOSE</md-button>
-     </div>
+    <div contenteditable="true" ng-model="mydata.description"></div>
+
+
+    <span ng-init="checkUrl(mydata)">
+    	<div  layout="column" ng-repeat="urlData in mydata.link">
+    		<div ng-if="urlData.title" >
+    			<a ng-href="{{urlData.url}}" target="_blank">
+    				<div layout="column" style="border: 1px solid grey">
+    					<div style="padding: 0px">
+    						<img ng-src="{{urlData.imageUrl}}" style="height:50px;width:80px;">
+    					</div>
+              <div class="menu-demo-container">
+              <md-menu>
+                <span style="padding-left:10px;" class="chip" ng-click="$mdMenu.open($event)" >
+                <md-icon style="margin-left: 543px;margin-top:-89px;"><i class="material-icons">more_vert</i><md-tooltip>more</md-tooltip>
+                </md-icon>
+              </span>
+                  <md-menu-content>
+                    <md-menu-item><md-button ng-click="">remove</md-button></md-menu-item>
+                    <md-menu-item><md-button ng-click="">copy</md-button>
+                    </md-menu-item>
+                  </md-menu-content>
+                </md-menu>
+              </div>
+                <div style="margin-top:-17px;"><a ng-href="{{urlData.url}}" target="_blank">Go to link</a></div>
+    						<div ng-bind="urlData.title" style="font-size: 14px; color:black;margin-left: 230px;margin-top: -65px;"></div>
+    						<div ng-bind="urlData.domain" style="font-size: 15px;color:grey;margin-top: 32px;padding-left: 245px;"></div>
+              </a>
+    					</div>
+            </div>
+          </div>
+    </span>
+
+<div >  <icon></icon>  </div>
+        <div><md-button ng-click="cancel();updateNoteTitleDescripn(mydata)"class="popup">CLOSE</md-button></div>
+
 </md-dialog>
 </div>
