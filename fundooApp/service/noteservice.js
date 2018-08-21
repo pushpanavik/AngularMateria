@@ -25,7 +25,7 @@ serviceobj.getService=function(url){
 }
 
  serviceobj.putService=function(url,data){
-	 console.log('data from reminder',data);
+
 	 return $http({
     method : "PUT",
     url : url,
@@ -36,12 +36,12 @@ serviceobj.getService=function(url){
 
     }
  })
- console.log('data2: ',data);
+ 
 
 }
 
 serviceobj.getDeleteService=function(data,url){
-	console.log("url is http ",url);
+
  return $http({
   method : "DELETE",
   url : url,
@@ -69,9 +69,8 @@ serviceobj.getService=function(url){
    })
 }
 serviceobj.getUrlData=function(urlToSend){
-	console.log('list of url',urlToSend);
 	  var url=baseUrl +"getUrlData";
-	console.log("inside get url data");
+
   return $http({
     method : "POST",
     url : url,

@@ -1,6 +1,6 @@
 <div layout="row">
 <md-menu>
-  <span ng-click="$mdMenu.open($event)">
+  <span ng-click="$mdMenu.open($event)" style="border:0px;outline:none;">
     <md-icon class="reminder"><img src="images/reminders.svg" /></md-icon>
     <md-tooltip>remind me</md-tooltip>
   </span>
@@ -42,7 +42,6 @@
               </md-menu-content>
             </md-menu>
               </md-menu-item>
-              <md-menu-item><md-button ng-click=""><img src="images/place.jpg" class="reminderimg"/> Pick place</md-button></md-menu-item>
   </md-menu-content>
 
 </md-menu-item>
@@ -51,7 +50,7 @@
 
 
 <div ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:47px;">
-  <span ng-click="showCollaborator($event,note)">
+  <span ng-click="showCollaborator(note)">
     <md-icon ><img src="images/baseline-person_add-24px.svg"/></md-icon>
     <md-tooltip>Collabarator</md-tooltip>
 </span>
@@ -79,13 +78,13 @@
   </span>
 
     <md-menu>
-      <span style="padding-left:10px;" class="chip" ng-click="$mdMenu.open($event)" >
+      <span style="padding-left:10px;border:0px;outline:none;" class="chip" ng-click="$mdMenu.open($event)" >
       <md-icon><i class="material-icons">more_vert</i><md-tooltip>more</md-tooltip>
       </md-icon>
     </span>
         <md-menu-content>
           <md-menu-item><md-button ng-click="isTrash(note)">Delete note</md-button></md-menu-item>
-          <md-menu-item><md-button ng-click="showlabelDialog($event,note)">change Label</md-button>
+          <md-menu-item><md-button ng-click="showlabelDialog($event,note)">add Label</md-button>
           </md-menu-item>
         </md-menu-content>
       </md-menu>
