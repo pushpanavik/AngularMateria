@@ -18,8 +18,8 @@
          </md-card-content>
       <unarchivicon></unarchivicon>
 
-      <span ng-init="checkUrl(mydata)">
-      	<div ng-repeat="urlData in mydata.link">
+      <span ng-init="checkUrl(note)">
+      	<div ng-repeat="urlData in note.link">
       		<div ng-if="urlData.title">
       			<a ng-href="{{urlData.url}}" target="_blank">
       				<div layout="column" style="border: 1px solid grey">

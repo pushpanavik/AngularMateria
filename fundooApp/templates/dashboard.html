@@ -79,7 +79,14 @@
                           <md-chip  class="chip"><span class="chip" ng-show="label.edit" >{{label.name}}</span><md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon></md-chip>
                       </md-chips>
                    </div>
-                      <icon></icon>
+                    <div  layout="row"  ng-if="note.collaboratedUser" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+                          
+                           <div ng-repeat="user in note.collaboratedUser">
+                            <md-tooltip>{{user.emailId}}</md-tooltip>
+                      <img src="{{user.profilepicImage}}" style="width:100%;border-radius:50%">
+                    </div>
+                    </div>
+                                        <icon></icon>
                       <urlimage></urlimage>
 
               </md-card>

@@ -95,7 +95,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
 
   function DialogController($scope, mydata) {
     $scope.mydata = mydata;
-    }
+  }
 
 
 
@@ -116,7 +116,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     })
   };
   $scope.goToLabel = function(label) {
-      $state.go("home.label", {
+    $state.go("home.label", {
       name: label.name
     });
   }
@@ -129,25 +129,25 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       var label = {
         name: $scope.name
       };
-      var flag=false;
-      for(var i=0;i<$scope.getlabels.length;i++){
-        var labels=$scope.getlabels[i];
-        if(labels!=undefined && labels.name==label.name){
-          flag=true;
-        }else{}
+      var flag = false;
+      for (var i = 0; i < $scope.getlabels.length; i++) {
+        var labels = $scope.getlabels[i];
+        if (labels != undefined && labels.name == label.name) {
+          flag = true;
+        } else {}
       }
-      if(flag==false){
+      if (flag == false) {
         var url = baseUrl + "/user/addLabel";
         console.log("label info", label);
-          noteservice.postService(label, url)
-            .then(function successCallback(response) {
-              $scope.getAllLabel();
-              $scope.getAllNote();
-              console.log("successfully label added", response);
-            }, function errorCallback(response) {
-              console.log("label cannot be  added", response);
+        noteservice.postService(label, url)
+          .then(function successCallback(response) {
+            $scope.getAllLabel();
+            $scope.getAllNote();
+            console.log("successfully label added", response);
+          }, function errorCallback(response) {
+            console.log("label cannot be  added", response);
 
-            });
+          });
       }
     }
 
@@ -185,9 +185,9 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         });
 
 
-        $scope.hideDialogue = function() {
-          $mdDialog.hide();
-        }
+      $scope.hideDialogue = function() {
+        $mdDialog.hide();
+      }
     }
 
     $scope.getlabels = [];
@@ -225,7 +225,6 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     noteservice.getService(url)
       .then(function successCallback(response) {
         $scope.retireveLabels = response.data;
-        console.log('response', $scope.retireveLabels);
 
       }, function errorCallback(response) {
         console.log("error" + response);
@@ -266,20 +265,20 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     $scope.mydata1 = mydata1;
     $scope.mydata3 = mydata3;
 
-    $scope.selected=noteobj.listOfLabels;
+    $scope.selected = noteobj.listOfLabels;
     $scope.exists = function(item, list) {
-    for(var i=0;i<list.length;i++){
-      var selectobj=list[i];
-      if(selectobj.name==item.name){
-        return true;
+      for (var i = 0; i < list.length; i++) {
+        var selectobj = list[i];
+        if (selectobj.name == item.name) {
+          return true;
+        }
       }
-    }
-    return false;
+      return false;
     };
     $scope.toggle = function(item, list) {
       var i = list.indexOf(item);
-      if (i> -1) {
-        list.splice(i,1);
+      if (i > -1) {
+        list.splice(i, 1);
       } else {
         list.push(item);
       }
@@ -295,8 +294,8 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         console.log('url under allLabelNote', url);
         noteservice.putService(url, label)
           .then(function successCallback(response) {
-            console.log("relation on label and note is updated",response);
-            $scope.selected=response;
+            console.log("relation on label and note is updated", response);
+            $scope.selected = response;
             console.log($scope.selected);
 
           }, function errorCallback(response) {
@@ -319,7 +318,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     }
   }
   $scope.removeLabelOnNote = function(label, note) {
-      var url = baseUrl + "user/deleteLabel/" + note.id + "/" + label.labelId;
+    var url = baseUrl + "user/deleteLabel/" + note.id + "/" + label.labelId;
     noteservice.getDeleteService(note, url)
       .then(function successCallback(response) {
         return response.data;
@@ -413,13 +412,13 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     }
   }
 
-$scope.removeUrlFromNote=function(note){
+  $scope.removeUrlFromNote = function(note) {
 
-}
+  }
 
   var urls = [];
   $scope.checkUrl = function(note) {
-      var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+    var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
     var url = note.description.match(urlPattern);
     var link = [];
 
@@ -433,24 +432,24 @@ $scope.removeUrlFromNote=function(note){
       for (var i = 0; i < url.length; i++) {
         note.url[i] = url[i];
         noteservice.getUrlData(url[i])
-    .then(function successCallback(response) {
-          var responseData = response.data;
-          if (responseData.title.length > 25) {
-            responseData.title = responseData.title.substr(0, 20) + '..';
-          }
-          link[note.size] = {
-            title: responseData.title,
-            url: note.url[note.size],
-            imageUrl: responseData.imageUrl,
-            domain: responseData.domain
-          }
+          .then(function successCallback(response) {
+            var responseData = response.data;
+            if (responseData.title.length > 25) {
+              responseData.title = responseData.title.substr(0, 20) + '..';
+            }
+            link[note.size] = {
+              title: responseData.title,
+              url: note.url[note.size],
+              imageUrl: responseData.imageUrl,
+              domain: responseData.domain
+            }
 
-          note.link[note.size] = link[note.size];
-          note.size = note.size + 1;
+            note.link[note.size] = link[note.size];
+            note.size = note.size + 1;
 
-        }, function errorCallback(response) {
-          console.log("data cannot come");
-        });
+          }, function errorCallback(response) {
+            console.log("data cannot come");
+          });
       }
     }
   }
@@ -568,7 +567,7 @@ $scope.removeUrlFromNote=function(note){
   $scope.UpdateReminderDate = function(note) {
 
     if (note !== undefined) {
-          var url = baseUrl + "user/updateNote";
+      var url = baseUrl + "user/updateNote";
       noteservice.putService(url, note)
         .then(function successCallback(response) {
 
@@ -739,7 +738,7 @@ $scope.removeUrlFromNote=function(note){
 
   var showHideheader = function() {
     var dashboardArray = $scope.notes;
-      for (var i = 0; i < dashboardArray.length; i++) {
+    for (var i = 0; i < dashboardArray.length; i++) {
       var noteObj = dashboardArray[i];
       if (noteObj.pin === true) {
         $scope.showPin = true;
@@ -834,20 +833,42 @@ $scope.removeUrlFromNote=function(note){
 
   };
 
+  $scope.getCollaborators = [];
+  $scope.getAllCollaborators = function() {
+    var commonUrl = "http://localhost:9090/fundoo/";
+    var url = commonUrl + "getAllCollaboratedNotes";
+    noteservice.getService(url).then(
+      function successCallback(response) {
+        console.log("list all collaborators", response);
+        $scope.getCollaborators = response.data;
+        console.log("success",$scope.getCollaborators);
+      },
+      function errorCallback(response) {
+        console.log("Error occur", response);
+        return response;
+      });
+  }
+  $scope.getAllCollaborators();
+
   $scope.notes = [];
   $scope.getAllNote = function() {
 
     var url = baseUrl + "user/displayNote";
     noteservice.getService(url)
       .then(function successCallback(response) {
-        $scope.notes = response.data;
-        showHideheader();
+        $scope.notes1 = response.data;
+        console.log('notes1',response.data);
+  console.log(   "collaberate note" +  $scope.notes1.title);
+        $scope.notes = $scope.getCollaborators.concat($scope.notes1);
+        console.log(   "collaberate note" +  $scope.notes.collaboratedUser);
+
+        // showHideheader();
       }, function errorCallback(response) {
         console.log(response, "note cannot be displayed");
 
       });
   };
-$scope.getAllNote();
+  $scope.getAllNote();
 
   $scope.showCollaborator = function(note) {
 
@@ -859,19 +880,23 @@ $scope.getAllNote();
       parent: angular.element(document.body),
       clickOutsideToClose: true,
       fullscreen: $scope.customFullscreen,
-      locals:{
-        userInfo:$scope.userInfo,
-        noteoj:note
+      locals: {
+        userInfo: $scope.userInfo,
+        noteoj: note,
+        collaberatedNote:$scope.notes
       },
     })
   };
 
-  function dialogCollaboratorController($scope, $mdDialog,userInfo,noteoj) {
-    $scope.userInfo=userInfo;
-    $scope.noteoj=noteoj;
+  function dialogCollaboratorController($scope, $mdDialog, userInfo, noteoj,collaberatedNote) {
+    $scope.userInfo = userInfo;
+    $scope.noteoj = noteoj;
     $scope.cancel = function() {
       $mdDialog.cancel();
     };
+
+    console.log("collaberatedNote" + collaberatedNote);
+    $scope.collaberatedNote = collaberatedNote;
     var commonUrl = "http://localhost:9090/fundoo/";
 
     $scope.addCollaboratorOnNote = function(user) {
@@ -880,8 +905,42 @@ $scope.getAllNote();
       noteservice.getService(url).then(
         function successCallback(response) {
           console.log("success", response);
+        },
+        function errorCallback(response) {
+          console.log("Error occur", response);
+        });
+    }
+
+    $scope.removeCollaboratoronNote = function(user) {
+      // console.log("User:",user.UserId);
+      // console.log("note  in dashboard:",note);
+      // console.log("noteid  in dashboard:",note.id);
+      var url = commonUrl + "removeCollaboratorOnNote/" + user.userId + "/" + note.id;
+      console.log(url);
+      noteservice.getService(url).then(
+        function successCallback(response) {
+          console.log("success", response);
+          return response;
+        },
+        function errorCallback(response) {
+          console.log("Error occur", response);
           $scope.getAllCollaborators();
           return response;
+
+        });
+    }
+    $scope.getUserInfo = [];
+    $scope.getallUsers = function() {
+      var commonUrl = "http://localhost:9090/fundoo/";
+      var url = commonUrl + "getAllUsers";
+
+      noteservice.getService(url).then(
+        function successCallback(response) {
+          console.log('info', response);
+          $scope.getUserInfo = response.data;
+                  
+          console.log('User info', $scope.getUserInfo);
+
         },
         function errorCallback(response) {
           console.log("Error occur", response);
@@ -889,83 +948,10 @@ $scope.getAllNote();
 
         });
     }
-
-    $scope.removeCollaboratoronNote=function(user){
-		// console.log("User:",user.UserId);
-		// console.log("note  in dashboard:",note);
-		// console.log("noteid  in dashboard:",note.id);
-	 	 var url = commonUrl + "removeCollaboratorOnNote/"+user.userId+"/"+note.id;
-		 console.log(url);
-		noteservice.getService(url).then(
-				function successCallback(response) {
-					console.log("success", response);
-					return response;
-				}, function errorCallback(response) {
-					console.log("Error occur", response);
-          $scope.getAllCollaborators();
-					return response;
-
-				});
-	}
-  $scope.getUserInfo=[];
-      $scope.getallUsers=function(){
-  	 var commonUrl = "http://localhost:9090/fundoo/";
-  	var url = commonUrl + "getAllUsers";
-
-  	noteservice.getService(url).then(
-  			function successCallback(response) {
-          console.log('info',response);
-  				$scope.getUserInfo=response.data;
-          console.log('User info',$scope.getUserInfo);
-
-  			}, function errorCallback(response) {
-  				console.log("Error occur", response);
-  				return response;
-
-  			});
-  }
-  $scope.getallUsers();
-  $scope.getCollaborators=[];
-    $scope.getAllCollaborators =function() {
-
-      var commonUrl = "http://localhost:9090/fundoo/";
-        var url = commonUrl + "getAllCollaboratedNotes";
-
-      noteservice.getService(url).then(
-          function successCallback(response) {
-            console.log("list all collaborators",response);
-            $scope.getCollaborators=response.data;
-            console.log("success", $scope.getCollaborators);
-
-          }, function errorCallback(response) {
-            console.log("Error occur", response);
-            return response;
-
-          });
-    }
-    $scope.getAllCollaborators();
-
+    $scope.getallUsers();
   }
 
-  $scope.getCollaborators=[];
-    $scope.getAllCollaborators =function() {
 
-      var commonUrl = "http://localhost:9090/fundoo/";
-        var url = commonUrl + "getAllCollaboratedNotes";
-
-      noteservice.getService(url).then(
-          function successCallback(response) {
-            console.log("list all collaborators",response);
-            $scope.getCollaborators=response.data;
-            console.log("success", $scope.getCollaborators);
-
-          }, function errorCallback(response) {
-            console.log("Error occur", response);
-            return response;
-
-          });
-    }
-    $scope.getAllCollaborators();
 
 
 
@@ -1054,9 +1040,9 @@ $scope.getAllNote();
     $scope.uploadProfilePic = function functionName(myCroppedImage) {
 
       const file = dataURLtoFile(myCroppedImage, $scope.filename);
-        var form1 = new FormData();
-          form1.append("file", file);
-          var url = baseUrl + 'uploadFile';
+      var form1 = new FormData();
+      form1.append("file", file);
+      var url = baseUrl + 'uploadFile';
       noteservice.postImageService(form1, url).then(function successCallback(response) {
         console.log(response);
         var image = response.data.msg;
@@ -1067,6 +1053,7 @@ $scope.getAllNote();
     }
 
     getUser();
+
     function updateUserProfile(image) {
       console.log('image info' + image);
       var user = getUser();
@@ -1104,7 +1091,7 @@ $scope.getAllNote();
       });
     return userInfo;
   }
-getUser();
+  getUser();
 
 
 

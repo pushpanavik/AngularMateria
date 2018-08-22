@@ -50,7 +50,7 @@
 
 
 <div ng-mouseover="open = true" ng-mouseleave="open = false" style="padding-left:47px;">
-  <span ng-click="showCollaborator(note)">
+  <span style="border:0px;outline:none;" ng-click="showCollaborator(note)">
     <md-icon ><img src="images/baseline-person_add-24px.svg"/></md-icon>
     <md-tooltip>Collabarator</md-tooltip>
 </span>
@@ -73,7 +73,7 @@
  </md-button>
 
   <span style="padding-left:10px;">
-    <md-icon ng-click="isArchive(note);" > <img src="images/archive.svg" /></p></md-icon>
+    <md-icon ng-click="isArchive(note);"> <img src="images/archive.svg" /></p></md-icon>
     <md-tooltip>Archive</md-tooltip>
   </span>
 

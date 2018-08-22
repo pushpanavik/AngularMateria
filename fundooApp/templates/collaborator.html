@@ -13,16 +13,18 @@
 </div>
 </div>
 
-
- <div layout="row" ng-repeat="collaborator in getUserInfo">
-  <!-- <div ng-if="collaborator.profilepicImage" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
-    <img src="{{collaborator.profilepicImage}}" style="width:100%;border-radius:50%">
+ <div layout="row">
+  <div ng-repeat="user in notes.collaboratedUser " style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+         <div>
+           {{user}}
+    <img src="{{user.profilepicImage}}"style="width:100%;border-radius:50%" >
+  </div>
   </div>
   <div style="margin-top:15px">{{collaborator.emailId}}</div>
   <div style="margin-top:15px">
     <md-icon ng-click="removeCollaboratoronNote(user)"><i class="material-icons">cancel</i></md-icon>
     <md-tooltip>Remove collaborator</md-tooltip>
-  </div> -->
+  </div>
 </div>
 
 <div layout="row">
@@ -32,9 +34,7 @@
 
   <md-input-container >
   <md-select ng-model="user" placeholder="Person or email to share with">
-
     <md-option ng-value="user" ng-repeat="user in getUserInfo" >{{user.emailId }}</md-option>
-
   </md-select>
 </md-input-container>
     <md-icon ng-click=""  style=" margin-left: 200px;"><i class="material-icons">done</i></md-icon>
