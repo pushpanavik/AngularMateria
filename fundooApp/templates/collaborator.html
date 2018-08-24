@@ -8,22 +8,20 @@
     <img src="{{userInfo.profilepicImage}}" style="width:100%;border-radius:50%">
    </div>
    <div layout="column" style="margin-top:5px">
-   <div><strong>{{userInfo.firstname}} {{userInfo.lastname}} </strong></div>
-  <div> {{userInfo.emailId}} (Owner)</div>
+   <div style="padding-left:16px;"><strong>{{userInfo.firstname}} {{userInfo.lastname}} </strong></div>
+  <div style="padding-left:16px;"> {{userInfo.emailId}} (Owner)</div>
 </div>
 </div>
 
  <div layout="row">
-  <div ng-repeat="user in notes.collaboratedUser " style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
-         <div>
-           {{user}}
-    <img src="{{user.profilepicImage}}"style="width:100%;border-radius:50%" >
-  </div>
-  </div>
-  <div style="margin-top:15px">{{collaborator.emailId}}</div>
-  <div style="margin-top:15px">
-    <md-icon ng-click="removeCollaboratoronNote(user)"><i class="material-icons">cancel</i></md-icon>
-    <md-tooltip>Remove collaborator</md-tooltip>
+  <div ng-repeat="user in noteoj.collaboratedUser " style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+<img src="{{user.profilepicImage}}"style="width:100%;border-radius:50%" >
+  <div style="margin-top:-29px;padding-left:57px;">{{user.emailId}}</div>
+<div style="margin-top:15px">
+  <span ng-click="removeCollaboratoronNote(user)"><img src="images/baseline-delete-24px.svg" style="margin-top:-37px;padding-left:355px;">cancel</i></span>
+  <md-tooltip>Remove collaborator</md-tooltip>
+
+</div>
   </div>
 </div>
 
@@ -42,7 +40,7 @@
 </div>
 <div layout="row" layout-align="end end">
   <md-button ng-click="cancel()">Cancel</md-button>
-  <md-button ng-click="addCollaboratorOnNote(user)">Save</md-button>
+  <md-button ng-click="addCollaboratorOnNote(user);">Save</md-button>
 </div>
 
 </div>

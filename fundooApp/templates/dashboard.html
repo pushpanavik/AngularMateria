@@ -13,22 +13,24 @@
       <div layout="row" layout-align="end end">  <md-button class="md-icon-button"><img src="images/pin0.svg" >
           <md-tooltip>pin</md-tooltip></md-button>
     </div>
-      <input type="text" placeholder="Title" ng-model="title" id="notecard1" style="margin-top:-38px;border:0px none;outline:none;"/ >
+       <div contenteditable class="intial-text" data-placeholder="Title" ng-model="title" style="margin-top:-38px;border:0px none;outline:none;padding-left: 10px;"></div>
 
-        <div contenteditable="true" data-placeholder="Take a note..." ng-model="description" id="notecard1" ng-bind="description"  style="border:0px none;outline:none;margin-left:10px;" ></div>
+        <div contenteditable data-placeholder="Take a note..." ng-model="description" id="notecard1" ng-bind="note.description"  style="border:0px none;outline:none;margin-left:10px;" ></div>
       <div><icon> </icon></div>
       <div><md-button ng-click="showWhenClicked=false;noteModel()" id="close-btn">CLOSE</md-button></div>
     </md-card>
   </div>
 
-    <div ng-show="showPin">  <md-subheader style="margin-left:290px;" id="header-btn" class="pinother"><strong>Pinned</strong> </md-subheader></div>
+    <div>
+       <md-subheader style="margin-left:290px;"><strong>Pinned</strong> </md-subheader>
+    </div>
       <div  style="position:relative;" layout="row"  layout-align="center end" layout-wrap  data-ng-init="getAllNote()" class="pinclass">
           <md-card class="dashboard"  style="background-color:{{note.color}};width:250px;"  ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText" >
             <img  ng-click="showAdvanced($event,note);" ng-src="{{note.image}}" class="md-card-image">
            <div style="position:absolute;margin-left: 233px;" ng-click="updatePin(note);" style="height:18px;width:18px;" >
-          <img ng-if="note.pin === true && note.image!==null"  src="images/bluepin.svg"/>
+          <img ng-if="note.pin === true && note.image"  src="images/bluepin.svg"/>
+            <img ng-if="note.pin === true &&note.image===null" src="images/bluepin.svg"/>
                <md-tooltip>Pin Note</md-tooltip></div>
-
 
             <div class="tit1"><strong>{{note.title}}</strong></div>
                     <md-card-content class="center" class="placesize" ng-click="showAdvanced($event,note)">
@@ -45,25 +47,32 @@
                             <md-chip  class="chip"><span class="chip" ng-show="label.edit" >{{label.name}}</span><md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon></md-chip>
                         </md-chips>
                      </div>
+                     <div  layout="row"  layout-wrap ng-if="note.collaboratedUser" ng-repeat="user in note.collaboratedUser" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+                             <md-tooltip>{{user.emailId}}</md-tooltip>
+                       <img src="{{user.profilepicImage}}" style="width:100%;border-radius:50%">
+                     </div>
                         <icon></icon>
+
                         <urlimage></urlimage>
-                      </div>
+
                 </md-card>
+</div>
 
-
-<div ng-show="showOther" style="postion:relative"><md-subheader style="margin-left:295px;" id="header-btn" class="pinother" ><strong>Others</strong> </md-subheader></div>
+<div  style="postion:relative">
+  <md-subheader style="margin-left:295px;" id="header-btn" class="pinother" ><strong>Others</strong> </md-subheader>
+</div>
   <div  layout="row"  layout-align="center end" layout-wrap data-ng-init="getAllNote()" style="padding-left: 211px;padding-right: 200px;">
         <md-card  class="dashboard"  style="background-color:{{note.color}};width:250px;margin-top: 50px;"  ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
-
+  <img  ng-click="showAdvanced($event,note);" ng-src="{{note.image}}" class="md-card-image">
           <span style="position:absolute;"  ng-click="updatePin(note)" >
-              <img ng-if="note.image!=null && note.pin === true"  src="images/bluepin.svg"  >
+              <img ng-if="note.image===null && note.pin === false"  src="images/pin0.svg" style="padding-left: 225px;" >
               <img ng-if="note.image!=null && note.pin=== false" src="images/pin0.svg" style="padding-left: 225px;">
                <md-tooltip>Pin Note</md-tooltip>
              </span>
-  <img  id="zoomView" ng-src="{{note.image}}"/>
+
         <span ng-click="showAdvanced($event,note)">
           <div contenteditable="true" class="dashOthr1"><strong>{{note.title}}</strong></div>
-        </span
+        </span>
 
                   <md-card-content ng-click="showAdvanced($event,note)">
                      <div  contenteditable="true" class="dashOthr2">{{note.description}}</div>
@@ -79,11 +88,10 @@
                           <md-chip  class="chip"><span class="chip" ng-show="label.edit" >{{label.name}}</span><md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon></md-chip>
                       </md-chips>
                    </div>
-                    <div  layout="row"  ng-if="note.collaboratedUser" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
-                          
+                    <div ng-if="note.collaboratedUser" layout="row" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
                            <div ng-repeat="user in note.collaboratedUser">
                             <md-tooltip>{{user.emailId}}</md-tooltip>
-                      <img src="{{user.profilepicImage}}" style="width:100%;border-radius:50%">
+                      <img src="{{user.profilepicImage}}" style="width:100%;border-radius:50%"/>
                     </div>
                     </div>
                                         <icon></icon>

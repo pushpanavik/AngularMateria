@@ -19,6 +19,7 @@ serviceobj.getService=function(url){
     method : "GET",
     url : url,
     headers:{
+			"Content-Type":"application/json",
       'token': localStorage.getItem('token')
      }
    })
@@ -36,7 +37,7 @@ serviceobj.getService=function(url){
 
     }
  })
- 
+
 
 }
 

@@ -78,6 +78,33 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
   $scope.closeMenu = function($mdMenu, ev) {
     $mdMenu.close(ev);
   }
+
+  $scope.getInitials = function (name) {
+                var canvas = document.createElement('canvas');
+                canvas.style.display = 'none';
+                canvas.width = '32';
+                canvas.height = '32';
+                document.body.appendChild(canvas);
+                var context = canvas.getContext('2d');
+                context.fillStyle = "green";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                context.font = "16px Arial";
+                context.fillStyle = "#ccc";
+                var first;
+                if (name && name !=undefined) {
+                  console.log("under first name");
+                    first = name.charAt(0);
+                    console.log(first);
+                        var initials = first;
+                        context.fillText(initials.toUpperCase(), 10, 23);
+                    var data = canvas.toDataURL();
+                    document.body.removeChild(canvas);
+                    return data;
+                } else {
+                    return false;
+                }
+        }
+
   $scope.showAdvanced = function(ev, note) {
     $mdDialog.show({
 
@@ -132,17 +159,17 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       var flag = false;
       for (var i = 0; i < $scope.getlabels.length; i++) {
         var labels = $scope.getlabels[i];
-        if (labels != undefined && labels.name == label.name) {
+        if (labels == undefined && labels.name===label.name ) {
           flag = true;
         } else {}
       }
-      if (flag == false) {
+      if (flag == false && label.name!=undefined) {
         var url = baseUrl + "/user/addLabel";
         console.log("label info", label);
         noteservice.postService(label, url)
           .then(function successCallback(response) {
             $scope.getAllLabel();
-            $scope.getAllNote();
+
             console.log("successfully label added", response);
           }, function errorCallback(response) {
             console.log("label cannot be  added", response);
@@ -151,8 +178,9 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       }
     }
 
-
-
+$scope.hideDialogue = function() {
+      $mdDialog.hide();
+}
 
     $scope.deleteLabel = function(label) {
       console.log("label info inside delete function", label)
@@ -161,7 +189,6 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       noteservice.getDeleteService(label, url)
         .then(function successCallback(response) {
           $scope.getAllLabel();
-          $scope.getAllNote();
         }, function errorCallback(response) {
           console.log("label cannot be  dleted", response);
 
@@ -183,11 +210,6 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
           console.log("label cannot be updated", response);
 
         });
-
-
-      $scope.hideDialogue = function() {
-        $mdDialog.hide();
-      }
     }
 
     $scope.getlabels = [];
@@ -281,6 +303,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         list.splice(i, 1);
       } else {
         list.push(item);
+        //$scope.addlabelNote(item);
       }
     };
     $scope.addlabelNote = function(label) {
@@ -321,7 +344,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     var url = baseUrl + "user/deleteLabel/" + note.id + "/" + label.labelId;
     noteservice.getDeleteService(note, url)
       .then(function successCallback(response) {
-        return response.data;
+        // return response.data;
         $scope.getAllLabels();
 
       }, function errorCallback(response) {
@@ -390,15 +413,11 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       description: $scope.description,
       reminderDat: '',
       reminderTime: '',
-      color: $scope.mycolor,
-      archive: false,
-      pin: false,
-      trash: false,
-      image: ''
+      color: $scope.mycolor
     };
     var url = baseUrl + "user/addNote";
 
-    if ($scope.title != null && $scope.description != null) {
+    if (note.title != null && note.description != null) {
       console.log('condition check');
       noteservice.postService(note, url)
         .then(function successCallback(response) {
@@ -411,9 +430,8 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         });
     }
   }
-
-  $scope.removeUrlFromNote = function(note) {
-
+  $scope.cancel=function(){
+    $mdDialog.hide();
   }
 
   var urls = [];
@@ -453,6 +471,19 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       }
     }
   }
+
+  $scope.removeUrl = function(note) {
+
+        note.url[i] = "";
+        noteservice.getUrlData(url[i])
+          .then(function successCallback(response) {
+          console.log("response from remove url",response);
+
+          }, function errorCallback(response) {
+            console.log("data cannot come");
+          });
+      }
+  
 
   $scope.customerData = [
     [{
@@ -640,7 +671,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     },
     {
       'name': 'custom',
-      'value': ''
+      'value': 'custom'
     }
   ];
 
@@ -736,39 +767,46 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     }
   }
 
-  var showHideheader = function() {
-    var dashboardArray = $scope.notes;
-    for (var i = 0; i < dashboardArray.length; i++) {
-      var noteObj = dashboardArray[i];
-      if (noteObj.pin === true) {
-        $scope.showPin = true;
-      } else if (noteObj.pin === false) {
-        $scope.showOther = true;
-      }
-    }
-  }
+  // var showHideheader = function() {
+  //   var dashboardArray = $scope.notes;
+  //   for (var i = 0; i < dashboardArray.length; i++) {
+  //     var noteObj = dashboardArray[i];
+  //     if (noteObj.pin === true) {
+  //       $scope.showPin = true;
+  //     } else if (noteObj.pin === false) {
+  //       $scope.showOther = true;
+  //     }
+  //   }
+  // }
   $scope.updatePin = function(note) {
-    if (note.pin === false) {
-      console.log("In update false");
-      note.pin = true;
+    console.log('note for pin',note.pin);
+     if (note.pin === false) {
+      console.log("In update pin for false");
+     note.pin = true;
       note.archive = false;
       note.trash = false;
 
       var url = baseUrl + 'user/updateNote';
       noteservice.putService(url, note)
         .then(function successCallback(response) {
+            console.log('update pin',response);
           $scope.getAllNote();
         }, function errorCallback(response) {
           console.log("error" + response.data);
+            console.log('error while updfate pin',response);
+
         })
     } else {
+      console.log('update pin if true');
       note.pin = false;
       var url = baseUrl + 'user/updateNote';
       noteservice.putService(url, note)
         .then(function successCallback(response) {
+          console.log('update pin',response);
           $scope.getAllNote();
         }, function errorCallback(response) {
           console.log("error" + response);
+          console.log('error while updfate pin',response);
         })
     }
 
@@ -852,15 +890,15 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
 
   $scope.notes = [];
   $scope.getAllNote = function() {
-
     var url = baseUrl + "user/displayNote";
     noteservice.getService(url)
       .then(function successCallback(response) {
+        console.log(response.data);
         $scope.notes1 = response.data;
-        console.log('notes1',response.data);
-  console.log(   "collaberate note" +  $scope.notes1.title);
-        $scope.notes = $scope.getCollaborators.concat($scope.notes1);
-        console.log(   "collaberate note" +  $scope.notes.collaboratedUser);
+        console.log(   "collaberate note" +  $scope.notes1);
+         $scope.getAllCollaborators();
+        $scope.notes = $scope.notes1.concat($scope.getCollaborators);
+        console.log(   "collaberate note" +  $scope.notes);
 
         // showHideheader();
       }, function errorCallback(response) {
@@ -869,6 +907,22 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       });
   };
   $scope.getAllNote();
+  var onClick=function(){
+    document.location.reload(true);
+  }
+
+  $scope.removeCollaboratoronNote = function(note) {
+    var user = getUser();
+    var url = baseUrl + "removeCollaboratorOnNote/" + user.userId + "/" + note.id;
+    console.log(url);
+    noteservice.getService(url).then(
+      function successCallback(response) {
+        console.log("success", response);
+      },
+      function errorCallback(response) {
+        console.log("Error occur", response);
+      });
+  }
 
   $scope.showCollaborator = function(note) {
 
@@ -889,8 +943,10 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
   };
 
   function dialogCollaboratorController($scope, $mdDialog, userInfo, noteoj,collaberatedNote) {
+    console.log(collaberatedNote);
     $scope.userInfo = userInfo;
     $scope.noteoj = noteoj;
+
     $scope.cancel = function() {
       $mdDialog.cancel();
     };
@@ -905,6 +961,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
       noteservice.getService(url).then(
         function successCallback(response) {
           console.log("success", response);
+            $scope.getAllCollaboratedNote();
         },
         function errorCallback(response) {
           console.log("Error occur", response);
@@ -912,21 +969,16 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     }
 
     $scope.removeCollaboratoronNote = function(user) {
-      // console.log("User:",user.UserId);
-      // console.log("note  in dashboard:",note);
-      // console.log("noteid  in dashboard:",note.id);
-      var url = commonUrl + "removeCollaboratorOnNote/" + user.userId + "/" + note.id;
+
+      var url = commonUrl + "removeCollaboratorOnNote/" + user.userId + "/" + noteoj.id;
       console.log(url);
       noteservice.getService(url).then(
         function successCallback(response) {
           console.log("success", response);
-          return response;
+          $scope.getAllCollaboratedNote();
         },
         function errorCallback(response) {
           console.log("Error occur", response);
-          $scope.getAllCollaborators();
-          return response;
-
         });
     }
     $scope.getUserInfo = [];
@@ -938,7 +990,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         function successCallback(response) {
           console.log('info', response);
           $scope.getUserInfo = response.data;
-                  
+
           console.log('User info', $scope.getUserInfo);
 
         },
@@ -949,6 +1001,21 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
         });
     }
     $scope.getallUsers();
+
+$scope.collaboratednote=[];
+    $scope.getAllCollaboratedNote = function() {
+      var url = baseUrl + "user/displayNote";
+      noteservice.getService(url)
+        .then(function successCallback(response) {
+          $scope.collaboratednote = $scope.collaberatedNote;
+          console.log(   "collaberate note" + $scope.collaboratednote);
+          // showHideheader();
+        }, function errorCallback(response) {
+          console.log(response, "note cannot be displayed");
+
+        });
+    };
+    $scope.getAllCollaboratedNote();
   }
 
 

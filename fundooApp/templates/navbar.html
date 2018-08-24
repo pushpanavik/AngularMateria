@@ -35,20 +35,19 @@
    </md-button>
 
 <div ng-click="showProfileCard();" style="border:0px;outline:none;">
-   <img src="{{userInfo.profilepicImage}}" style="width:30px;height:28px; border-radius: 76px;"/><md-tooltip>{{userInfo.emailId}}</md-tooltip>
+  <img src="{{userInfo.profilepicImage || getInitials(userInfo.firstname)}}" alt="{{userInfo.firstname.first}}" style="width:30px;height:28px; border-radius: 76px;"/><md-tooltip>{{userInfo.emailId}}</md-tooltip>
 </div>
   </md-toolbar>
 </div>
-
       <div ng-show="myVar">
                 <md-card class="profile-card" id="profi">
                     <div layout="row">
               <md-content>
                       <md-list-item ng-click="showProfilePic($event)">
-                        <img src="{{userInfo.profilepicImage}}" class="profile-card-img" alt="profile" />
+                        <img src="{{userInfo.profilepicImage || getInitials(userInfo.firstname)}}" class="profile-card-img" alt="profile" />
                           <div  style="text-align:justify-all" layout="column" layout-align="space-around end">
-                              <div layout="row" class="profile-name" >{{userInfo.firstname}}{{userInfo.lastname}} </div>
-                              <div layout="row" class="profile-email">{{userInfo.emailId}}</div>
+                              {{userInfo.firstname}}{{userInfo.lastname}}
+                              {{userInfo.emailId}}
                       </md-list-item>
                       <br>
                       <md-divider></md-divider>

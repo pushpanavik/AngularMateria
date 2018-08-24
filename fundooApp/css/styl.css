@@ -250,15 +250,12 @@ md-chips .md-chips
 
 .profile-name
 {
-    line-height:normal;
-    vertical-align:baseline;
-    letter-spacing:normal;
-    word-spacing:0px;
+
     font-weight:700;
     font-style: normal;
     text-decoration:none solid rgb(0, 0, 0);
     text-align:start;
-    font-size: 13px;
+    font-size: 14px;
     font-family:Roboto, RobotoDraft, Arial, sans-serif;
 
 }
