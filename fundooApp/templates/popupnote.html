@@ -3,20 +3,20 @@
 <div ng-init="getAllNote();">
      <img  ng-src="{{mydata.image}}" />
      <div style="margin-left: 442px;margin-top: -27px;" ng-click="removeImage(mydata);"> <img src="images/baseline-delete-24px.svg"/></div>
-    <div contenteditable="true" style="margin-top: 10px;" ng-model="mydata.title"> </div>
+    <div contenteditable style="margin-top:10px;padding-left: 10px;" ng-model="mydata.title"> </div>
     <md-icon  ng-click="updatePin(mydata)" style="float: right;margin-top:-25px;"><img src="images/pin0.svg" / >
     </md-icon>
 
-    <div contenteditable="true" ng-model="mydata.description" style="margin-top: 87px;padding-left: 10px;border: 0px;outline: none;"></div>
+    <div contenteditable ng-model="mydata.description" style="margin-top:30px;padding-left: 10px;border: 0px;outline: none;"></div>
 
 
     <span ng-init="checkUrl(mydata)">
     	<div  layout="column" ng-repeat="urlData in mydata.link">
     		<div ng-if="mydata.title" >
     			<a ng-href="{{urlData.url}}" target="_blank">
-    				<div layout="column" style="border: 1px solid grey">
+    				<div layout="column"  class="md-truncate" style="border: 1px solid grey">
     					<div style="padding: 0px">
-    						<img ng-src="{{mydata.imageUrl}}" style="height:50px;width:80px;">
+    						<img ng-src="{{urlData.imageUrl}}" style="height:50px;">
     					</div>
               <div class="menu-demo-container">
               <md-menu>
@@ -24,16 +24,18 @@
                 <md-icon style="margin-left: 543px;margin-top:-89px;"><i class="material-icons">more_vert</i><md-tooltip>more</md-tooltip>
                 </md-icon>
               </span>
+
                   <md-menu-content>
                     <md-menu-item><md-button ng-click="removeUrl(note)">remove</md-button></md-menu-item>
                     <md-menu-item><md-button ng-click="">copy</md-button>
                     </md-menu-item>
                   </md-menu-content>
                 </md-menu>
+
               </div>
                 <div style="margin-top:-17px;"><a ng-href="{{urlData.url}}" target="_blank">Go to link</a></div>
     						<div class="md-truncate" ng-bind="urlData.title" style="font-size: 14px; color:black;margin-left: 230px;margin-top: -65px;"></div>
-    						<div ng-bind="urlData.domain" style="font-size: 15px;color:grey;margin-top: 32px;padding-left: 245px;"></div>
+    						<div ng-bind="urlData.domain" style="font-size: 15px;color:grey;margin-top:32px;padding-left: 245px;border: 0px;outline: none;"></div>
               </a>
     					</div>
             </div>

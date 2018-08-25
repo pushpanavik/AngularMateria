@@ -34,7 +34,7 @@
 
             <div class="tit1"><strong>{{note.title}}</strong></div>
                     <md-card-content class="center" class="placesize" ng-click="showAdvanced($event,note)">
-                    <div contenteditable="true" ng-bind-html="note.description"></div>
+                    <div contenteditable ng-bind-html="note.description"></div>
                     </md-card-content>
                     <div  layout="row">
                         <md-chips ng-if="note.reminderDate"  ng-mouseover="enableEdit(note)"  ng-mouseleave="disableEdit(note)">
@@ -47,7 +47,7 @@
                             <md-chip  class="chip"><span class="chip" ng-show="label.edit" >{{label.name}}</span><md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon></md-chip>
                         </md-chips>
                      </div>
-                     <div  layout="row"  layout-wrap ng-if="note.collaboratedUser" ng-repeat="user in note.collaboratedUser" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+                     <div layout="row"  ng-if="note.collaboratedUser" ng-repeat="user in note.collaboratedUser" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
                              <md-tooltip>{{user.emailId}}</md-tooltip>
                        <img src="{{user.profilepicImage}}" style="width:100%;border-radius:50%">
                      </div>
@@ -71,11 +71,11 @@
              </span>
 
         <span ng-click="showAdvanced($event,note)">
-          <div contenteditable="true" class="dashOthr1"><strong>{{note.title}}</strong></div>
+          <div contenteditable class="dashOthr1"><strong>{{note.title}}</strong></div>
         </span>
 
                   <md-card-content ng-click="showAdvanced($event,note)">
-                     <div  contenteditable="true" class="dashOthr2">{{note.description}}</div>
+                     <div  contenteditable class="dashOthr2">{{note.description}}</div>
                   </md-card-content>
                   <div  layout="row" >
                       <md-chips ng-if="note.reminderDate">
@@ -88,7 +88,7 @@
                           <md-chip  class="chip"><span class="chip" ng-show="label.edit" >{{label.name}}</span><md-icon ng-click="removeLabelOnNote(label,note)"><i class="material-icons">close</i></md-icon></md-chip>
                       </md-chips>
                    </div>
-                    <div ng-if="note.collaboratedUser" layout="row" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+                    <div layout="row"  ng-if="note.collaboratedUser" ng-repeat="user in note.collaboratedUser"  style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
                            <div ng-repeat="user in note.collaboratedUser">
                             <md-tooltip>{{user.emailId}}</md-tooltip>
                       <img src="{{user.profilepicImage}}" style="width:100%;border-radius:50%"/>

@@ -14,7 +14,7 @@
 </div>
 
  <div layout="row">
-  <div ng-repeat="user in noteoj.collaboratedUser " style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+  <div  layout="row" ng-repeat="user in noteoj.collaboratedUser " style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
 <img src="{{user.profilepicImage}}"style="width:100%;border-radius:50%" >
   <div style="margin-top:-29px;padding-left:57px;">{{user.emailId}}</div>
 <div style="margin-top:15px">

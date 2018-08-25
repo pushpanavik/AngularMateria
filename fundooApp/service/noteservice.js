@@ -69,12 +69,13 @@ serviceobj.getService=function(url){
      }
    })
 }
-serviceobj.getUrlData=function(urlToSend){
+serviceobj.getUrlData=function(urlToSend,data){
 	  var url=baseUrl +"getUrlData";
 
   return $http({
     method : "POST",
     url : url,
+		data: data,
     headers:{
 			url:urlToSend,
       'token': localStorage.getItem('token')

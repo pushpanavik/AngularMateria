@@ -44,6 +44,7 @@ app.controller('noteCtrl', function(noteservice, $scope, $state, $location, $tim
     item.showDelete = false;
     item.showLabel = true;
   };
+
   if (localStorage.getItem('token') === null) {
     $state.go('login');
   }
@@ -259,35 +260,34 @@ $scope.hideDialogue = function() {
     console.log("inside showlabeldialog:  ", note);
     noteobj = note;
 
-    var position = $mdPanel.newPanelPosition()
-      .relativeTo(event.target)
-      .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
-
-    var config = {
-      attachTo: angular.element(document.body),
-      controller: PanelMenuCtrl,
-      templateUrl: 'templates/labelDialog.html',
-      parent: angular.element(document.body),
-      clickOutsideToClose: true,
-      position: position,
-      openFrom: event,
-      escapeToClose: true,
-      focusOnOpen: false,
-      zIndex: 2,
-      locals: {
-        mydata1: note,
-        mydata3: $scope.retireveLabels
-      }
-    };
-    $mdPanel.open(config);
+  var position = $mdPanel.newPanelPosition()
+    .relativeTo(event.target)
+    .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
+  console.log("position of panel ", position);
+  var config = {
+    locals: {
+          mydata1: note,
+          mydata3: $scope.retireveLabels
+        },
+    attachTo: angular.element(document.body),
+    controller:PanelMenuCtrl,
+    templateUrl: 'templates/labelDialog.html',
+    position: position,
+    openFrom: event,
+    clickOutsideToClose: true,
+    escapeToClose: true,
+    focusOnOpen: false,
+    zIndex: 2,
   };
-
+  $mdPanel.open(config);
+}
   function PanelMenuCtrl($scope, mydata1, mydata3) {
 
     $scope.mydata1 = mydata1;
     $scope.mydata3 = mydata3;
 
     $scope.selected = noteobj.listOfLabels;
+
     $scope.exists = function(item, list) {
       for (var i = 0; i < list.length; i++) {
         var selectobj = list[i];
@@ -297,29 +297,27 @@ $scope.hideDialogue = function() {
       }
       return false;
     };
-    $scope.toggle = function(item, list) {
-      var i = list.indexOf(item);
-      if (i > -1) {
-        list.splice(i, 1);
-      } else {
-        list.push(item);
-        //$scope.addlabelNote(item);
-      }
-    };
+    console.log('selected list of labels',$scope.selected);
+
+       $scope.toggle = function (item, list) {
+         var idx = list.indexOf(item);
+         if (idx > -1) {
+           list.splice(idx, 1);
+                   }
+         else {
+           list.push(item);
+           $scope.addlabelNote(item);
+         }
+       };
     $scope.addlabelNote = function(label) {
       if (label.name != $scope.name) {
-        console.log("label in dashboard ", label);
-        console.log("note in dashboard:", noteobj);
-        console.log('noteid in dashboard', noteobj.id);
-        console.log('note obj of list of labels', noteobj.listOfLabels);
-
-        var url = baseUrl + "user/updateNoteLabel/" + noteobj.id + " /" + label.labelId;
+          var url = baseUrl + "user/updateNoteLabel/" + noteobj.id + " /" + label.labelId;
         console.log('url under allLabelNote', url);
         noteservice.putService(url, label)
           .then(function successCallback(response) {
             console.log("relation on label and note is updated", response);
-            $scope.selected = response;
-            console.log($scope.selected);
+            $scope.listOflabelsAdded = response;
+            console.log($scope.listOflabelsAdded);
 
           }, function errorCallback(response) {
             console.log("cannot update note", response);
@@ -339,13 +337,16 @@ $scope.hideDialogue = function() {
           console.log("error" + response);
         });
     }
+    $scope.getAllLabels();
   }
+
+
   $scope.removeLabelOnNote = function(label, note) {
     var url = baseUrl + "user/deleteLabel/" + note.id + "/" + label.labelId;
     noteservice.getDeleteService(note, url)
       .then(function successCallback(response) {
-        // return response.data;
-        $scope.getAllLabels();
+              $scope.getAllLabels();
+              $scope.getAllNote();
 
       }, function errorCallback(response) {
         console.log("error" + response);
@@ -449,7 +450,7 @@ $scope.hideDialogue = function() {
     if ((url != null || url != undefined) && note.size < url.length) {
       for (var i = 0; i < url.length; i++) {
         note.url[i] = url[i];
-        noteservice.getUrlData(url[i])
+        noteservice.getUrlData(url[i],note)
           .then(function successCallback(response) {
             var responseData = response.data;
             if (responseData.title.length > 25) {
@@ -473,17 +474,17 @@ $scope.hideDialogue = function() {
   }
 
   $scope.removeUrl = function(note) {
-
-        note.url[i] = "";
-        noteservice.getUrlData(url[i])
+    if(note.url){
+        note.url[i] ="";
+        note.url=" ";
+        noteservice.getUrlData(note.url[i])
           .then(function successCallback(response) {
-          console.log("response from remove url",response);
-
+          console.log("response from remove url",response)
           }, function errorCallback(response) {
             console.log("data cannot come");
           });
+        }
       }
-  
 
   $scope.customerData = [
     [{
@@ -877,9 +878,7 @@ $scope.hideDialogue = function() {
     var url = commonUrl + "getAllCollaboratedNotes";
     noteservice.getService(url).then(
       function successCallback(response) {
-        console.log("list all collaborators", response);
         $scope.getCollaborators = response.data;
-        console.log("success",$scope.getCollaborators);
       },
       function errorCallback(response) {
         console.log("Error occur", response);
@@ -893,12 +892,9 @@ $scope.hideDialogue = function() {
     var url = baseUrl + "user/displayNote";
     noteservice.getService(url)
       .then(function successCallback(response) {
-        console.log(response.data);
-        $scope.notes1 = response.data;
-        console.log(   "collaberate note" +  $scope.notes1);
+            $scope.notes1 = response.data;
          $scope.getAllCollaborators();
         $scope.notes = $scope.notes1.concat($scope.getCollaborators);
-        console.log(   "collaberate note" +  $scope.notes);
 
         // showHideheader();
       }, function errorCallback(response) {
@@ -917,7 +913,6 @@ $scope.hideDialogue = function() {
     console.log(url);
     noteservice.getService(url).then(
       function successCallback(response) {
-        console.log("success", response);
       },
       function errorCallback(response) {
         console.log("Error occur", response);
@@ -925,10 +920,7 @@ $scope.hideDialogue = function() {
   }
 
   $scope.showCollaborator = function(note) {
-
-    console.log("comes under showAdvance from archive call");
     $mdDialog.show({
-
       controller: dialogCollaboratorController,
       templateUrl: 'templates/collaborator.html',
       parent: angular.element(document.body),
@@ -960,7 +952,6 @@ $scope.hideDialogue = function() {
       console.log(url);
       noteservice.getService(url).then(
         function successCallback(response) {
-          console.log("success", response);
             $scope.getAllCollaboratedNote();
         },
         function errorCallback(response) {
@@ -974,7 +965,6 @@ $scope.hideDialogue = function() {
       console.log(url);
       noteservice.getService(url).then(
         function successCallback(response) {
-          console.log("success", response);
           $scope.getAllCollaboratedNote();
         },
         function errorCallback(response) {
