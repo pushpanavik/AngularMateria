@@ -69,7 +69,7 @@ serviceobj.getService=function(url){
      }
    })
 }
-serviceobj.getUrlData=function(urlToSend,data){
+serviceobj.postUrlData=function(urlToSend,data){
 	  var url=baseUrl +"getUrlData";
 
   return $http({
@@ -83,6 +83,16 @@ serviceobj.getUrlData=function(urlToSend,data){
    })
 }
 
+serviceobj.removeUrlData=function(data,url){
+	return $http({
+    method : "PUT",
+    url : url,
+		data: data,
+    headers:{
+      'token': localStorage.getItem('token')
+     }
+   })
+}
 
 return serviceobj;
 });

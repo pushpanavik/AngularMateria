@@ -1,11 +1,20 @@
 label{
   font-family: "comic sans",sans-serif;
-
   margin : 0 0 15px;
   border: 0;
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
+}
+.pinDiv {
+  visibility: hidden;
+  position: absolute;
+  top: 2px;
+  right: 0;
+  height: 25px;
+}
+.iconsDiv{
+  visibility: hidden;
 }
 #profi{
   position:fixed;z-index:3;
@@ -133,13 +142,14 @@ overflow: hidden;
 }
 
 .dashOthr2{
-  margin-top:16px;padding-left:10px
+  /* margin-top:16px; */
+  padding-left:10px
 }
 
-.pinclass{
+/* .pinclass{
   padding-left: 218px;padding-right: 255px;
-}
-}
+} */
+
 
 .paddingclas{
   padding-left: 218px;padding-right: 255px;
@@ -151,19 +161,26 @@ overflow: hidden;
     border-radius: 50px;
 
 }
+.deletebtn {
+  visibility: hidden;
+}
+.dialogue{
+  width:500px;
+  position: relative;
+}
 .labeldialog{
   border: none;
   outline: none;
   margin-left: 15px;
 }
-.pinother{
-  width:200px;
+div.b {
+    word-wrap: break-word;
 }
 .pincard{
   margin-top: 20px;
 }
 #cl{
-  margin-left:163px;
+  margin-left:110px;
 }
 .createLabe{
   border:none;outline: none;
@@ -185,10 +202,10 @@ height: 18px ;
 .chipstyle{
   margin-left: 5px;
 }
-#header-btn{
+/* #header-btn{
   margin-left: 270px;"
   width:300px;
-}
+} */
 #close-btn{
     float: right;
     padding-top: -116px;
@@ -216,10 +233,12 @@ height: 18px ;
 margin-top: -37px;
 width:10px;
 }
-.take_note{
+
+/* .take_note{
   margin-left :400px;
   margin-top:10px;
-}
+} */
+
 #card{
 width: 400px;
 margin: 0px 0px 0px 450px;

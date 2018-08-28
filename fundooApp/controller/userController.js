@@ -79,11 +79,11 @@ app
 
 		userservice.resetService(user,searchObject.token)
 		.then (function successCallback(response){
-			console.log(response.data);
-			$state.go('Login')
+			console.log(response);
+			$state.go('login')
 
 		},function errorCallback(response){
-			console.log(response.data)
+			console.log(response)
 		});
 		console.log($scope.newpassword);
 	}

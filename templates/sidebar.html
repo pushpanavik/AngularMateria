@@ -64,3 +64,32 @@
   </md-sidenav>
 
 </section>
+
+
+
+//@Component
+public class NoteDeleter {
+
+	@Autowired
+	NoteService noteService;
+
+	/*
+	 * @Async public void removeNoteFromTrash(Note note){
+	 * 
+	 * System.out.println("Before sleep"); noteService.getNoteById(5); try {
+	 * Thread.sleep(1000 * 60 * 1); } catch (InterruptedException e) {
+	 * e.printStackTrace(); } note = noteService.getNoteById(note.getNoteId());
+	 * try { if(note.getIsTrashed()){ noteService.deleteNote(note);
+	 * System.out.println("Note removed from database"); } else{
+	 * System.out.println("Note is not trashed"); } } catch (Exception e) {
+	 * System.out.println("Note is deleted already from db"); } }
+	 */
+
+	/**
+	 * Removes all the note from database which are in trash for more than a specified amount of time
+	 */
+	@Scheduled(fixedDelay = 1000)
+	public void removeNoteFromTrash() {
+		noteService.deleteTrashedNotes();
+	}
+

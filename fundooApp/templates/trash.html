@@ -1,10 +1,13 @@
-<div id="sidenavId" data-ng-init="getAllNote()" height:"200%" >
-  <div layout="row" layout-wrap layout-fill style="padding-left:310px; margin-top: 100px;">
-    <md-card flex="30"  ng-repeat="note in notes|filter:{trash:true} " ng-style="{'background-color': note.color}" style="height:100px;">
-      <div layout="row">
+<div id="sidenavId" data-ng-init="getAllNote()" style="margin-top:100px;" >
+  <div layout="row" layout-align="center center">
+    <md-card ng-repeat="note in notes|filter:{trash:true} " ng-style="{'background-color': note.color}" style="width:250px;">
+
+      <div layout="row" style="padding-left: 10px;" ng-click="showAdvanced($event,note)">
         <strong>{{note.title}}</strong>
       </div>
-      <div>{{note.description}}</div>
+      <div class="b" style="padding-left:10px;padding-top: 30px;" ng-click="showAdvanced($event,note)">{{note.description}}</div>
+    <urlimage></urlimage>
+
       <md-menu>
         <md-button aria-label="Open menu with custom trigger" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
           <md-icon><img src="images/baseline-more_vert-24px.svg" /></md-icon>

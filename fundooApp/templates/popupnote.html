@@ -1,49 +1,81 @@
+<md-dialog style="overflow-x: hidden;">
+<div class="dialogue" style="" ng-style="{'background-color': mydata.color}" ng-init="getAllNote()">
 
-<md-dialog  style="width: 600px;height: 182px;">
-<div ng-init="getAllNote();">
-     <img  ng-src="{{mydata.image}}" />
-     <div style="margin-left: 442px;margin-top: -27px;" ng-click="removeImage(mydata);"> <img src="images/baseline-delete-24px.svg"/></div>
-    <div contenteditable style="margin-top:10px;padding-left: 10px;" ng-model="mydata.title"> </div>
-    <md-icon  ng-click="updatePin(mydata)" style="float: right;margin-top:-25px;"><img src="images/pin0.svg" / >
-    </md-icon>
+<div class="container">
+<img ng-src="{{mydata.image}}" style="width:100%" class="md-card-image">
+  <md-button style="margin: -277px 0px 0px 457px;" class="md-icon-button pinbtn" ng-if="mydata.pin===false" ng-click="updatePin(mydata);">
+    <md-icon md-svg-icon="images/pin0.svg"></md-icon>
+  </md-button>
+  <md-button style="margin: -277px 0px 0px 457px;" ng-if="mydata.pin===true" class="md-icon-button pinbtn" class="md-icon-button btn" ng-click="updatePin(mydata);">
+    <md-icon md-svg-icon="images/bluepin.svg"></md-icon>
+  </md-button>
 
-    <div contenteditable ng-model="mydata.description" style="margin-top:30px;padding-left: 10px;border: 0px;outline: none;"></div>
+<md-button style="margin: -30px 0px 0px 436px;" ng-click="removeImage(mydata)" >
+  <md-icon  md-svg-icon="images/baseline-delete-24px.svg" ></md-icon>
+</md-button>
+</div>
+    <div style="padding:10px;">
+      <div contenteditable id = "title1"  data-placeholder="Title" ng-model="mydata.title"></div>
+    </div>
+  <div contenteditable id = "description1"  data-placeholder="Take a note............"
+  style="font-family: Arial, Helvetica, sans-serif; word-wrap:break-word;padding:10px;"  ng-model="mydata.description"></div>
 
+  <div style="width:250px;padding:10px;" layout="row" layout-wrap >
+    <md-chips ng-if="mydata.listOfLabels" ng-repeat="label in mydata.listOfLabels" ng-mouseover="showMdIcon=true"
+    ng-mouseout="showMdIcon=false" >
+      <md-chip class="chip" style="text-align:center-center">{{label.name}}
+      <span ng-show="showMdIcon"  class="closebtn" >&times;</span>
+      </md-chip>
+    </md-chips>
+  </div>
+  <div>
+    <md-chips ng-if="mydata.reminderDate" readonly="true" ng-mouseover="showMdIcon=true"
+    ng-mouseout="showMdIcon=false">
+      <md-chip class="chip" >
+        {{mydata.reminderDate|dateformat}}
+        <span ng-show="showMdIcon" ng-click="removeReminder(mydata)"
+        class="closebtn" ng-show="first">&times;</span>
+      </md-chip>
+    </md-chips>
+  </div>
+    <div ng-if="mydata.collaboratedUser" ng-repeat="user in mydata.collaboratedUser">
+      <div style="width:30px;height:30px;border-radius:30px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
+        <img src="{{user.profilepicImage}}"  style="width:100%;border-radius:50%" ng-click="showCollaborator(mydata)">
+       <md-tooltip>{{user.emailId}}</md-tooltip>
+      </div>
+    </div>
 
-    <span ng-init="checkUrl(mydata)">
-    	<div  layout="column" ng-repeat="urlData in mydata.link">
-    		<div ng-if="mydata.title" >
-    			<a ng-href="{{urlData.url}}" target="_blank">
-    				<div layout="column"  class="md-truncate" style="border: 1px solid grey">
-    					<div style="padding: 0px">
-    						<img ng-src="{{urlData.imageUrl}}" style="height:50px;">
-    					</div>
-              <div class="menu-demo-container">
-              <md-menu>
-                <span style="padding-left:10px;" class="chip" ng-click="$mdMenu.open($event)" >
-                <md-icon style="margin-left: 543px;margin-top:-89px;"><i class="material-icons">more_vert</i><md-tooltip>more</md-tooltip>
-                </md-icon>
-              </span>
-
-                  <md-menu-content>
-                    <md-menu-item><md-button ng-click="removeUrl(note)">remove</md-button></md-menu-item>
-                    <md-menu-item><md-button ng-click="">copy</md-button>
-                    </md-menu-item>
-                  </md-menu-content>
-                </md-menu>
-
-              </div>
-                <div style="margin-top:-17px;"><a ng-href="{{urlData.url}}" target="_blank">Go to link</a></div>
-    						<div class="md-truncate" ng-bind="urlData.title" style="font-size: 14px; color:black;margin-left: 230px;margin-top: -65px;"></div>
-    						<div ng-bind="urlData.domain" style="font-size: 15px;color:grey;margin-top:32px;padding-left: 245px;border: 0px;outline: none;"></div>
+      <span ng-init="checkUrl(mydata)">
+        <div  layout="column" ng-repeat="urlData in mydata.link" >
+          <div ng-if="mydata.title">
+            <a ng-href="{{urlData.url}}" target="_blank">
+              <div layout="column" class="md-truncate" style="border:1px solid grey;height: 74px;">
+                <div>
+                  <img ng-src="{{urlData.imageUrl}}" style="width: 100px;">
+                </div>
+               <div><a ng-href="{{urlData.url}}" target="_blank">Go to link</a></div>
+                <div class="md-truncate" ng-bind="urlData.title" style="margin: -71px 0px 0px 105px;" ></div>
+                <div ng-bind="urlData.domain" style="margin: 3px 0px 0px 112px;"></div>
               </a>
-    					</div>
-            </div>
-          </div>
-    </span>
+                <md-menu>
+                  <md-button style="margin:-20px 0px 0px 424px;" class="chip" ng-click="$mdMenu.open($event)" >
+                  <md-icon ><i class="material-icons">more_vert</i><md-tooltip>more</md-tooltip>
+                  </md-icon>
+                </md-button>
 
-<div >  <icon></icon>  </div>
-        <div><md-button ng-click="updateNoteTitleDescripn(mydata);cancel();"class="popup">CLOSE</md-button></div>
+                    <md-menu-content >
+                      <md-menu-item><md-button ng-click="removeUrl(mydata)">remove</md-button></md-menu-item>
+                      <md-menu-item><md-button ng-click="">copy</md-button>
+                      </md-menu-item>
+                    </md-menu-content>
+                  </md-menu>
+                  </div>
+              </div>
+            </div>
+      </span>
+  <div >
+      <icon></icon>
+  </div>
+  <div><md-button ng-click="updateNoteTitleDescripn(mydata);cancel();"class="popup">CLOSE</md-button></div>
 
 </md-dialog>
-</div>

@@ -1,13 +1,13 @@
 <md-dialog style="width: 600px;height: 800px">
+  <div ng-init="getUser()" style="height:100%;width:100%;">
   <strong><label >Select Profile Photo</label></strong>
 
 <!-- <div layout="row" layout-align="center center" style="padding-top: 163px;">  <input type="file" style="border:1px solid red;"  ng-click="profilePic($event)"></div> -->
-<div>Select an image file: <input type="file" id="fileInput" /></div>
-<div class="cropArea">
+<div>Select an image file: <input type="file" id="fileInput"/></div>
+<div class="cropArea" >
   <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
 </div>
 
-<md-button ng-click="uploadProfilePic(myCroppedImage)">Save</md-button>
-<md-button ng-click="hideDialogue()">Cancel</md-button>
-
+<md-button ng-click="uploadProfilePic(myCroppedImage);hideDialogue()">Save</md-button>
+</div>
 </md-dialog>

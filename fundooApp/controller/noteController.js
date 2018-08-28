@@ -287,6 +287,8 @@ $scope.hideDialogue = function() {
     $scope.mydata3 = mydata3;
 
     $scope.selected = noteobj.listOfLabels;
+  var arrayList=$scope.selected;
+  console.log('list of labelarray'+arrayList);
 
     $scope.exists = function(item, list) {
       for (var i = 0; i < list.length; i++) {
@@ -309,6 +311,21 @@ $scope.hideDialogue = function() {
            $scope.addlabelNote(item);
          }
        };
+
+
+    GenericArray = function(array, option, x) {
+    var filteredArray = [];
+  for (var j = 0; j < x.length; j++) {
+    var item = x[j];
+    for (var i = 0; i < array.length; i++) {
+      var selectedItem = array[i];
+      if (item.specs[option] == selectedItem) {
+        filteredArray.push(item);
+      }
+    }
+  }
+  return filteredArray;
+}
     $scope.addlabelNote = function(label) {
       if (label.name != $scope.name) {
           var url = baseUrl + "user/updateNoteLabel/" + noteobj.id + " /" + label.labelId;
@@ -345,27 +362,13 @@ $scope.hideDialogue = function() {
     var url = baseUrl + "user/deleteLabel/" + note.id + "/" + label.labelId;
     noteservice.getDeleteService(note, url)
       .then(function successCallback(response) {
-              $scope.getAllLabels();
-              $scope.getAllNote();
-
+              console.log("calling get All Note");
+              
       }, function errorCallback(response) {
         console.log("error" + response);
       })
   }
-  // $scope.getLabelNote = [];
-  // $scope.getLabelOnNote = function(label) {
-  //
-  //   console.log("label id in getLabelOnNote");
-  //
-  //   var url = baseUrl + "user/listlabelNote/" + label.labelId;
-  //   noteservice.getService(url)
-  //     .then(function successCallback(response) {
-  //       console.log(response);
-  //       $scope.getLabelNote = response.data;
-  //     }, function errorCallback(response) {
-  //       console.log("error" + response);
-  //     });
-  // }
+
   function tokenDecode(str) {
     var output = str.replace('-', '+').replace('_', '/');
     return window.atob(output);
@@ -418,7 +421,7 @@ $scope.hideDialogue = function() {
     };
     var url = baseUrl + "user/addNote";
 
-    if (note.title != null && note.description != null) {
+    if (note.title != null || note.description != null) {
       console.log('condition check');
       noteservice.postService(note, url)
         .then(function successCallback(response) {
@@ -435,6 +438,7 @@ $scope.hideDialogue = function() {
     $mdDialog.hide();
   }
 
+
   var urls = [];
   $scope.checkUrl = function(note) {
     var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
@@ -450,11 +454,11 @@ $scope.hideDialogue = function() {
     if ((url != null || url != undefined) && note.size < url.length) {
       for (var i = 0; i < url.length; i++) {
         note.url[i] = url[i];
-        noteservice.getUrlData(url[i],note)
+        noteservice.postUrlData(url[i],note)
           .then(function successCallback(response) {
             var responseData = response.data;
-            if (responseData.title.length > 25) {
-              responseData.title = responseData.title.substr(0, 20) + '..';
+              if (responseData.title.length > 30) {
+              responseData.title = responseData.title.substr(0,20) + '..';
             }
             link[note.size] = {
               title: responseData.title,
@@ -474,16 +478,21 @@ $scope.hideDialogue = function() {
   }
 
   $scope.removeUrl = function(note) {
-    if(note.url){
-        note.url[i] ="";
-        note.url=" ";
-        noteservice.getUrlData(note.url[i])
+    console.log("note to remove ",note);
+    note.url="";
+    note.link="";
+        note.urlImage ="";
+        note.urlTitle=" ";
+        note.urlDomain="";
+        console.log('notedddddddddddddd',note);
+        var url=baseUrl + "user/updateNote";
+        noteservice.removeUrlData(note,url)
           .then(function successCallback(response) {
+
           console.log("response from remove url",response)
           }, function errorCallback(response) {
             console.log("data cannot come");
           });
-        }
       }
 
   $scope.customerData = [
@@ -903,8 +912,10 @@ $scope.hideDialogue = function() {
       });
   };
   $scope.getAllNote();
-  var onClick=function(){
-    document.location.reload(true);
+  $scope.onClick=function(){
+    console.log("in statae reload...................");
+    $state.reload()
+
   }
 
   $scope.removeCollaboratoronNote = function(note) {
@@ -952,6 +963,7 @@ $scope.hideDialogue = function() {
       console.log(url);
       noteservice.getService(url).then(
         function successCallback(response) {
+            $state.reload();
             $scope.getAllCollaboratedNote();
         },
         function errorCallback(response) {
@@ -1198,4 +1210,24 @@ app.filter('parseUrlFilter', function() {
     return text.replace(urlPattern, '<a target="' + target + '" href="$&">$&</a>');
   };
 
+});
+
+
+app.filter('customFilter', function() {
+  return function(label,arrayList ) {
+    var filteredArray = [];
+    var temparray = [];
+    if (x != undefined) {
+      if (arrayList > 0 ) {
+        filteredArray = GenericArray(arrayList, label);
+      }
+      if (filteredArray.length > 0) {
+        temparray = filteredArray;
+        filteredArray = [];
+      } else {
+        temparray = x;
+      }
+      return temparray;
+    }
+  }
 });

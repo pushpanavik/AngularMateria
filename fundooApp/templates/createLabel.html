@@ -14,7 +14,7 @@
             </div>
 
             <div layout="row" ng-repeat="label in getlabels">
-              <span ng-click="deleteLabel(label)" > <img src="images/baseline-delete-24px.svg"/></span>
+              <span ng-click="deleteLabel(label)" > <img src="images/baseline-delete-24px.svg" style="border:0px;outline:none"/></span>
               <span><img src="images/labe.svg"/></span>
                 <input type="text" ng-model="label.name">
                 <span class="chip" ng-click="updateLabel(label)"><img src="images/pen.svg"/>

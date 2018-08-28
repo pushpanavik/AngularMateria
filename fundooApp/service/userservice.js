@@ -14,12 +14,14 @@ var baseUrl="http://localhost:9090/fundoo/";
 			data:angular.toJson(data)
 		})
 	}
-	serviceobj.resetService=function(data,token,url){
+	serviceobj.resetService=function(data,token){
+		console.log(token);
 		return $http({
 			method : "POST",
 			url : baseUrl+ "user/resetPassword",
-			data:mydata,
+			data:data,
 			headers:{
+				"Content-Type":"application/json",
 			 	'token': token
 			 }
 		})

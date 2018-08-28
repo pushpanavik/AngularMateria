@@ -1,61 +1,51 @@
 <div ng-init="getUser()">
-<md-toolbar  class="md-toolbar-tools"  style="background-color:#fb0; position:fixed;">
+  <md-toolbar class="md-toolbar-tools" style="background-color:#fb0; position:fixed;">
 
-  <md-button class="md-icon-button"  ng-click="toggleLeft()" >
-   <md-icon> <i class="material-icons" style="color: black;">menu</i></md-icon>
-   <md-tooltip>main menu</md-tooltip>
-   </md-button>
+    <md-button class="md-icon-button" ng-click="toggleLeft()">
+      <md-icon> <i class="material-icons" style="color: black;">menu</i></md-icon>
+      <md-tooltip>main menu</md-tooltip>
+    </md-button>
 
-<div style="color: black;"><b>Google</b> keep</div>
+    <div style="color: black;"><b>Google</b> keep</div>
 
-<md-list-item>
-  <div class="search" ng-click="goToSearch();">
-  <img src="images/baseline-search-24px.svg" class="searchimg">
-  <span flex="5"></span>
-  <input type="text"  style="border:0px none;outline:none;" placeholder="Search" ng-model="searchText"/>
+    <md-list-item>
+      <div class="search" ng-click="goToSearch();">
+        <img src="images/baseline-search-24px.svg" class="searchimg">
+        <span flex="5"></span>
+        <input type="text" style="border:0px none;outline:none;" placeholder="Search" ng-model="searchText" />
+      </div>
+    </md-list-item>
 
-</div>
-</md-list-item>
-
-   <md-button class="md-icon-button">
-   <md-icon ><i class="material-icons" style="color: black;"> refresh</i></md-icon>
-   <md-tooltip>refresh</md-tooltip>
- </md-button>
-
-<div>
-   <md-button class="md-icon-button" ng-click="toggleView()">
-     <md-icon> <i class="material-icons" style="color: black;">list view</i></md-icon>
-   <md-tooltip>grid view </md-tooltip>
-   </md-button>
-</div>
-
-   <md-button class="md-icon-button">
-     <md-icon> <i class="material-icons" style="color: black;">notifications</i></md-icon>
-     <md-tooltip>Notification</md-tooltip>
-   </md-button>
-
-<div ng-click="showProfileCard();" style="border:0px;outline:none;">
-  <img src="{{userInfo.profilepicImage || getInitials(userInfo.firstname)}}" alt="{{userInfo.firstname.first}}" style="width:30px;height:28px; border-radius: 76px;"/><md-tooltip>{{userInfo.emailId}}</md-tooltip>
-</div>
+    <md-button class="md-icon-button" ng-click="onClick()">
+      <md-icon><i class="material-icons" style="color: black;"> refresh</i></md-icon>
+      <md-tooltip>refresh</md-tooltip>
+    </md-button>
+    <div>
+      <md-button class="md-icon-button" ng-click="toggleView()">
+        <md-icon> <i class="material-icons" style="color: black;">list view</i></md-icon>
+        <md-tooltip>grid view </md-tooltip>
+      </md-button>
+    </div>
+    <div ng-click="showProfileCard();" style="border:0px;outline:none;">
+      <img src="{{userInfo.profilepicImage || getInitials(userInfo.firstname)}}" alt="{{userInfo.firstname.first}}" style="width:30px;height:28px; border-radius: 76px;" />
+      <md-tooltip>{{userInfo.emailId}}</md-tooltip>
+    </div>
   </md-toolbar>
 </div>
-      <div ng-show="myVar">
-                <md-card class="profile-card" id="profi">
-                    <div layout="row">
-              <md-content>
-                      <md-list-item ng-click="showProfilePic($event)">
-                        <img src="{{userInfo.profilepicImage || getInitials(userInfo.firstname)}}" class="profile-card-img" alt="profile" />
-                          <div  style="text-align:justify-all" layout="column" layout-align="space-around end">
-                              {{userInfo.firstname}}{{userInfo.lastname}}
-                              {{userInfo.emailId}}
-                      </md-list-item>
-                      <br>
-                      <md-divider></md-divider>
-                      <div layout="row"  layout-xs="row">
-                          <span flex></span>
-                          <md-button ng-click="goToLogin()" class="sign-out-btn" >Sign out</md-button>
-                      </div>
-              </md-content>
-          </div>
-          </md-card>
+<div ng-show="myVar">
+  <md-card class="profile-card" id="profi">
+      <md-content  >
+  <div ng-click="showProfilePic($event)" style="width:100px;outline:none;border:0px;">  <img src="{{userInfo.profilepicImage || getInitials(userInfo.firstname)}}" class="profile-card-img" alt="profile" /></div>
+
+          <div style="margin:-89px 0px 0px 175px;" >  {{userInfo.firstname}}{{userInfo.lastname}} </div><br>
+          <div style="margin: 0px 0px 0px 132px;"> {{userInfo.emailId}} </div>
+        <md-divider style="margin-top: 40px;"></md-divider>
+        <div layout="row" layout-xs="row">
+          <span flex></span>
+          <md-button ng-click="goToLogin()" class="sign-out-btn">Sign out</md-button>
+        </div>
+      </md-content>
       </div>
+
+  </md-card>
+  </div>
