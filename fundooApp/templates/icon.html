@@ -99,8 +99,8 @@
       <md-menu-item>
         <md-button ng-click="isTrash(note)">Delete note</md-button>
       </md-menu-item>
-      <md-menu-item>
-        <md-button ng-click="removeCollaboratoronNote(note)">Remove Myself</md-button>
+      <md-menu-item ng-hide="note.collaboratedUser">
+        <md-button  ng-click="removeCollaboratoronNote(note)">Remove Myself</md-button>
       </md-menu-item>
       <md-menu-item>
         <md-button ng-click="showlabelDialog($event,note)">add Label</md-button>

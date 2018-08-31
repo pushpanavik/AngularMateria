@@ -60,15 +60,7 @@ serviceobj.postImageService = function(data,url) {
 		headers:{'Content-Type':undefined}
   })
 }
-serviceobj.getService=function(url){
-  return $http({
-    method : "GET",
-    url : url,
-    headers:{
-      'token': localStorage.getItem('token')
-     }
-   })
-}
+
 serviceobj.postUrlData=function(urlToSend,data){
 	  var url=baseUrl +"getUrlData";
 

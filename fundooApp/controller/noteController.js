@@ -363,7 +363,7 @@ $scope.hideDialogue = function() {
     noteservice.getDeleteService(note, url)
       .then(function successCallback(response) {
               console.log("calling get All Note");
-              
+
       }, function errorCallback(response) {
         console.log("error" + response);
       })
@@ -420,8 +420,31 @@ $scope.hideDialogue = function() {
       color: $scope.mycolor
     };
     var url = baseUrl + "user/addNote";
+    if(note.title===null ||note.description!=null){
+      noteservice.postService(note, url)
+        .then(function successCallback(response) {
+          var responseData = response.data;
+          console.log(responseData);
+          $scope.getAllNote();
+        }, function errorCallback(response) {
+          console.log("note cannot be  added", response);
 
-    if (note.title != null || note.description != null) {
+        });
+    }
+    else{
+      if(note.title!=null ||note.description===null){
+        noteservice.postService(note, url)
+          .then(function successCallback(response) {
+            var responseData = response.data;
+            console.log(responseData);
+            $scope.getAllNote();
+          }, function errorCallback(response) {
+            console.log("note cannot be  added", response);
+
+          });
+      }
+    }
+    if (note.title != null && note.description != null) {
       console.log('condition check');
       noteservice.postService(note, url)
         .then(function successCallback(response) {
@@ -481,11 +504,8 @@ $scope.hideDialogue = function() {
     console.log("note to remove ",note);
     note.url="";
     note.link="";
-        note.urlImage ="";
-        note.urlTitle=" ";
-        note.urlDomain="";
         console.log('notedddddddddddddd',note);
-        var url=baseUrl + "user/updateNote";
+        var url=baseUrl + "user/removeUrl";
         noteservice.removeUrlData(note,url)
           .then(function successCallback(response) {
 
@@ -777,17 +797,36 @@ $scope.hideDialogue = function() {
     }
   }
 
-  // var showHideheader = function() {
-  //   var dashboardArray = $scope.notes;
-  //   for (var i = 0; i < dashboardArray.length; i++) {
-  //     var noteObj = dashboardArray[i];
-  //     if (noteObj.pin === true) {
-  //       $scope.showPin = true;
-  //     } else if (noteObj.pin === false) {
-  //       $scope.showOther = true;
-  //     }
-  //   }
-  // }
+
+      function checkPinnedNote(note)
+      {
+          var keepGoing = true;
+          angular.forEach(note,function(value){
+              if(keepGoing)
+              {
+                  if(value.pin)
+                  {
+                      $scope.showPinedNote=true;
+                      keepGoing=false;
+                  }
+              }
+          })
+      };
+
+      function checkOtherNote(note)
+    {
+        var keepGoing = true;
+        angular.forEach(note,function(value){
+            if(keepGoing) {
+                if (!value.pin && !value.archive && !value.trash) {
+                    $scope.showOtherNote = true;
+                    keepGoing=false;
+                }
+            }
+        })
+
+    };
+
   $scope.updatePin = function(note) {
     console.log('note for pin',note.pin);
      if (note.pin === false) {
@@ -888,7 +927,7 @@ $scope.hideDialogue = function() {
     noteservice.getService(url).then(
       function successCallback(response) {
         $scope.getCollaborators = response.data;
-      },
+            },
       function errorCallback(response) {
         console.log("Error occur", response);
         return response;
@@ -904,7 +943,8 @@ $scope.hideDialogue = function() {
             $scope.notes1 = response.data;
          $scope.getAllCollaborators();
         $scope.notes = $scope.notes1.concat($scope.getCollaborators);
-
+        checkPinnedNote($scope.notes);
+        checkOtherNote($scope.notes);
         // showHideheader();
       }, function errorCallback(response) {
         console.log(response, "note cannot be displayed");
@@ -912,6 +952,7 @@ $scope.hideDialogue = function() {
       });
   };
   $scope.getAllNote();
+
   $scope.onClick=function(){
     console.log("in statae reload...................");
     $state.reload()
@@ -960,11 +1001,14 @@ $scope.hideDialogue = function() {
 
     $scope.addCollaboratorOnNote = function(user) {
       var url = commonUrl + "addCollaboratorOnNote/" + user.userId + "/" + noteoj.id;
+
       console.log(url);
       noteservice.getService(url).then(
         function successCallback(response) {
-            $state.reload();
-            $scope.getAllCollaboratedNote();
+    var noteid=response.data.status;
+    console.log(noteid);
+    $scope.getCollaboratedUser(noteid);
+
         },
         function errorCallback(response) {
           console.log("Error occur", response);
@@ -990,27 +1034,43 @@ $scope.hideDialogue = function() {
 
       noteservice.getService(url).then(
         function successCallback(response) {
-          console.log('info', response);
           $scope.getUserInfo = response.data;
-
           console.log('User info', $scope.getUserInfo);
-
         },
         function errorCallback(response) {
           console.log("Error occur", response);
           return response;
-
         });
     }
+
     $scope.getallUsers();
+    $scope.collaboratedUser=[];
+        $scope.getCollaboratedUser = function(noteid) {
+          console.log('id' +noteid);
+          var url = baseUrl + "getAllCollaboratedUsers/" + noteid;
+          noteservice.getService(url)
+            .then(function successCallback(response) {
+              console.log(response);
+              $scope.collaboratedUser = response.data;
+              console.log("collaberate note" + $scope.collaboratedUser);
+              // showHideheader();
+            }, function errorCallback(response) {
+              console.log(response, "note cannot be displayed");
+
+            });
+        };
+        $scope.getCollaboratedUser();
+
 
 $scope.collaboratednote=[];
     $scope.getAllCollaboratedNote = function() {
-      var url = baseUrl + "user/displayNote";
+      var url = baseUrl + "getAllCollaboratedNotes" ;
       noteservice.getService(url)
         .then(function successCallback(response) {
-          $scope.collaboratednote = $scope.collaberatedNote;
-          console.log(   "collaberate note" + $scope.collaboratednote);
+          console.log(response);
+          $scope.collaboratednote = response.data;
+        //  $scope.getCollaboratedUser(response.data)
+          console.log("collaberate note" + $scope.collaboratednote);
           // showHideheader();
         }, function errorCallback(response) {
           console.log(response, "note cannot be displayed");

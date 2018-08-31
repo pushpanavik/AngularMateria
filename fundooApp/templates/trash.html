@@ -1,4 +1,4 @@
-<div id="sidenavId" data-ng-init="getAllNote()" style="margin-top:100px;" >
+<div id="sidenavId" data-ng-init="getAllNote()" style="margin-top:100px;" ng-if"note.trash" >
   <div layout="row" layout-align="center center">
     <md-card ng-repeat="note in notes|filter:{trash:true} " ng-style="{'background-color': note.color}" style="width:250px;">
 

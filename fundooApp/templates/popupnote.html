@@ -46,7 +46,7 @@
     </div>
 
       <span ng-init="checkUrl(mydata)">
-        <div  layout="column" ng-repeat="urlData in mydata.link" >
+        <div  layout="column" ng-repeat="urlData in mydata.link"  >
           <div ng-if="mydata.title">
             <a ng-href="{{urlData.url}}" target="_blank">
               <div layout="column" class="md-truncate" style="border:1px solid grey;height: 74px;">

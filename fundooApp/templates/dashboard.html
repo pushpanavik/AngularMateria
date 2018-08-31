@@ -27,11 +27,11 @@
   </div>
 
 
-  <md-subheader ng-if="pinned.length > 0"><strong style="margin-left:86px;">Pinned</strong> </md-subheader>
+  <md-subheader ng-if="pinned.length > 0" ng-show="showPinedNote"><strong style="margin-left:86px;">Pinned</strong> </md-subheader>
   <div layout="row" layout-align="center center" layout-wrap data-ng-init="getAllNote()">
     <md-card  class="dashboard" style="background-color:{{note.color}};width:250px;position:relative" ng-repeat="note in notes |filter:{trash:false,pin:true,archive:false} |orderBy: '-notes':true |filter: searchText as pinned">
       <img ng-click="showAdvanced($event,note);" ng-src="{{note.image}}" class="md-card-image">
-      <div ng-click="updatePin(note);" style="height:18px;width:18px;position:absolute;right: 0%;">
+      <div ng-click="updatePin(note);" style="height:18px;width:18px;position:absolute;right: 0%;border:0px;outline:none">
         <img ng-if="note.pin === true && note.image" src="images/bluepin.svg" />
         <img ng-if="note.pin ===true && note.image===null" src="images/bluepin.svg" />
         <md-tooltip>Pin Note</md-tooltip>
@@ -64,11 +64,11 @@
     </md-card>
   </div>
 
-    <md-subheader style="margin-left:86px;" id="header-btn" class="pinother" ><strong>Others</strong> </md-subheader>
+    <md-subheader style="margin-left:86px;" id="header-btn" class="pinother" ng-if="showPinedNote && showOtherNote" ><strong>Others</strong> </md-subheader>
   <div layout="row" layout-align="center center" layout-wrap data-ng-init="getAllNote()">
     <md-card class="dashboard" style="background-color:{{note.color}};width:250px;margin-top: 50px;position:relative" ng-repeat="note in notes |filter:{trash:false,pin:false,archive:false} |orderBy: '-notes':true |filter: searchText">
       <img ng-click="showAdvanced($event,note);" ng-src="{{note.image}}" class="md-card-image">
-      <div style="position:absolute;right:0%" ng-click="updatePin(note)">
+      <div style="position:absolute;right:0%;border:0px;outline:none;" ng-click="updatePin(note)">
               <img ng-if="note.image===null && note.pin === false"  src="images/pin0.svg" style="padding-left: 225px;" >
               <img ng-if="note.image!=null && note.pin=== false" src="images/pin0.svg" style="padding-left: 225px;">
                <md-tooltip>Pin Note</md-tooltip>
@@ -98,7 +98,7 @@
         </md-chips>
       </div>
       <div layout="row" ng-if="note.collaboratedUser" ng-repeat="user in note.collaboratedUser" style="width:40px;height:40px;border-radius:50px;border: 1px solid rgba(0,0,0,.5); margin-top: 10px; ">
-        <div ng-repeat="user in note.collaboratedUser">
+        <div ng-repeat="user in note.collaboratedUser" style="">
           <md-tooltip>{{user.emailId}}</md-tooltip>
           <img src="{{user.profilepicImage}}" style="width:100%;border-radius:50%" />
         </div>
