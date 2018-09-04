@@ -423,8 +423,7 @@ $scope.hideDialogue = function() {
     if(note.title===null ||note.description!=null){
       noteservice.postService(note, url)
         .then(function successCallback(response) {
-          var responseData = response.data;
-          console.log(responseData);
+          var responseData = response;
           $scope.getAllNote();
         }, function errorCallback(response) {
           console.log("note cannot be  added", response);
@@ -462,43 +461,44 @@ $scope.hideDialogue = function() {
   }
 
 
-  var urls = [];
-  $scope.checkUrl = function(note) {
-    var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
-    var url = note.description.match(urlPattern);
-    var link = [];
-
-    if (note.size == undefined) {
-      note.size = 0;
-      note.url = [];
-      note.link = [];
-    }
-
-    if ((url != null || url != undefined) && note.size < url.length) {
-      for (var i = 0; i < url.length; i++) {
-        note.url[i] = url[i];
-        noteservice.postUrlData(url[i],note)
-          .then(function successCallback(response) {
-            var responseData = response.data;
-              if (responseData.title.length > 30) {
-              responseData.title = responseData.title.substr(0,20) + '..';
-            }
-            link[note.size] = {
-              title: responseData.title,
-              url: note.url[note.size],
-              imageUrl: responseData.imageUrl,
-              domain: responseData.domain
-            }
-
-            note.link[note.size] = link[note.size];
-            note.size = note.size + 1;
-
-          }, function errorCallback(response) {
-            console.log("data cannot come");
-          });
-      }
-    }
-  }
+  // var urls = [];
+  // $scope.checkUrl = function(note) {
+  //   var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+  //   var url = note.description.match(urlPattern);
+  //   var link = [];
+  //
+  //   if (note.size == undefined) {
+  //     note.size = 0;
+  //     note.url = [];
+  //     note.link = [];
+  //   }
+  //
+  //   if ((url != null || url != undefined) && note.size < url.length) {
+  //     for (var i = 0; i < url.length; i++) {
+  //       note.url[i] = url[i];
+  //       noteservice.postUrlData(url[i],note)
+  //         .then(function successCallback(response) {
+  //           console.log('rsponse for url==================>' +response.data);
+  //           var responseData = response.data;
+  //             if (responseData.title.length > 30) {
+  //             responseData.title = responseData.title.substr(0,20) + '..';
+  //           }
+  //           link[note.size] = {
+  //             title: responseData.title,
+  //             url: note.url[note.size],
+  //             imageUrl: responseData.imageUrl,
+  //             domain: responseData.domain
+  //           }
+  //
+  //           note.link[note.size] = link[note.size];
+  //           note.size = note.size + 1;
+  //
+  //         }, function errorCallback(response) {
+  //           console.log("data cannot come");
+  //         });
+  //     }
+  //   }
+  // }
 
   $scope.removeUrl = function(note) {
     console.log("note to remove ",note);
@@ -838,11 +838,10 @@ $scope.hideDialogue = function() {
       var url = baseUrl + 'user/updateNote';
       noteservice.putService(url, note)
         .then(function successCallback(response) {
-            console.log('update pin',response);
+
           $scope.getAllNote();
         }, function errorCallback(response) {
-          console.log("error" + response.data);
-            console.log('error while updfate pin',response);
+                    console.log('error while updfate pin',response);
 
         })
     } else {
@@ -855,7 +854,7 @@ $scope.hideDialogue = function() {
           $scope.getAllNote();
         }, function errorCallback(response) {
           console.log("error" + response);
-          console.log('error while updfate pin',response);
+
         })
     }
 
@@ -941,7 +940,7 @@ $scope.hideDialogue = function() {
     noteservice.getService(url)
       .then(function successCallback(response) {
             $scope.notes1 = response.data;
-         $scope.getAllCollaborators();
+             $scope.getAllCollaborators();
         $scope.notes = $scope.notes1.concat($scope.getCollaborators);
         checkPinnedNote($scope.notes);
         checkOtherNote($scope.notes);
@@ -974,41 +973,40 @@ $scope.hideDialogue = function() {
   $scope.showCollaborator = function(note) {
     $mdDialog.show({
       controller: dialogCollaboratorController,
-      templateUrl: 'templates/collaborator.html',
+      templateUrl: 'templates/collaboratorDialog.html',
       parent: angular.element(document.body),
       clickOutsideToClose: true,
       fullscreen: $scope.customFullscreen,
       locals: {
         userInfo: $scope.userInfo,
-        noteoj: note,
-        collaberatedNote:$scope.notes
+        noteoj: note
+
       },
     })
   };
 
-  function dialogCollaboratorController($scope, $mdDialog, userInfo, noteoj,collaberatedNote) {
-    console.log(collaberatedNote);
+  function dialogCollaboratorController($scope, $mdDialog, userInfo, noteoj)
+  {
     $scope.userInfo = userInfo;
+
+console.log("User Data",$scope.userInfo);
+
     $scope.noteoj = noteoj;
+    var id=noteoj.id;
 
     $scope.cancel = function() {
       $mdDialog.cancel();
     };
 
-    console.log("collaberatedNote" + collaberatedNote);
-    $scope.collaberatedNote = collaberatedNote;
     var commonUrl = "http://localhost:9090/fundoo/";
+
 
     $scope.addCollaboratorOnNote = function(user) {
       var url = commonUrl + "addCollaboratorOnNote/" + user.userId + "/" + noteoj.id;
-
-      console.log(url);
       noteservice.getService(url).then(
         function successCallback(response) {
     var noteid=response.data.status;
-    console.log(noteid);
     $scope.getCollaboratedUser(noteid);
-
         },
         function errorCallback(response) {
           console.log("Error occur", response);
@@ -1021,7 +1019,8 @@ $scope.hideDialogue = function() {
       console.log(url);
       noteservice.getService(url).then(
         function successCallback(response) {
-          $scope.getAllCollaboratedNote();
+          var noteid=response.data.status;
+          $scope.getCollaboratedUser(noteid);
         },
         function errorCallback(response) {
           console.log("Error occur", response);
@@ -1042,46 +1041,40 @@ $scope.hideDialogue = function() {
           return response;
         });
     }
-
     $scope.getallUsers();
+
     $scope.collaboratedUser=[];
         $scope.getCollaboratedUser = function(noteid) {
           console.log('id' +noteid);
           var url = baseUrl + "getAllCollaboratedUsers/" + noteid;
           noteservice.getService(url)
             .then(function successCallback(response) {
-              console.log(response);
+              console.log("Collaborator User List",response.data);
               $scope.collaboratedUser = response.data;
-              console.log("collaberate note" + $scope.collaboratedUser);
-              // showHideheader();
+
             }, function errorCallback(response) {
               console.log(response, "note cannot be displayed");
 
             });
         };
-        $scope.getCollaboratedUser();
+        console.log("Note id mil rhi hey",id);
+        $scope.getCollaboratedUser(id);
 
-
-$scope.collaboratednote=[];
-    $scope.getAllCollaboratedNote = function() {
-      var url = baseUrl + "getAllCollaboratedNotes" ;
-      noteservice.getService(url)
-        .then(function successCallback(response) {
-          console.log(response);
-          $scope.collaboratednote = response.data;
-        //  $scope.getCollaboratedUser(response.data)
-          console.log("collaberate note" + $scope.collaboratednote);
-          // showHideheader();
-        }, function errorCallback(response) {
-          console.log(response, "note cannot be displayed");
-
-        });
-    };
-    $scope.getAllCollaboratedNote();
   }
 
+  $scope.collaboratednote=[];
+      $scope.getAllCollaboratedNote = function() {
+        var url = baseUrl + "getAllCollaboratedNotes" ;
+        noteservice.getService(url)
+          .then(function successCallback(response) {
+            $scope.collaboratednote = response.data;
+                        // showHideheader();
+          }, function errorCallback(response) {
+            console.log(response, "note cannot be displayed");
 
-
+          });
+      };
+      $scope.getAllCollaboratedNote();
 
 
 
@@ -1118,7 +1111,6 @@ $scope.collaboratednote=[];
       }
     }
   };
-
 
   $scope.showProfilePic = function(event) {
     console.log('inside profile');
@@ -1203,8 +1195,8 @@ $scope.collaboratednote=[];
   }
 
   getUser();
-  var userInfo = "";
-  $scope.userInfo = '';
+  var userInfo = [];
+  $scope.userInfo = [];
 
   function getUser() {
 
@@ -1261,33 +1253,45 @@ app.filter('dateformat', function($filter) {
   };
 });
 
-app.filter('parseUrlFilter', function() {
+app.filter('myfilter', function() {
+    return function(getUser,getCollaboratedUser,userInfo)
+    {
+        var displayData = getUser;
+        var LoggedUser=userInfo;
+        
+        if (getCollaboratedUser.length > 0)
+        {
+          console.log("r1");
+            if (getUser.length > 0)
+            {
+              console.log("r2");
+                for(var i=0;i<getUser.length;i++)
+                {
+                   console.log("All Users",getUser[i]);
+                    for(var j=0;j<getCollaboratedUser.length;j++)
+                    {
+                        console.log("All CollaboratorUsers",getCollaboratedUser[j]);
+                        if(getUser[i].userId===getCollaboratedUser[j].userId)
+                        {
+                            var index=displayData.indexOf(getUser[i]);
+                            displayData.splice(index,1);
+                        }
 
-  var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+                    }
+                }
+                for(var i=0;i<getUser.length;i++)
+                {
+                  if(getUser[i].userId===LoggedUser.userId){
+                var index=displayData.indexOf(getUser[i]);
+                displayData.splice(index,1);
+              }
+            }
+            }
 
-  return function(text, target) {
+        }
 
-    return text.replace(urlPattern, '<a target="' + target + '" href="$&">$&</a>');
-  };
+console.log("result Data",displayData);
+        return displayData;
 
-});
-
-
-app.filter('customFilter', function() {
-  return function(label,arrayList ) {
-    var filteredArray = [];
-    var temparray = [];
-    if (x != undefined) {
-      if (arrayList > 0 ) {
-        filteredArray = GenericArray(arrayList, label);
-      }
-      if (filteredArray.length > 0) {
-        temparray = filteredArray;
-        filteredArray = [];
-      } else {
-        temparray = x;
-      }
-      return temparray;
-    }
-  }
+    };
 });

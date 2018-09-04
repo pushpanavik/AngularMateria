@@ -1,38 +1,34 @@
-app.filter('unique1',function()
-{
-  // This will return a function that will take in a collection and a key name
-  return function(collection,key)
-  {
-    // we define filterArray that will store all the values
-    var filteredArray = [];
-
-    // initilally the collection is not defined so we make it undefined
-    if(collection !=undefined){
-
-    for(var i=0; i<collection.length; i++)
-    {
-      var item=collection[i];
-      var flag=false;
-      if(i==0)
-      {
-        // push this item in the filterArray if it comes for the first time.
-        filteredArray.push(item);
-      }
-      else{
-        for(var j=0;j<filteredArray.length;j++){
-          var filteritem=filteredArray[j];
-          if(item[j]==filteritem[j])  {
-            flag=true;
-          }
-        }
-          if(!flag){
-            // if flag is false push the item in the filterArray
-            filteredArray.push(item);
-          }
-        }
-      }
-    }
-    //console.log(filteredArray);
-return filteredArray;
-};
-});
+// app.filter('myfilter', function() {
+//     return function(getUser,getCollaboratedUser)
+//     {
+//         var displayData = getUser;
+//
+//          console.log("dispaly Data      ",displayData);
+//          console.log("Collabarator Data ",getCollaboratedUser);
+//
+//         if (getCollaboratedUser.length > 0 || getUser.length > 0)
+//         {
+//             if (getUser.length > 0)
+//             {
+//                 for(var i=0;i<getUser.length;i++)
+//                 {
+//                    console.log("All Users",getUser[i][1]);
+//                     for(var j=0;j<getCollaboratedUser.length;j++)
+//                     {
+//                         console.log("All CollaboratorUsers",getCollaboratedUser[j].id);
+//
+//                         if(getUser[i][1]===getCollaboratedUser[j].id)
+//                         {
+//                             var index=displayData.indexOf(getUser[i]);
+//                             displayData.splice(index,1);
+//                         }
+//                     }
+//                 }
+//
+//             }
+//         }
+//
+//         return displayData;
+//
+//     };
+// });

@@ -1,19 +1,18 @@
-<span ng-init="checkUrl(note)">
-	<div ng-repeat="urlData in note.link">
+<span ng-init="getAllNote()" >
+	<div ng-if="note.link" ng-repeat="link in note.link" >
+		<div >
 
-		<div ng-if="urlData.title">
-			<a ng-href="{{urlData.url}}" target="_blank">
-
+			<a ng-href="{{link.url}}" target="_blank">
 				<div class="row"
 					style="margin-right: 0px; margin-left: 0px; border: 1px solid grey;position:relative;">
           <div><img src"images/gotoLink.svg" style="height:15px;width:15px;margin-left:233px;"/><md-tooltip>Go to link</md-tooltip></div>
 					<div class="col-sm-4 col-md-4 col-xs-4" style="padding:0px;">
-						<img ng-src="{{urlData.imageUrl}}" style="height:50px;width:80px;margin-top:-16px;">
+						<img ng-src="{{link.imageUrl}}" style="height:50px;width:80px;margin-top:-16px;">
 					</div>
           <div></div>
-						<div  class="md-truncate" ng-bind="urlData.title"
+						<div  class="md-truncate" ng-bind="link.title"
 							style="font-size: 14px; color:black;padding-left: 83px;margin-top: -48px;"></div>
-						<div ng-bind="urlData.domain"
+						<div ng-bind="link.description"
 							style="font-size: 15px;color:black;padding-left: 84px;margin-top:16px; "></div>
 					</div>
 				</div>

@@ -1,47 +1,68 @@
-<md-dialog aria-label="Note" style="background-color:{{noteInfo.color}}">
-    <md-dialog-content>
-        <div class="md-dialog-content">
-        <div layout="row"  class="collaborator-header md-no-sticky md-dialo"  layout-align="top center">
-            Collaborators
-        </div>
-        <br>
-        <md-divider></md-divider>
+<md-dialog style="width:550px;height:250px;" ng-init="getUser()">
+  <div class="md-dialog-content">
+    <div><strong>Collaborator</strong></div>
+    <md-divider></md-divider>
+    <div layout="row">
+      <div>
+        <img style="border-radius: 50%; margin: -1px 1px 14px -1px; height: 40px; width: 40px; box-sizing: border-box;" ng-src="{{userInfo.profilepicImage}}" />
+      </div>
+      <div style="display: flex; padding: 5px;">
 
-        <md-content>
-            <md-list>
-                <md-list-item class="md-2-line">
-                    <div layout="row" class="sidebar-text">
-                        <img src="asset/profile.jpg" class="profile">
-                        <div class="md-list-item-text" style="margin-left: 10px;" layout="column">
-                            <h4> Pushpa Navik(Owner)</h4>
-                            <h4>pushpanavik17@gmail.com </h4>
-                        </div>
-                    </div>
-                </md-list-item>
-                <md-list-item class="md-2-line">
-                    <div layout="row" class="sidebar-text">
-                        <div style="height: 35px;width: 35px;border: 1px solid rgba(0, 0, 0, 0.87);border-radius: 50%">
-                            <md-icon style="margin:2px 0px 0px 5px;"><i class="material-icons">person_add</i></md-icon>
-                        </div>
-
-                        <div class="md-list-item-text" style="margin-left: 10px;" layout="column">
-                            <md-input-container md-no-float="" style="margin: 0px auto;padding: 0px 0px;">
-                                <input type="text" placeholder="Person or email to share with" style="border: none;width: 450px;">
-                            </md-input-container>
-                        </div>
-                    </div>
-                </md-list-item>
-            </md-list>
-        </md-content>
-
-        <div layout="row" layout-align="end end"  class="take-note-div3">
-            <md-button aria-label="close Button" class="take-note-button"  ng-click="showCollaboators=false;">
-                <strong>Close</strong>
-            </md-button>
-            <md-button aria-label="save Button" class="take-note-button"  ng-click="">
-                <strong>Save</strong>
-            </md-button>
+        <div style="font-size: 13px;">
+          <span style="font-weight: 700;"><strong>{{userInfo.firstname}} {{userInfo.lastname}}</strong></span> <span style="font-style: italic; margin-left: 5px;">(Owner)</span>
+          <div style="color: rgba(0, 0, 0, .54);">{{userInfo.emailId}}</div>
         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div layout="column" style="margin-top: -26px;margin-left: 23px;">
+    <div ng-repeat="user in noteoj.collaboratedUser" style="align-items: center; display: flex; padding: 5px;">
+
+      <div class="mycollaborator">
+        <div>
+          <img style="border-radius: 50%; margin: -1px 1px 14px -1px; height: 40px; width: 40px; box-sizing: border-box;" ng-src="{{user.profilepicImage}}" />
         </div>
-    </md-dialog-content>
+      </div>
+      <div style="display: flex; padding: 5px;">
+        <div style="font-size: 13px;">
+          <span style="font-weight: 700;">{{user.firstname}} {{user.lastname}}</span>
+          <div style="color: rgba(0, 0, 0, .54);">{{user.emailId}}</div>
+        </div>
+      </div>
+      <md-button class="button" ng-click="removeCollaboratoronNote(user)"> <img src="images/baseline-delete-24px.svg" />
+        <md-tooltip>Delete</md-tooltip>
+      </md-button>
+    </div>
+  </div>
+
+
+  <div layout="row" ng-init="getAllUsers()">
+    <div style="margin-top: 10px; ">
+      <md-icon style="margin-top:6px;margin-left:5px;"><img src="images/baseline-person_add-24px.svg"></md-icon>
+    </div>
+    <div class="md-list-item-text" style="margin-left: 10px;" layout="column">
+      <md-input-container md-no-float style="margin: 0px auto;padding: 0px;">
+        <md-select style="outline:none;border:none;background-color: white;width: 355px;" type="text" placeholder="Person or email to share with" aria-label="Person or email to share with" ng-model="email" role="combobox" aria-autocomplete="list" aria-haspopup="false"
+          aria-expanded="false">
+
+          <md-option ng-repeat="email in (getUserInfo | myfilter:collaboratedUser:userInfo)" ng-value="email">{{email.emailId}}</md-option>
+          </md-input-container>
+    </div>
+    <md-button ng-click="addCollaboratorOnNote(email)" class="mybutton">
+    <img src="images/baseline-done-24px.svg" /></md-button>
+    <md-tooltip>Add collaborator</md-tooltip>
+  </div>
+
+  <div layout="row" layout-align="end end" class="take-note-div3">
+    <md-button aria-label="close Button" class="take-note-button" ng-click="showCollaboators=false;cancel()">
+      <strong>Close</strong>
+    </md-button>
+    <md-button aria-label="save Button" class="take-note-button" ng-click="addCollaboratorOnNote(user);">
+      <strong>Save</strong>
+    </md-button>
+  </div>
+
+
 </md-dialog>
