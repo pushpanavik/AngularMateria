@@ -1002,6 +1002,7 @@ console.log("User Data",$scope.userInfo);
 
 
     $scope.addCollaboratorOnNote = function(user) {
+      console.log('add coll',user);
       var url = commonUrl + "addCollaboratorOnNote/" + user.userId + "/" + noteoj.id;
       noteservice.getService(url).then(
         function successCallback(response) {
@@ -1258,7 +1259,7 @@ app.filter('myfilter', function() {
     {
         var displayData = getUser;
         var LoggedUser=userInfo;
-        
+
         if (getCollaboratedUser.length > 0)
         {
           console.log("r1");

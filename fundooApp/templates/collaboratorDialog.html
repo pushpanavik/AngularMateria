@@ -18,7 +18,7 @@
   </div>
 
   <div layout="column" style="margin-top: -26px;margin-left: 23px;">
-    <div ng-repeat="user in noteoj.collaboratedUser" style="align-items: center; display: flex; padding: 5px;">
+    <div ng-repeat="user in collaboratedUser" style="align-items: center; display: flex; padding: 5px;">
 
       <div class="mycollaborator">
         <div>
@@ -59,7 +59,7 @@
     <md-button aria-label="close Button" class="take-note-button" ng-click="showCollaboators=false;cancel()">
       <strong>Close</strong>
     </md-button>
-    <md-button aria-label="save Button" class="take-note-button" ng-click="addCollaboratorOnNote(user);">
+    <md-button aria-label="save Button" class="take-note-button" ng-click="">
       <strong>Save</strong>
     </md-button>
   </div>
